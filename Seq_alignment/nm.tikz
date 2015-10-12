@@ -1,0 +1,258 @@
+\node [right] at (1,-1) {Match 2};
+\node [right] at (6,-1) {Mismatch -2};
+\node [right] at (1,-2.5) {Gap open -4};
+\node [right] at (6,-2.5) {Gap ext. -1};
+\visible<2->{
+\draw [-] (0.5,7.5) -- (8.5,7.5);
+\draw [-] (1.5,8.5) -- (1.5,0.5);
+\draw [-, dotted, opacity=0.5] (0.5,6.5) -- (8.5,6.5);
+\draw [-, dotted, opacity=0.5] (2.5,8.5) -- (2.5,0.5);
+	\node at (3,8) {A};
+	\draw [-, dotted, opacity=0.5] (3.5,8.5) -- (3.5,0.5);
+	\node at (4,8) {T};
+	\draw [-, dotted, opacity=0.5] (4.5,8.5) -- (4.5,0.5);
+	\node at (5,8) {T};
+	\draw [-, dotted, opacity=0.5] (5.5,8.5) -- (5.5,0.5);
+	\node at (6,8) {G};
+	\draw [-, dotted, opacity=0.5] (6.5,8.5) -- (6.5,0.5);
+	\node at (7,8) {A};
+	\draw [-, dotted, opacity=0.5] (7.5,8.5) -- (7.5,0.5);
+	\node at (8,8) {A};
+	\node at (1,6) {G};
+	\draw [-, dotted, opacity=0.5] (0.5,5.5) -- (8.5,5.5);
+	\node at (1,5) {G};
+	\draw [-, dotted, opacity=0.5] (0.5,4.5) -- (8.5,4.5);
+	\node at (1,4) {A};
+	\draw [-, dotted, opacity=0.5] (0.5,3.5) -- (8.5,3.5);
+	\node at (1,3) {T};
+	\draw [-, dotted, opacity=0.5] (0.5,2.5) -- (8.5,2.5);
+	\node at (1,2) {T};
+	\draw [-, dotted, opacity=0.5] (0.5,1.5) -- (8.5,1.5);
+	\node at (1,1) {A};
+}
+
+\visible<2>{
+	\node [below left, align=left, scale=0.75, text width=12em] 
+	at (0,8) {1. Set up a matrix with each sequence 
+	along an axis and with an empty row for each sequence.};
+}
+
+\visible<3->{
+	\node[scale=0.5] at (2,7) {0};
+	\node[scale=0.5] at (3,7) {-4};
+	\draw [->] (2.65, 6+1) -- (2.35, 6+1);
+	\node[scale=0.5] at(4,7) {-5};
+	\draw [->] (3.65,6+1) -- (3.35,6+1);
+	\node[scale=0.5] at(5,7) {-6};
+	\draw [->] (4.65,6+1) -- (4.35,6+1);
+	\node[scale=0.5] at(6,7) {-7};
+	\draw [->] (5.65,6+1) -- (5.35,6+1);
+	\node[scale=0.5] at(7,7) {-8};
+	\draw [->] (6.65,6+1) -- (6.35,6+1);
+	\node[scale=0.5] at(8,7) {-9};
+	\draw [->] (7.65,6+1) -- (7.35,6+1);
+	\node[scale=0.5] at (2,6) {-4};
+	\draw [->] (2,6 + 0.35) -- (2, 6 + 0.65);
+	\node[scale=0.5] at(2,5) {-5};
+	\draw [->] (2,6-1 + 0.35) -- (2, 6-1 + 0.65);
+	\node[scale=0.5] at(2,4) {-6};
+	\draw [->] (2,6-2 + 0.35) -- (2, 6-2 + 0.65);
+	\node[scale=0.5] at(2,3) {-7};
+	\draw [->] (2,6-3 + 0.35) -- (2, 6-3 + 0.65);
+	\node[scale=0.5] at(2,2) {-8};
+	\draw [->] (2,6-4 + 0.35) -- (2, 6-4 + 0.65);
+	\node[scale=0.5] at(2,1) {-9};
+	\draw [->] (2,6-5 + 0.35) -- (2, 6-5 + 0.65);
+}
+
+\visible<3>{
+	\node [below left, align=left, scale=0.75, text width=12em] 
+	at (0,8) {2. Insert scores in the top row and left-most column representing
+	the initiation and extension of terminal gaps.};
+}
+
+\visible<4->{
+	\node [scale=0.5] at (3,6) {-2};
+	\draw [->] (2.65,6.35) -- (2.35,6.65);
+	\node [scale=0.5] at (4,6) {-6};
+	\draw [->] (3.65,6.35) -- (3.35,6.65);
+	\draw [->] (3.65,6) -- (3.35,6);
+	\node [scale=0.5] at (5,6) {-7};
+	\draw [->] (4.65,6.35) -- (4.35,6.65);
+	\draw [->] (4.65,6) -- (4.35,6);
+	\node [scale=0.5] at (6,6) {-4};
+	\draw [->] (5.65,6.35) -- (5.35,6.65);
+	\node [scale=0.5] at (7,6) {-8};
+	\draw [->] (6.65,6) -- (6.35,6);
+	\node [scale=0.5] at (8,6) {-9};
+	\draw [->] (7.65,6) -- (7.35,6);
+}
+
+\visible<4>{
+	\node [below left, align=left, scale=0.75, text width=12em] 
+	at (0,8) {3. Determine the scores for individual cells progressing from
+	the top left cell. The score $S_{i,j}$ at row $i$ and column $j$ is the max of:\\
+	a) $S_{i-1,j-1} + P$\\
+	{\footnotesize($P$ is $P_m$ or $P_{mm}$).
+	}\\
+	b) $S_{i,j-1} + P_{gap}$\\
+	c) $S_{i-1,j} + P_{gap}$\\
+	{\footnotesize $P_{gap}$ is either $P_{gip}$ or $P_{gop}$}\\
+	\vspace{0.2cm}
+	The path(s) giving the maximal score(s) is remembered and represented as
+	an arrow.
+	};
+}
+
+
+\visible<5->{
+	\node [scale=0.5] at (3,5) {-6};
+	\draw [->] (2.65,5.35) -- (2.35,5.65);
+	\draw [->] (3,5.35) -- (3,5.65);
+	\node [scale=0.5] at (4,5) {-4};
+	\draw [->] (3.65,5.35) -- (3.35,5.65);
+	\node [scale=0.5] at (5,5) {-8};
+	\draw [->] (4.65,5.35) -- (4.35,5.65);
+	\draw [->] (4.65,5) -- (4.35,5);
+	\node [scale=0.5] at (6,5) {-5};
+	\draw [->] (5.65,5.35) -- (5.35,5.65);
+	\node [scale=0.5] at (7,5) {-6};
+	\draw [->] (6.65,5.35) -- (6.35,5.65);
+	\node [scale=0.5] at (8,5) {-10};
+	\draw [->] (7.65,5.35) -- (7.35,5.65);
+	\draw [->] (7.65,5) -- (7.35,5);
+}
+
+\visible<5>{
+	\draw [fill, yellow, fill opacity=0.2] (2.5,4.5) rectangle (3.5,5.5);
+	\node [below left, align=left, scale=0.75, text width=12em] 
+	at (0,8) {
+	The score at [3,2] (highlighted) is -6 as the score at [2,1] is -4, and there is a
+	mismatch at [3,2] (G != A). 
+
+	The score can also become -6 through a gap
+	insertion from [2,2].
+	};
+
+}
+
+\visible<6->{
+	\node [scale=0.5] at (3,4) {-3};
+	\draw [->] (2.65,4.35) -- (2.35,4.65);
+	\node [scale=0.5] at (4,4) {-7};
+	\draw [->] (3.65,4) -- (3.35,4);
+	\node [scale=0.5] at (5,4) {-6};
+	\draw [->] (4.65,4.35) -- (4.35,4.65);
+	\node [scale=0.5] at (6,4) {-9};
+	\draw [->] (6,4.35) -- (6,4.65);
+	\node [scale=0.5] at (7,4) {-3};
+	\draw [->] (6.65,4.35) -- (6.35,4.65);
+	\node [scale=0.5] at (8,4) {-4};
+	\draw [->] (7.65,4.35) -- (7.35,4.65);
+}
+\visible<7->{
+	\node [scale=0.5] at (3,3) {-7};
+	\draw [->] (3,3.35) -- (3,3.65);
+	\node [scale=0.5] at (4,3) {-1};
+	\draw [->] (3.65,3.35) -- (3.35,3.65);
+	\node [scale=0.5] at (5,3) {-5};
+	\draw [->] (4.65,3.35) -- (4.35,3.65);
+	\draw [->] (4.65,3) -- (4.35,3);
+	\node [scale=0.5] at (6,3) {-6};
+	\draw [->] (5.65,3) -- (5.35,3);
+	\node [scale=0.5] at (7,3) {-7};
+	\draw [->] (6.65,3) -- (6.35,3);
+	\draw [->] (7,3.35) -- (7,3.65);
+	\node [scale=0.5] at (8,3) {-5};
+	\draw [->] (7.65,3.35) -- (7.35,3.65);
+}
+\visible<8->{
+	\node [scale=0.5] at (3,2) {-8};
+	\draw [->] (3,2.35) -- (3,2.65);
+	\node [scale=0.5] at (4,2) {-5};
+	\draw [->] (3.65,2.35) -- (3.35,2.65);
+	\draw [->] (4,2.35) -- (4,2.65);
+	\node [scale=0.5] at (5,2) {1};
+	\draw [->] (4.65,2.35) -- (4.35,2.65);
+	\node [scale=0.5] at (6,2) {-3};
+	\draw [->] (5.65,2) -- (5.35,2);
+	\node [scale=0.5] at (7,2) {-4};
+	\draw [->] (6.65,2) -- (6.35,2);
+	\node [scale=0.5] at (8,2) {-5};
+	\draw [->] (7.65,2) -- (7.35,2);
+}
+\visible<9->{
+	\node [scale=0.5] at (3,1) {-6};
+	\draw [->] (2.65,1.35) -- (2.35,1.65);
+	\node [scale=0.5] at (4,1) {-6};
+	\draw [->] (4,1.35) -- (4,1.65);
+	\node [scale=0.5] at (5,1) {-3};
+	\draw [->] (5,1.35) -- (5,1.65);
+	\node [scale=0.5] at (6,1) {-1};
+	\draw [->] (5.65,1.35) -- (5.35,1.65);
+	\node [scale=0.5] at (7,1) {-1};
+	\draw [->] (6.65,1.35) -- (6.35,1.65);
+	\node [scale=0.5] at (8,1) {-2};
+	\draw [->] (7.65,1.35) -- (7.35,1.65);
+}
+\visible<10->{
+\draw [fill=yellow, fill opacity=0.1] (7.5,0.5) rectangle (8.5,1.5);
+}
+\visible<11->{
+\draw [fill=yellow, fill opacity=0.1] (6.5,1.5) rectangle (7.5,2.5);
+}
+\visible<12->{
+\draw [fill=yellow, fill opacity=0.1] (5.5,1.5) rectangle (6.5,2.5);
+}
+\visible<13->{
+\draw [fill=yellow, fill opacity=0.1] (4.5,1.5) rectangle (5.5,2.5);
+}
+\visible<14->{
+\draw [fill=yellow, fill opacity=0.1] (3.5,2.5) rectangle (4.5,3.5);
+}
+\visible<15->{
+\draw [fill=yellow, fill opacity=0.1] (2.5,3.5) rectangle (3.5,4.5);
+}
+\visible<16->{
+\draw [fill=yellow, fill opacity=0.1] (1.5,4.5) rectangle (2.5,5.5);
+}
+\visible<17->{
+\draw [fill=yellow, fill opacity=0.1] (1.5,5.5) rectangle (2.5,6.5);
+}
+\visible<18->{
+\draw [fill=yellow, fill opacity=0.1] (1.5,6.5) rectangle (2.5,7.5);
+}
+
+\visible<10-18>{
+	\node [below left, align=left, scale=0.75, text width=12em] 
+	at (0,8) {
+	Follow the path (arrows) from the bottom right to
+	the top left corner.
+
+	Diagonal movements insert a letter from both sequences,
+	left or upwards insert a letter and a gap.
+	};
+}
+
+\visible<19->{
+\node [scale=0.75] (s1) at (10 + 0/2.5, 5) {-};
+\node [scale=0.75] (s2) at (10 + 0/2.5, 5-1.25) {G};
+\node [scale=0.75] (s1) at (10 + 1/2.5, 5) {-};
+\node [scale=0.75] (s2) at (10 + 1/2.5, 5-1.25) {G};
+\node [scale=0.75] (s1) at (10 + 2/2.5, 5) {A};
+\node [scale=0.75] (s2) at (10 + 2/2.5, 5-1.25) {A};
+\draw [-] (s1) -- (s2);
+\node [scale=0.75] (s1) at (10 + 3/2.5, 5) {T};
+\node [scale=0.75] (s2) at (10 + 3/2.5, 5-1.25) {T};
+\draw [-] (s1) -- (s2);
+\node [scale=0.75] (s1) at (10 + 4/2.5, 5) {T};
+\node [scale=0.75] (s2) at (10 + 4/2.5, 5-1.25) {T};
+\draw [-] (s1) -- (s2);
+\node [scale=0.75] (s1) at (10 + 5/2.5, 5) {G};
+\node [scale=0.75] (s2) at (10 + 5/2.5, 5-1.25) {-};
+\node [scale=0.75] (s1) at (10 + 6/2.5, 5) {A};
+\node [scale=0.75] (s2) at (10 + 6/2.5, 5-1.25) {-};
+\node [scale=0.75] (s1) at (10 + 7/2.5, 5) {A};
+\node [scale=0.75] (s2) at (10 + 7/2.5, 5-1.25) {A};
+\draw [-] (s1) -- (s2);
+}

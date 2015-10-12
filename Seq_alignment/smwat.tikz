@@ -1,0 +1,195 @@
+\node [right] at (1,-1) {Match 2};
+\node [right] at (7,-1) {Mismatch -3};
+\node [right] at (1,-2.5) {Gap open -4};
+\node [right] at (7,-2.5) {Gap ext. -4};
+\visible<2->{
+\draw [-] (0.5,10.5) -- (8.5,10.5);
+\draw [-] (1.5,11.5) -- (1.5,0.5);
+\draw [-, dotted, opacity=0.5] (0.5,9.5) -- (8.5,9.5);
+\draw [-, dotted, opacity=0.5] (2.5,11.5) -- (2.5,0.5);
+	\node at (3,11) {A};
+	\draw [-, dotted, opacity=0.5] (3.5,11.5) -- (3.5,0.5);
+	\node at (4,11) {T};
+	\draw [-, dotted, opacity=0.5] (4.5,11.5) -- (4.5,0.5);
+	\node at (5,11) {G};
+	\draw [-, dotted, opacity=0.5] (5.5,11.5) -- (5.5,0.5);
+	\node at (6,11) {A};
+	\draw [-, dotted, opacity=0.5] (6.5,11.5) -- (6.5,0.5);
+	\node at (7,11) {A};
+	\draw [-, dotted, opacity=0.5] (7.5,11.5) -- (7.5,0.5);
+	\node at (8,11) {A};
+	\node at (1,9) {A};
+	\draw [-, dotted, opacity=0.5] (0.5,8.5) -- (8.5,8.5);
+	\node at (1,8) {T};
+	\draw [-, dotted, opacity=0.5] (0.5,7.5) -- (8.5,7.5);
+	\node at (1,7) {G};
+	\draw [-, dotted, opacity=0.5] (0.5,6.5) -- (8.5,6.5);
+	\node at (1,6) {G};
+	\draw [-, dotted, opacity=0.5] (0.5,5.5) -- (8.5,5.5);
+	\node at (1,5) {A};
+	\draw [-, dotted, opacity=0.5] (0.5,4.5) -- (8.5,4.5);
+	\node at (1,4) {A};
+	\draw [-, dotted, opacity=0.5] (0.5,3.5) -- (8.5,3.5);
+	\node at (1,3) {T};
+	\draw [-, dotted, opacity=0.5] (0.5,2.5) -- (8.5,2.5);
+	\node at (1,2) {G};
+	\draw [-, dotted, opacity=0.5] (0.5,1.5) -- (8.5,1.5);
+	\node at (1,1) {T};
+}
+\visible<3->{
+	\node[scale=0.5] at (2,10) {0};
+	\node[scale=0.5] at (3,10) {0};
+	\node[scale=0.5] at(4,10) {0};
+	\node[scale=0.5] at(5,10) {0};
+	\node[scale=0.5] at(6,10) {0};
+	\node[scale=0.5] at(7,10) {0};
+	\node[scale=0.5] at(8,10) {0};
+	\node[scale=0.5] at (2,9) {0};
+	\node[scale=0.5] at(2,8) {0};
+	\node[scale=0.5] at(2,7) {0};
+	\node[scale=0.5] at(2,6) {0};
+	\node[scale=0.5] at(2,5) {0};
+	\node[scale=0.5] at(2,4) {0};
+	\node[scale=0.5] at(2,3) {0};
+	\node[scale=0.5] at(2,2) {0};
+	\node[scale=0.5] at(2,1) {0};
+}
+\visible<4->{
+	\node [scale=0.5] at (3,9) {2};
+	\draw [->] (2.65,9.35) -- (2.35,9.65);
+	\node [scale=0.5] at (4,9) {0};
+	\node [scale=0.5] at (5,9) {0};
+	\node [scale=0.5] at (6,9) {2};
+	\draw [->] (5.65,9.35) -- (5.35,9.65);
+	\node [scale=0.5] at (7,9) {2};
+	\draw [->] (6.65,9.35) -- (6.35,9.65);
+	\node [scale=0.5] at (8,9) {2};
+	\draw [->] (7.65,9.35) -- (7.35,9.65);
+}
+\visible<5->{
+	\node [scale=0.5] at (3,8) {0};
+	\node [scale=0.5] at (4,8) {4};
+	\draw [->] (3.65,8.35) -- (3.35,8.65);
+	\node [scale=0.5] at (5,8) {0};
+	\node [scale=0.5] at (6,8) {0};
+	\node [scale=0.5] at (7,8) {0};
+	\node [scale=0.5] at (8,8) {0};
+}
+\visible<6->{
+	\node [scale=0.5] at (3,7) {0};
+	\node [scale=0.5] at (4,7) {0};
+	\node [scale=0.5] at (5,7) {6};
+	\draw [->] (4.65,7.35) -- (4.35,7.65);
+	\node [scale=0.5] at (6,7) {2};
+	\draw [->] (5.65,7) -- (5.35,7);
+	\node [scale=0.5] at (7,7) {0};
+	\node [scale=0.5] at (8,7) {0};
+}
+\visible<7->{
+	\node [scale=0.5] at (3,6) {0};
+	\node [scale=0.5] at (4,6) {0};
+	\node [scale=0.5] at (5,6) {2};
+	\draw [->] (4.65,6.35) -- (4.35,6.65);
+	\draw [->] (5,6.35) -- (5,6.65);
+	\node [scale=0.5] at (6,6) {3};
+	\draw [->] (5.65,6.35) -- (5.35,6.65);
+	\node [scale=0.5] at (7,6) {0};
+	\node [scale=0.5] at (8,6) {0};
+}
+\visible<8->{
+	\node [scale=0.5] at (3,5) {2};
+	\draw [->] (2.65,5.35) -- (2.35,5.65);
+	\node [scale=0.5] at (4,5) {0};
+	\node [scale=0.5] at (5,5) {0};
+	\node [scale=0.5] at (6,5) {4};
+	\draw [->] (5.65,5.35) -- (5.35,5.65);
+	\node [scale=0.5] at (7,5) {5};
+	\draw [->] (6.65,5.35) -- (6.35,5.65);
+	\node [scale=0.5] at (8,5) {2};
+	\draw [->] (7.65,5.35) -- (7.35,5.65);
+}
+\visible<9->{
+	\node [scale=0.5] at (3,4) {2};
+	\draw [->] (2.65,4.35) -- (2.35,4.65);
+	\node [scale=0.5] at (4,4) {0};
+	\node [scale=0.5] at (5,4) {0};
+	\node [scale=0.5] at (6,4) {2};
+	\draw [->] (5.65,4.35) -- (5.35,4.65);
+	\node [scale=0.5] at (7,4) {6};
+	\draw [->] (6.65,4.35) -- (6.35,4.65);
+	\node [scale=0.5] at (8,4) {7};
+	\draw [->] (7.65,4.35) -- (7.35,4.65);
+}
+\visible<10->{
+	\node [scale=0.5] at (3,3) {0};
+	\node [scale=0.5] at (4,3) {4};
+	\draw [->] (3.65,3.35) -- (3.35,3.65);
+	\node [scale=0.5] at (5,3) {0};
+	\node [scale=0.5] at (6,3) {0};
+	\node [scale=0.5] at (7,3) {2};
+	\draw [->] (7,3.35) -- (7,3.65);
+	\node [scale=0.5] at (8,3) {3};
+	\draw [->] (7.65,3.35) -- (7.35,3.65);
+	\draw [->] (8,3.35) -- (8,3.65);
+}
+\visible<11->{
+	\node [scale=0.5] at (3,2) {0};
+	\node [scale=0.5] at (4,2) {0};
+	\node [scale=0.5] at (5,2) {6};
+	\draw [->] (4.65,2.35) -- (4.35,2.65);
+	\node [scale=0.5] at (6,2) {2};
+	\draw [->] (5.65,2) -- (5.35,2);
+	\node [scale=0.5] at (7,2) {0};
+	\node [scale=0.5] at (8,2) {0};
+}
+\visible<12->{
+	\node [scale=0.5] at (3,1) {0};
+	\node [scale=0.5] at (4,1) {2};
+	\draw [->] (3.65,1.35) -- (3.35,1.65);
+	\node [scale=0.5] at (5,1) {2};
+	\draw [->] (5,1.35) -- (5,1.65);
+	\node [scale=0.5] at (6,1) {3};
+	\draw [->] (5.65,1.35) -- (5.35,1.65);
+	\node [scale=0.5] at (7,1) {0};
+	\node [scale=0.5] at (8,1) {0};
+}
+\visible<13->{
+\draw [fill=yellow, fill opacity=0.1] (7.5,3.5) rectangle (8.5,4.5);
+}
+\visible<14->{
+\draw [fill=yellow, fill opacity=0.1] (6.5,4.5) rectangle (7.5,5.5);
+}
+\visible<15->{
+\draw [fill=yellow, fill opacity=0.1] (5.5,5.5) rectangle (6.5,6.5);
+}
+\visible<16->{
+\draw [fill=yellow, fill opacity=0.1] (4.5,6.5) rectangle (5.5,7.5);
+}
+\visible<17->{
+\draw [fill=yellow, fill opacity=0.1] (3.5,7.5) rectangle (4.5,8.5);
+}
+\visible<18->{
+\draw [fill=yellow, fill opacity=0.1] (2.5,8.5) rectangle (3.5,9.5);
+}
+\visible<19->{
+\draw [fill=yellow, fill opacity=0.1] (1.5,9.5) rectangle (2.5,10.5);
+}
+\visible<20->{
+\node [scale=0.75] (s1) at (10 + 0/2.5, 8) {A};
+\node [scale=0.75] (s2) at (10 + 0/2.5, 8-1.25) {A};
+\draw [-] (s1) -- (s2);
+\node [scale=0.75] (s1) at (10 + 1/2.5, 8) {T};
+\node [scale=0.75] (s2) at (10 + 1/2.5, 8-1.25) {T};
+\draw [-] (s1) -- (s2);
+\node [scale=0.75] (s1) at (10 + 2/2.5, 8) {G};
+\node [scale=0.75] (s2) at (10 + 2/2.5, 8-1.25) {G};
+\draw [-] (s1) -- (s2);
+\node [scale=0.75] (s1) at (10 + 3/2.5, 8) {A};
+\node [scale=0.75] (s2) at (10 + 3/2.5, 8-1.25) {G};
+\node [scale=0.75] (s1) at (10 + 4/2.5, 8) {A};
+\node [scale=0.75] (s2) at (10 + 4/2.5, 8-1.25) {A};
+\draw [-] (s1) -- (s2);
+\node [scale=0.75] (s1) at (10 + 5/2.5, 8) {A};
+\node [scale=0.75] (s2) at (10 + 5/2.5, 8-1.25) {A};
+\draw [-] (s1) -- (s2);
+}

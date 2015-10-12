@@ -1,0 +1,504 @@
+\documentclass[pdf]{beamer}
+\mode<presentation>{}
+\usepackage{minted}
+\usepackage{tikz}
+\usepackage{pgffor} %% gives looping with \foreach
+\usepackage[absolute,overlay]{textpos}
+\usepackage{lmodern} %% scalable latin characters
+\usetikzlibrary{arrows,shapes,backgrounds}
+\usepackage{multirow}
+\usepackage{listings} %% another package for code related stuff
+
+%% stuff for minted
+\definecolor{mintedBg}{rgb}{0.95, 0.95, 0.95}
+\definecolor{blockBg}{rgb}{0.6, 0.6, 0.95}
+\definecolor{rnaColor}{rgb}{0, 0.6, 0}
+\definecolor{cdsColor}{rgb}{0, 0.4, 0.4}
+\definecolor{rnaPol}{rgb}{0.8,0,0.8}
+\definecolor{ribosomeCol}{rgb}{0.5,0.5,0.1}
+\definecolor{protColor}{rgb}{0.6,0,0.6}
+%% colours for nucleotides:
+\definecolor{dACol}{rgb}{0.5, 0.5, 0}
+\definecolor{dCCol}{rgb}{0.8, 0, 0}
+\definecolor{dGCol}{rgb}{0, 0.8, 0}
+\definecolor{dTCol}{rgb}{0, 0, 0.8}
+
+\definecolor{navy}{rgb}{0, 0, 0.6}
+\definecolor{pur}{rgb}{0, 0, 0.6}
+\definecolor{pyr}{rgb}{0.6, 0, 0.2}
+%% define styles for different codes
+\newminted{cpp}{linenos, bgcolor=blockBg, fontsize=\footnotesize}
+%% then use \begin{cppcode}
+\newminted{c}{linenos, bgcolor=mintedBg, fontsize=\footnotesize}
+\newminted{perl}{linenos, bgcolor=mintedBg, fontsize=\footnotesize}
+
+%% a command to define a subheading
+\newcommand\subHeading[1]{
+  \par\bigskip {\Large\bfseries#1}\par\smallskip
+}
+
+%% I detest indentation in footnotes etc, so try this:
+\makeatletter
+\renewcommand\@makefntext[1]{\noindent\makebox[0em][r]{\@makefnmark}\tiny#1}
+\makeatother
+%% the makeatletter and makeatother are required to allow me to
+%% to change the macro beginning with an @. (though when I call it
+%% I don't use the @ ... 
+
+\setlength\parskip{0.5em}
+\setlength\parindent{0ex}
+
+%% to have footnotes without references. This from tex.stackexchange.com
+\newcommand\blfootnote[1]{%
+  \begingroup  %% this makes it a local redefinition
+  \renewcommand\thefootnote{}\footnote{#1}%
+  \addtocounter{footnote}{-1}  % this adjusts the footnote counter
+  \endgroup
+}
+
+
+\title{Pairwise alignment}
+\subtitle{basic alignment}
+\author{Martin Jakt}
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+\begin{frame}[fragile]{Evaluating an alignment}
+  The two following sequences have an obvious alignment.
+  \begin{verbatim}
+    TAATTAGC
+    CATTA
+  \end{verbatim}
+  \begin{figure}[ht]
+  \begin{tikzpicture}[scale=0.5]
+%    \draw [help lines, opacity=1] (0,0) grid (22,12);
+%    \foreach \x in {1,2,...,19} \node [font=\small] at (\x,0) {\x};
+%    \foreach \y in {1,2,...,12} \node [font=\small] at (20,\y) {\y};
+    \visible<2->{
+      \node [right, align=left] at (1,12) {most obvious:};
+      \node [right, font=\ttfamily] at (1., 11)   {TAATTAGC};
+      \node [right, font=\ttfamily] at (1.4,10.4) { *||||}; 
+      \node [right, font=\ttfamily] at (1.4,9.8)  { CATTA}; 
+    }
+    \visible<3->{
+      \node [right, align=left] at (8,12) {with gaps:};
+      \node [right, font=\ttfamily] at (10,11)   {-TAATTAGC};
+      \node [right, font=\ttfamily] at (10,10.4) {:::||||};
+      \node [right, font=\ttfamily] at (10,9.8)  {C--ATTA};
+    }
+    \visible<4->{
+      \node [right, align=left] at (4,7.5) {Reverse complement?};
+      \node [right, align=left, font=\ttfamily] at (1,6)   {TAATTAGC};
+      \node [right, align=left, font=\ttfamily] at (1,5.4) {||||::|};
+      \node [right, align=left, font=\ttfamily] at (1,4.8) {TAAT--G};
+    }
+  \end{tikzpicture}
+\end{figure}
+\visible<5->{
+  Which is the best alignment?\\
+  Depends on the question asked.
+}
+\end{frame}
+
+\begin{frame}{Evaluating an alignment (2)}
+  Design a score to evaluate the alignment:
+  $$
+  S_a =  (N_{m} \times P_m) + (N_{mm} \times P_{mm}) + (N_{gap} \times P_{gap})
+  $$
+  {\footnotesize
+  Where
+  \begin{description}
+    \item[$N_{m}$] number of matches
+    \item[$N_{mm}$] number mismatches
+    \item[$N_{gap}$] number of gaps
+    \item[$P_m$] penalty for a match
+    \item[$P_{mm}$] penalty for a mismatch
+    \item[$P_{gap}$] penalty for a gap
+  \end{description}
+  $P_{m}$, $P_{mm}$ and $P_{gap}$ can be tuned to favour different types of
+  alignment. (A penalty can also be referred to as a cost).
+
+  This is known as a cost/benefit function. Any reasonable function can be chosen.
+  \blfootnote{A penalty for a match is silly, but the equation looks nicer
+    like this}
+}
+\end{frame}
+
+\begin{frame}[fragile]{but too simple}
+  Consider: \verb|ATTACTTAGGATTATAGA| and \verb|ATTAGATTA|
+  \pause
+  \begin{itemize}
+  \item 
+\begin{verbatim}
+ATTACTTAGGATTATAGA
+||   | | || | |  |
+AT---T-A-GA-T-T--A
+\end{verbatim} \pause
+  \item
+\begin{verbatim}
+ATTACTTAGGATTATAGA
+||||     |||||
+ATTA-----GATTA----
+\end{verbatim}
+\end{itemize}
+These will have the same scores, but the second alignment intuitively 'feels' better as:
+\begin{itemize}
+\item words can carry more meaning than individual letters
+\item insertion deletion events are not restricted to single nucleotides
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Affine gap penalties}
+Modify the alignment score:
+%  $$
+%  S_a =  N_{m} \times P_m + N_{mm} \times P_{mm}  + N_{go} \times P_{go} + N_{ge} \times P_{ge}
+%  $$
+  $$
+  S_a =  N_{m}P_m + N_{mm}P_{mm}  + N_{go}P_{go} + N_{ge}P_{ge}
+  $$
+
+  where the penalties for gaps are divided into:
+  \begin{itemize}
+    \item initial gaps (gap opening) \hspace{4.75ex} $N_{go} \times P_{go}$
+    \item successive gaps (gap extension) $N_{ge}\times P_{ge}$
+  \end{itemize}
+  \pause
+  There are more complex alternatives (eg. the cost of extending a gap can
+  be a function of the gap length), but a simple affine gap penalty is
+  commonly used.
+
+  For global alignments one can also consider terminal gaps differently
+  (esp. if there is a difference in sequence lengths, necessitating terminal gaps).
+\end{frame}
+
+\begin{frame}[fragile]{Affine gap penalties (2)}
+    \begin{figure}[ht]
+      \begin{tikzpicture}[scale=0.5]
+        \draw [help lines, opacity=0] (0,0) grid (22,10);
+%        \foreach \x in {1,2,...,19} \node [font=\small] at (\x,0) {\x};
+%        \foreach \y in {1,2,...,10} \node [font=\small] at (20,\y) {\y};
+        \node [right] at (1,10) {$P_m$ 1};
+        \node [right] at (4,10) {$P_{mm}$ -1};
+        \node [right] at (1,8.5) {$P_{go}$ -4};
+        \node [right] at (4,8.5) {$P_{ge}$ -0.5};
+        \node [right, align=left, font=\ttfamily] at (1,6)   {\verb'ATTACTTAGGATTATAGA'};
+        \node [right, align=left, font=\ttfamily] at (1,5.4) {\verb'||   | | || | |  |'};
+        \node [right, align=left, font=\ttfamily] at (1,4.8) {\verb'AT---T-A-GA-T-T--A'};
+        \node [right, align=left, font=\ttfamily] at (1,2.6) {\verb'ATTACTTAGGATTATAGA'};
+        \node [right, align=left, font=\ttfamily] at (1,2.0) {\verb'||||     |||||'};
+        \node [right, align=left, font=\ttfamily] at (1,1.4) {\verb'ATTA-----GATTA----'};
+
+        \node [right, align=left, font=\footnotesize] at (11,5.4) {9*1 + 0*-1 + \\6*-4 + 3*0.5 = -16.5};
+        \node [right, align=left, font=\footnotesize] at (11,2.0) {9*1 + 0*-1 + \\2*-4 + 7*0.5 = -2.5};
+      \end{tikzpicture}
+    \end{figure}
+    \pause
+    A more pleasing result.
+\end{frame}
+
+\begin{frame}{Complexity of optimal alignment}
+  How many possible alignments for 2 sequences?
+
+  Aligning sequences can be considered as a process of inserting gaps into two
+  sequences in order to align homologous sequences.
+  \pause
+  \begin{itemize}
+    \item e.g. Sequence length: 100. Gaps 4.\\
+      (101 * 102 * 103 * 104) / (2 * 3 * 4) $\sim$ 4.5 million.
+      \pause
+    \item That is for a sequence of length $S_n$ there are
+      $$ \frac{(S_n + G_n)!}{(G_n! \times S_n!)} $$
+      independent ways to introduce $G_n$ gaps.
+      \footnote{This equation is my guess. It will be the right order of
+        magnitude at least}
+      \pause
+    \item The total number of gaps that can be introduced depends
+      on the relationship between the cost of gap insertion.
+      \pause
+    \item We cannot evaluate all possible alignments for any non-trivial sequence.
+  \end{itemize}
+    
+\end{frame}
+
+\begin{frame}{Dotplot: visualising the alignment space}
+  \begin{figure}[ht]
+    \begin{tikzpicture}[scale=0.5]
+      \input{dplot.tikz}
+    \end{tikzpicture}
+  \end{figure}
+
+\end{frame}
+
+\begin{frame}{A dotplot for 4 Mbp region}
+%%  \begin{figure}[ht]
+  \flushleft
+    \includegraphics[width=0.8\textwidth]{images/mega_dotter_4_044000001.jpg}
+    \hfill
+%%  \end{figure}
+\end{frame}
+
+\begin{frame}{Optimal alignments}
+  Dotplot gives a visualisation, but does not lead directly to
+  an optimal alignment. Two different kinds of optimal alignment.
+  \begin{description}
+  \item[Global] Aligns two complete sequences to each other. Can
+    be achieved by the \textcolor{navy}{\emph{Needleman-Wunsch}} algorithm.
+  \item[Local] Finds the maximally scoring subalignment present
+    between two sequences. Can be obtained by the \textcolor{navy}{\emph{Smith-Waterman}}
+    algorithm.
+  \end{description}
+  \pause
+  These are examples of \textcolor{navy}{\emph{dynamic programming}} methods.
+
+  \textcolor{navy}{\emph{Optimal}} : the highest scoring alignment for a given scoring scheme.
+
+  There is \emph{no best alignment} for two sequences. \emph{Best} depends on
+  the biological question asked, and the specific method (local/global) and
+  scoring method and parameters have to be selected for the question.
+\end{frame}
+
+\begin{frame}{Needleman-Wunsch: global alignment}
+  \begin{figure}[ht]
+    \begin{tikzpicture}[scale=0.5]
+      \input{nm.tikz}
+    \end{tikzpicture}
+  \end{figure}
+
+\end{frame}
+
+\begin{frame}{Needleman-Wunsch (2): a bigger example}
+  \begin{figure}[ht]
+    \begin{tikzpicture}[scale=0.4]
+      \input{nm2.tikz}
+    \end{tikzpicture}
+  \end{figure}
+
+\end{frame}
+
+\begin{frame}[fragile]{Why local alignment?}
+  \begin{itemize}
+  \item Evolutionary constraints on sequences are variable.
+    \begin{description}
+    \item[Proteins] Active sites vs connecting loops.
+    \item[DNA] Introns vs. Exonic sequences.
+    \end{description}
+  \item Rearrangements of (insertions/inversions/deletions) homologous
+    sequences.
+  \end{itemize}
+  
+  This means two sequences can contain islands of homology connected
+  by non-homologous regions, or regions of homology in a rearranged order. eg:
+
+  A-B-C-D-E $\Rightarrow$ A-C-B-E\\
+
+  {\footnotesize Individual letters indicate a region of homology. An inversion of
+    the A-B region and a loss of the D region leads to two sequences which can not
+    be meaningfully globally aligned. }
+
+\end{frame}
+
+\begin{frame}{Smith-Waterman: local alignment}
+  Smith-Waterman is identical to Needleman-Wunsch except:
+  \begin{itemize}
+  \item Negative scores are converted to 0 and there are no
+    paths from such cells.
+  \item The alignment is obtained by starting at the highest
+    scoring cell and ends before a 0 valued cell is reached.
+  \item Subalignments can start from several points if more than a single
+    maximum is obtained.
+  \item Non-overlapping sub-alignments can be identified across a sequence.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Smith-Waterman: local alignment}
+  \begin{figure}[ht]
+    \begin{tikzpicture}[scale=0.5]
+      \input{smwat.tikz}
+    \end{tikzpicture}
+  \end{figure}
+\end{frame}
+
+\begin{frame}{The penalties}
+  Match vs. mismatch vs gap insertion vs gap extension.
+  
+  Only relative values matter.\\ 
+  Determined by:
+  
+  \begin{itemize}
+  \item Frequency of substitution vs / insertion-deletion mutations
+  \item Objective of alignment (evolutionary vs functional homology),
+  and type of sequence (DNA / Protein). 
+  \end{itemize}
+
+  \pause
+  Consider:
+  \begin{itemize}
+  \item The modular structure of proteins where functional domains
+    can be separated by non-conserved loops which may have arisen
+    through genetic rearrangements.
+  \item Regulatory elements where a short separation can be tolerated.
+  \item Exons separated by variable length introns.
+  \end{itemize}
+
+\end{frame}
+
+\begin{frame}{The penalties (2)}
+  Typical values:\footnote{taken from \url{https://blast.ncbi.nlm.nih.gov/Blast.cgi?PAGE_TYPE=BlastSearch&PROG_DEF=blastn&BLAST_PROG_DEF=blastn&BLAST_SPEC=GlobalAln&LINK_LOC=BlastHomeLink}}
+  \begin{description}[Gap Extension]
+  \item[Match] +2
+  \item[Mismatch] -3
+  \item[Gap Insertion] -5
+  \item[Gap Extension] -2
+  \end{description}
+
+  But larger gap insertion penalties are common.
+  \vspace{0.2cm}
+  Penalty / score / cost can all refer to the same thing, but with different signs.
+  
+\end{frame}
+
+\begin{frame}{Nucleotide substitutions}
+  In the above equations we have used a single mismatch penalty for all
+  nucleotide substitutions. However (at least) two types exist:
+ 
+ \vspace{0.2cm}
+  \begin{description}[Transversion]
+  \item[Transition] purine $\Leftrightarrow$ purine \\ pyrimidine
+    $\Leftrightarrow$ pyrimidine
+  \item[Transversion] pyrimidine $\Leftrightarrow$ purine
+  \end{description}
+    
+  Transversion less likely, and should infer a greater penalty.
+
+\end{frame}
+
+\begin{frame}{A nucleotide substitution matrix}
+  \begin{columns}[t]
+    \begin{column}{0.5\textwidth}
+      \begin{tabular}{ c| c c c c }
+        & \textcolor{pur}{A} & \textcolor{pyr}{C} & \textcolor{pyr}{T} & \textcolor{pur}{G}\\
+        \hline
+        \textcolor{pur}{A} & 1 \\
+        \textcolor{pyr}{C} & -2& 1 \\
+        \textcolor{pyr}{T} & -2& -1& 1\\
+        \textcolor{pur}{G} & -1& -2& -1& 1\\
+      \end{tabular}
+    \end{column}
+    \begin{column}{0.5\textwidth}
+      \begin{tabular}{ c c c l }
+        \multicolumn{3}{c}{mutation} & cost \\
+        \textcolor{pyr}{C} & $\Leftrightarrow$ & \textcolor{pur}{A} & -2 \\
+        \textcolor{pyr}{T} & $\Leftrightarrow$ & \textcolor{pur}{A} & -2 \\
+        \textcolor{pyr}{T} & $\Leftrightarrow$ & \textcolor{pyr}{C} & -1 \\
+        \textcolor{pur}{G} & $\Leftrightarrow$ & \textcolor{pur}{A} & -1 \\
+        \textcolor{pur}{G} & $\Leftrightarrow$ & \textcolor{pyr}{C} & -2 \\
+        \textcolor{pur}{G} & $\Leftrightarrow$ & \textcolor{pyr}{T} & -1 \\
+      \end{tabular}
+    \end{column}
+  \end{columns}
+  \textcolor{pur}{Purine}\\
+  \textcolor{pyr}{Pyrimidine}
+
+  Suriprisingly however, the identity matrix is almost always used. So the
+  above is not that useful.
+\end{frame}
+
+\begin{frame}{Protein substitution matrices}
+  20 amino acids with widely different properties.
+  Substitution matrices:
+  {\small
+  \begin{itemize}
+  \item Mutation distances. Based on the number of DNA base changes required to convert
+    codons. (Fitch substitution model)
+  \item Chemical properties. Based on chemical properties of amino acids
+    (size, hydrophobicity, charge, pH). Dissimilar amino acids incur larger costs.
+  \item Evolutionary tendencies. Based on the frequency of mutation within
+    homologous proteins. Infrequently observed changes incur greater costs.
+    \begin{description}
+    \item[PAM] Percentage of Acceptable point Mutations. Based on global alignments of closely
+      related proteins. (Dayhoff et al.)
+    \item[BLOSUM] Blocks Substitution Matrix. Based on local alignmens from the
+      Blocks database. Based on a larger set of proteins than PAM. (Henikoff \& Henikoff)
+      sensitive.
+    \end{description}
+  \end{itemize}
+  }
+\end{frame}
+
+\begin{frame}{Protein substitution matrices (2)}
+  PAM \& BLOSUM are the predominantly used families of matrices.
+
+  Which to use depends on specific situation. For more divergent sequences
+  use highly numbered PAM matrices, but low numbered Blosum matrices.
+
+  In general, use the default set by the program used, unless you know
+  better.\\
+  No clear answers to the question. 
+
+  For more information see:\\
+  \url{http://www.ctu.edu.vn/~dvxe/Bioinformatic\%20course/mod4/mod4_0.html}
+  
+\end{frame}
+
+\begin{frame}{PAM 256}
+  \begin{figure}[ht]
+    \includegraphics[width=0.6\textwidth]{images/dayhoff_256}
+    \caption{  PAM 256 (aka Dayhoff 256) substitution matrix. Amino acids are
+    grouped by the chemistry of their side group.}
+  \end{figure}
+  \blfootnote{Image taken from:
+    \url{http://www.ctu.edu.vn/~dvxe/Bioinformatic\%20course/mod4/mod4_0.html}.\\
+  But many copies on the web, unsure of original.}
+\end{frame}
+
+\begin{frame}{Protein or Nucleotide}
+  From a computational point of view it doesn't matter whether aligning
+  protein or DNA sequences. 
+
+  Just a question of changing the parameters and the
+  substitution matrices to suit the question at hand.
+
+\end{frame}
+
+\begin{frame}{Homology and Similarity}
+  \textcolor{navy}{\emph{Homology implies}} either an evolutionary or functional
+  relationship. Nucleotides or amino acids within a homologous
+  region may be considered as homologous.
+
+  Regions of homology can be identified when they have a \textcolor{navy}{\emph{similarity}}
+  larger than that expected by chance.
+
+  Functional homology in protein sequences (probably) mostly arise
+  from evolutionary homology (i.e. not convergent evolution).
+
+  Functional homology in regulatory elements is more likely to arise through
+  convergent evolution as the sequence requirements are much less stringent.
+  Such homology though is difficult to identify in the absence of evolutionary
+  homology due to low information content.
+  
+\end{frame}
+
+\begin{frame}{Implementations}
+  Easy to find. Use Google.
+  \begin{description}
+  \item[EBI] \url{http://www.ebi.ac.uk/Tools/psa/}
+  \item[NCBI]
+    \url{https://blast.ncbi.nlm.nih.gov/Blast.cgi?PAGE_TYPE=BlastSearch\&PROG_DEF=blastn\&BLAST_PROG_DEF=blastn\&BLAST_SPEC=GlobalAln&LINK_LOC=BlastHomeLink}
+  \end{description}
+\end{frame}
+
+\begin{frame}{Perl to Latex}
+  I implemented the Needleman-Wunsch and Smith-Waterman algorithms in Perl to make
+  these slides.
+
+  Good for playing around with parameters to get a good understanding
+  of the algorithms. Easy to modify. Perhaps for future work.
+
+  I will clean up the code and make it available on Fronter.
+\end{frame}
+
+\end{document}

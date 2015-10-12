@@ -1,0 +1,31 @@
+%%
+%% additional formating commands for tex conversion.
+%%
+%% org mode is nice, but does not seem to pass on my LATEX_HEADER commands into the
+%% tex file. To overcome this, for now manually edit it to contain the following 
+%%
+
+%% before \begin{document}
+%% for spacing around sections and titles:
+\usepackage{titlesec}
+\titlespacing{\chapter}{0em}{2em}{-0.3em}
+\titlespacing{\section}{0em}{2em}{-0.5\parskip}
+\titlespacing{\subsection}{0em}{2em}{-0.5\parskip}
+\titlespacing{\subsubsection}{0em}{2em}{-0.5\parskip}
+
+\title{Topics to be covered by B1229F 2015 (Genomikk og Bioinformatikk)}
+\author{Lars Martin Jakt\thanks{lmj@uin.no}}
+\date{\today}
+\hypersetup{
+  colorlinks = true,
+  pdfkeywords={},
+  pdfsubject={},
+  pdfcreator={Emacs Org-mode version 7.9.3f}}
+
+%% can be before or after the document beginning?
+\setcounter{tocdepth}{2}
+\tableofcontents
+\vspace*{1cm}
+
+\setlength{\parindent}{0em}
+\setlength{\parskip}{0.3em}

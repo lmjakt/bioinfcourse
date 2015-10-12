@@ -1,0 +1,133 @@
+% Created 2015-05-28 Thu 13:42
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{fixltx2e}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{marvosym}
+\usepackage{wasysym}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\tolerance=1000
+\usepackage{minted}
+\usepackage{color}
+\usepackage{listings}
+\usepackage{grffile}
+\usepackage[inline]{enumitem}
+\usepackage{setspace}
+\usepackage{xcolor}
+\hypersetup{
+colorlinks,
+linkcolor={red!50!black},
+citecolor={blue!50!black},
+urlcolor={blue!80!black}
+}
+\usepackage{setspace}%% The linestretch
+\singlespacing
+\usepackage[format=hang,indention=0cm,singlelinecheck=true,justification=raggedright,labelfont={normalsize,bf},textfont={normalsize}]{caption} %
+\usepackage{vmargin}
+\setpapersize{A4}
+\setmarginsrb{2.5cm}{1cm}% links, oben
+{2.5cm}{2cm}% rechts, unten
+{12pt}{30pt}% Kopf: Höhe, Abstand
+{12pt}{30pt}% Fuß: Höhe, AB
+\usepackage{upquote}
+%  use straight quotes when printing a command in minted
+\AtBeginDocument{%
+\def\PYZsq{\textquotesingle}%
+}
+\definecolor{mintedbackground}{rgb}{0.95,0.95,0.95}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{\baselineskip}
+\definecolor{mintedbackground}{rgb}{0.95,0.95,0.95}
+
+%% I detest indentation in footnotes etc, so try this:
+\makeatletter
+\renewcommand\@makefntext[1]{\noindent\makebox[0em][r]{\@makefnmark}\footnotesize#1}
+\makeatother
+%% the makeatletter and makeatother are required to allow me to
+%% to change the macro beginning with an @. (though when I call it
+%% I don't use the @ ... 
+
+\renewcommand\scriptsize\normalsize
+
+\author{Martin Jakt\thanks{University of Nordland, Norway}}
+\date{\textbf{Bioinformatics \& Genomics}}
+\title{\textbf{Intermediate level perl} (2015-09-11)}
+\hypersetup{
+ pdfkeywords={},
+  pdfsubject={},
+  pdfcreator={}}
+\begin{document}
+
+\maketitle
+%\tableofcontents
+
+\section{The story so far}
+\label{sec-1}
+By this stage you should be comfortable working with variables and arrays (also
+known as vectors or lists) of values. You also have some idea of how you can
+use 2-dimensional arrays to represent values in a matrix, and how to use a loop
+to access and process (i.e. do something with) the values present in an array.
+This knowledge is enough to solve a lot of problems, though, perhaps not in
+the most elegant manner\footnote{Many would argue that there are no elegant solutions
+in Perl. Please ignore such arguments}.
+
+To enable you to solve problems efficiently with Perl we will introduce four new fields:
+\begin{enumerate}
+\item Regular expressions
+\item File input output
+\item Associative arrays and more complex data structures
+\item Writing your own functions
+\end{enumerate}
+
+Of these 1 \& 2 are described in some detail in the previous introduction to Perl
+and will only be briefly covered in this document. For more details please refer
+to the first introduction. The third topic is useful for organising data in a
+logical manner within your script. The fourth topic allows you to reuse 
+small\footnote{well, they can be rather large} pieces of code by creating functions
+that can be called from the main body of your script. This not only means
+that you can do less typing but also lets you organise your code in a more readable
+manner and reduces the number of errors. Functions also make it possible to do
+funky things whereby a function calls itself until some condition is met. This is
+called recursion and is a natural fit for quite a lot of computational problems but
+understanding what happens during the execution of recursive functions can be
+quite difficult to get your head around.
+
+\subsection{Regular expressions}
+\label{sec-1-1}
+Regular expressions provide a way to summarise patterns of text. They are used widely
+throughout 
+
+\begin{minted}[fontsize=\scriptsize,bgcolor=lightgray,linenos]{perl}
+## in this case we have an array of values @values
+## that has been defined somewhere else in this script
+## we call the mean() function on this and it returns the mean
+## value. We can use this to assign to a new variable:
+
+$mean = mean(@values);
+
+## or we can make use of it in a conditional statement:
+
+if( mean(@values) > 0 ){
+  ## Do something clever here
+}else{
+  ## Do something different here
+}
+\end{minted}
+
+
+
+
+\end{document}
+
+
+

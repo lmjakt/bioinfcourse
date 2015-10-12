@@ -1,0 +1,788 @@
+% Created 2015-05-28 Thu 13:42
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{fixltx2e}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{marvosym}
+\usepackage{wasysym}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\tolerance=1000
+\usepackage{minted}
+\usepackage{color}
+\usepackage{listings}
+\usepackage{grffile}
+\usepackage[inline]{enumitem}
+\usepackage{xcolor}
+\hypersetup{
+colorlinks,
+linkcolor={red!50!black},
+citecolor={blue!50!black},
+urlcolor={blue!80!black}
+}
+\usepackage{setspace}%% The linestretch
+\singlespacing
+\usepackage[format=hang,indention=0cm,singlelinecheck=true,justification=raggedright,labelfont={normalsize,bf},textfont={normalsize}]{caption} %
+\usepackage{vmargin}
+\setpapersize{A4}
+\setmarginsrb{2.5cm}{1cm}% links, oben
+{2.5cm}{2cm}% rechts, unten
+{12pt}{30pt}% Kopf: Höhe, Abstand
+{12pt}{30pt}% Fuß: Höhe, AB
+\usepackage{upquote}
+%  use straight quotes when printing a command in minted
+\AtBeginDocument{%
+\def\PYZsq{\textquotesingle}%
+}
+\definecolor{mintedbackground}{rgb}{0.95,0.95,0.95}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{\baselineskip}
+\definecolor{mintedbackground}{rgb}{0.95,0.95,0.95}
+\author{Martin Jakt\thanks{University of Nordland, Norway}}
+\date{\textbf{Bioinformatics \& Genomics}}
+\title{\textbf{Introduction to Perl} (2015-06-02)}
+\hypersetup{
+ pdfkeywords={},
+  pdfsubject={},
+  pdfcreator={}}
+\begin{document}
+
+\maketitle
+%\tableofcontents
+
+\section{Using Perl}
+\label{sec-5}
+
+Perl is a useful programming language whose principles can be learnt
+within a short period of time allowing researchers not familiar with
+programming to quickly become able to automate a variety of processes.
+Although not an official acronym, Perl is often referred to as standing
+for, 'Practical Extraction and Reporting Language'; and this is pretty much
+what Perl makes easy.
+
+Perl has been used extensively within the field of Bioinformatics (see
+Bioperl, \url{http://www.bioperl.org}) though recently it has been overshadowed to
+some extent by the use of R for statistical analyses of data. However,
+Perl remains widely used though, and many tools used for the analysis of next-generation sequencing
+have been written in Perl. R is incredibly useful when you have
+regular data structures that can be expressed as arrays or matrices;
+however it is unsuitable for describing irregular types of data (eg.
+structures of genes, etc.) where it may be necessary to iterate through
+the elements of a data set. Compared to R, Perl is a much more general
+programming language that can be applied to a much wider set of
+problems.
+
+The motto of Perl is, 'There is more than one way to do it'. And in Perl
+this is very true; the same logic can be expressed in a number of
+different ways and masters of Perl will sometimes delight in their
+ability to fit a very large amount of functionality into a small amount
+of code. This is kind of neat, but can lead to code that is difficult to
+understand and should not be encouraged for code that will
+actually be used. The flexibility of Perl also means that it can be
+difficult to read other people's code as they may use a very different
+style of coding to ones own. Perl can also be quite a dangerous language
+and it is often said that it gives the user more than enough rope to
+hang themselves with.
+
+\subsubsection{Variables in Perl}
+\label{sec-5-0-1}
+
+In order to handle information within a program we assign values to
+variables and then manipulate these according to the flow of the
+program. Perl provides three different types of variables:
+
+\begin{itemize}
+\item Scalar variables: these take a single value (usually a number or some text) 
+and are denoted by a \texttt{\$} prefix, eg. \texttt{\$var}.
+
+\item Arrays: these contain an ordered series of values that are accessed by their
+position. Arrays are denoted by an \texttt{@} prefix, eg. \texttt{@array}.
+Individual values are accessed as scalars, using square brackets to
+indicate the position, eg. \texttt{\$array[3]} accesses the fourth element of
+\texttt{@array} (the fourth rather than the third as we count from 0).
+
+\item Hashes (or associative arrays): these hold key-value pairs and are
+denoted by the \texttt{\%} prefix, eg. \texttt{\%hash}. Individual elements are again
+accessed as scalars, but this time using curly brackets, eg.
+\texttt{\$hash\{key\}}. The key value can be anything that can be assigned to a
+scalar (numbers, text, and references).
+\end{itemize}
+
+\subsubsection{Assigning variables}
+\label{sec-5-0-2}
+
+The values of variables can be assigned directly in the program's source
+code, but are more frequently assigned through the command line
+arguments (see below) or by the program reading input (data or
+configuration) files (see lower section). Scalars are the simplest:
+
+\begin{minted}[fontsize=\scriptsize,bgcolor=lightgray,linenos]{perl}
+$var1='hello'; 
+$var2="world";
+$var3=3.14;
+\end{minted}
+
+Strings (i.e. text elements) can be assigned using either single \texttt{’} or
+double " quotes. The use of double quotes expands variables within the
+quoted text such that:
+
+\begin{minted}[fontsize=\scriptsize,bgcolor=lightgray,linenos]{perl}
+$var4="goodbye $var1";
+\end{minted}
+
+will assign the text "goodbye world" to the variable \texttt{\$var4}.
+In contrast:
+
+\begin{minted}[fontsize=\scriptsize,bgcolor=lightgray,linenos]{perl}
+$var4='goodbye $var1';
+\end{minted}
+
+will assign the text 'goodbye \$var1' to \texttt{\$var4} (without the quotation
+marks!).
+Double quotes also allow escape codes such as \texttt{\textbackslash{}n \textbackslash{}t} to be interpreted
+as newline and tab characters respectively.
+
+Arrays can be assigned in a number of ways, occassionally directly in
+the code:
+
+\begin{minted}[fontsize=\scriptsize,bgcolor=lightgray,linenos]{perl}
+@ar1 = (1, 2, "three");
+\end{minted}
+
+An empty array can also be created and then extended by adding elements.
+This can be done by either using the \texttt{push} function or by using
+subscripts beyond the range of the array:
+
+\begin{minted}[fontsize=\scriptsize,bgcolor=lightgray,linenos]{perl}
+## text following a # character are treated as comments
+
+@ar1 = (); ## creates an empty array of length 0 
+push @ar1, "hello"; ##extends this array to have a length of 1
+
+$ar1[2] = "three"; 
+## the array now has a length of three, but an undefined value in the second position 
+## $ar1[1]
+\end{minted}
+
+In most cases, elements of an array will be assigned to values found in
+input files containing the data to be analysed, rather than being
+defined directly in the code as above.
+
+Hashes (associative arrays) that store key value pairs are defined in a
+similar way to arrays. Again the actual values are usually obtained from
+input files, but can also be defined in the code.
+
+\begin{minted}[fontsize=\scriptsize,bgcolor=lightgray,linenos]{perl}
+%kv1 = ();
+## this creates an empty hash structure. It is actually not necessary to
+## declare it, but one can directly assign elements of the hash:
+$kv1{1} = "one";
+$kv1{2} = "two";
+$kv1{'three'} = 3;
+
+## this hash could also have been created in a single line :
+%kv1 = (1 => "one", 2 => "two", 'three' => 3);
+
+## to access the elements of an associative array we obtain
+## the keys of the hash using the keys command.
+
+@keys = keys %kv1;
+## print the first value associated with the first key:
+print "$keys[0] $kv1{$keys[0]}\n";
+
+## the \n simply defines a newline character
+\end{minted}
+
+
+Scalars, arrays and associative arrays can be combined to create
+arbitrarily complex data structures. Hence you can have hashes of arrays
+and arrays of hashes and so on. To fully use more complicated data
+structures requires an understanding of the reference. A reference is a
+value that points to another piece of data by providing the memory
+address of that data. For example, an array of hashes is encoded as an
+array of references to hashes. To obtain the value of data referred to
+by a reference the reference must be dereferenced. Perl has
+a number of different ways in which this can be done, but these will not
+be explained in depth here as it can get a bit messy. 
+
+Semicolons: you may have noticed that in the above examples almost every
+line ends with a semicolon. In Perl (and in many other languages), the
+semicolon is used to denote the end of statements. This means
+that single statements can be spread across several lines and that a
+single line can contain a number of statements. This can greatly aid the
+readability of the code.
+
+\subsubsection{Data types}
+\label{sec-5-0-3}
+
+In the above examples we assigned values to variables without caring
+about what kind of data we used. For example consider the following:
+
+\begin{minted}[fontsize=\scriptsize,bgcolor=lightgray,linenos]{perl}
+$var1 = "one";
+$var2 = 2;
+$var3 = $var1 + $var2;  ## !!??!!
+\end{minted}
+
+Here we have assigned the value of \texttt{\$var1} to a piece of text (which we
+will refer to as a string from here on) whereas \texttt{\$var2} has been
+assigned a numeric value. Perl is a dynamically typed language; that
+means that you do not have to explicitly define what type of value a
+variable contains. This is convenient when writing a script (essentially
+a small program), but this does make it easier to make mistakes in more
+complicated situations. In the above example, the third line doesn't
+make sense, and will generate an error. In this case it is obvious from
+the code, but in most real world situations the values will be read in
+from an external file produced by some other program or person in which
+case finding the reason for the problem may not be so simple.
+
+Perl essentially has three data types, strings, numeric values and
+references. References are necessary for making more complex data
+structures and to allow variable values to be modified by functions. As
+mentioned above though, references will not be covered in much depth in
+order to keep things reasonably simple. The string and
+numerical data types are fairly straightforward, though there are a few
+potential problems (common to essentially all computer programming):
+
+\begin{itemize}
+\item Numeric values do not have infinite precision. For example (1/3) is
+not equal to (0.1/0.3).
+
+\item Numeric values can not be arbitrarily large. On my machine the
+maximum value Perl can handle is somewhere between 1e308 and
+1e309. That's a pretty large number which you might not think that
+you will ever need.  However, it is smaller than the factorial of
+171, and this is something you may run across in statistical
+equations.
+
+\item Mathematical operations can result in illegal numbers, eg. 1/0. If
+your program carries out any calcuations you need to be aware of
+this and how Perl handles the resulting values.
+
+\item Text is actually not that simple. From the beginning, the end of
+lines has been encoded differently in Windows (i.e. DOS), MacOS and
+Unix. In Unix an end of line is encoded with a newline character, on
+Windows, a newline character followed by a carriage return, and on
+MacOS it might be just a carriage return (to be honest I
+forget). This can cause trouble as text files are usually written
+and read line by line (i.e.  new lines indicate a new section of
+data). The simplest way to avoid trouble is simply never to touch
+Macs or Windows machines, but that can be difficult at times.
+
+\item These days text encoding is rather complicated, as it has been
+expanded to cater to a range of languages and character sets
+(eg. Arabic, Chinese, Japanese, Thai, etc..). This is not
+straightforward and several conflicting encodings have been
+developed. For bioinformatics you usually do not have to care; but
+you have to be aware of potential problems when handling text that
+contains unstructured descriptive data. Such text may contain
+names, or places written in glyphs that require Unicode
+encoding. Such descriptions may even contain characters that look
+like normal roman letters, but which have been encoded differently.
+Google, 'halfwidth fullwidth characters' to confuse yourself.
+
+\item Sorting. Numbers and strings are obviously sorted
+differently. Consider that \texttt{(12 > 8)}, but \texttt{('12' < '8')}. In the latter
+case we are comparing strings through a lexicographic comparison
+where the first character is the most significant for the
+sort. Since 8 is larger than 1, "8" is also larger than "12". In
+Perl sorting is lexicographic by default, and a numeric sort has to
+be explicitly specified. This is sometimes problematic when a mix of
+numerical and character based identifiers are used and the reason
+that you often see the following chromosome ordering:
+1,10,11,12,\ldots{},19,20,21,3,4,5,\ldots{},9,X,Y.
+\end{itemize}
+
+\subsubsection{Program flow: loops and conditionals}
+\label{sec-5-0-4}
+
+We use computer programs to automate repeated processes; that is to
+carry out the same or similar operations on a large number of data
+points. This is (usually) done by iterating over a collection of data
+until some condition is met. That condition is often simply that we have
+no more pieces of data to look at, but the condition can also be that a
+solution to some problem has been found, or anything that you can think
+of. This process is referred to as looping.
+
+Similarly programs need to be able to handle the data differently
+depending on what it is. This is handled by conditional statements.
+Conditional statements are also used in lots of other cases including to
+control loops. Consider the following statement that checks for the
+equality of two variables.
+
+\begin{minted}[fontsize=\scriptsize,bgcolor=lightgray,linenos]{perl}
+## $a and $b are two variables whose values are specified somewhere else in the program.
+if($a == $b){
+  ## then do something. For example increase the value of $b
+  $b = $b + 1;
+}
+\end{minted}
+
+There are a few things to mention here. The first is the use of the \texttt{==}
+operator. This tests for numerical equality. It is very important not to
+confuse this with the \texttt{=} operator which assigns values. Comparison
+operators can be thought of as returning a TRUE or a FALSE value. If a
+TRUE value is obtained then the conditional statement is carried out,
+and if FALSE not. Perl doesn't actually have explicit TRUE and FALSE
+values, but any non-0 value is considered as TRUE and a value of 0 is
+considered as FALSE. To confuse things the use of the assignment
+operator returns the value that was assigned and this can cause some
+rather specific problems. Consider:
+
+\begin{minted}[fontsize=\scriptsize,bgcolor=lightgray,linenos]{perl}
+$a = ($b = 10);
+## $a is now assigned to the value of 10
+
+## this conditional statement will always evaluate to TRUE
+if( $a = 25 ){
+  ## this will always be executed
+}
+
+## but this will never evaluate to TRUE
+if($a = 0){
+  ## this part of the program will never be reached
+}
+\end{minted}
+
+The second thing to mention is the use of the curly brackets (\{and\}). In
+Perl (and quite a few other programming languages) these are used to
+break the code up into blocks of code that can be conditionally executed
+(or looped over, which is kind of conditional). In Perl, blocks of code
+can have their own scope by using the \texttt{my} keyword. This means that a
+variable which is defined within a block of code is not visible outside
+of that block of code. This is very useful for more complicated programs
+where it is easy to accidentally use the same variable names to represent
+different properties.
+Consider the following snippet:
+
+\begin{minted}[fontsize=\scriptsize,bgcolor=lightgray,linenos]{perl}
+## We start in the global scope. Variables defined here will be visible and modifiable
+## anywhere within the main body of the code (though not in external functions).
+
+$a = 10;
+{
+  $a = 20;
+}
+
+print "a is $a \n";
+## will print 20. However if we do:
+
+{
+  my $a = 30;
+  ## $a will be equal to 30 only within this block of code
+}
+
+print "a is now $a \n";
+## does not print 30, as we $a was declared using the
+## my keyword.
+\end{minted}
+
+It is good practice to use \texttt{my} and the related \texttt{our} keyword throughout
+the code as it will make it easier to catch a range of different types
+of errors. This can be enforced by \texttt{use strict;}. Google for more!
+
+Looping can be used if, for example you have an array of values that you wish to
+obtain the mean value of. To do this we wish to find the sum of the
+values and divide by the length of the array. As always in Perl there
+are a number of ways in which this can be done:
+
+\begin{minted}[fontsize=\scriptsize,bgcolor=lightgray,linenos]{perl}
+## @ar is an array of values specified somewhere else in the program.
+## ++ is an increment operator that increases the value of its operand
+## by one each time it is called.
+## += is an increment operator that increases the value of its left operand
+## by the value of its right operand.
+
+## to loop through the values we can use a classic for loop:
+$sum = 0;
+for( $i=0; $i < @ar; $i++){
+  $sum += $ar[$i];
+}
+
+$mean = $sum  @ar;
+## when an array variable is used in an expression it can can evaluate to either the array itself
+## or to a scalar value equal to its length. When it's not clear as to whether the scalar or array
+## value is indicated, the scalar value can be enforced by the scalar function.
+
+## We can also use a range specified loop and make use of the fact that in Perl
+## $#ar will evaluate to the higest index of an array (i.e. the length minus one)
+
+for $i(0..$#ar){
+  $sum += $ar[$i];
+}
+
+## we can also use a similar expression;
+for $v(@ar){
+  $sum += $v;
+}
+
+## alternatively we can use a while loop by specifying the index variable outside
+## of the loop statement;
+$i = 0;
+while($i < @ar){
+  $sum += $ar[$i];
+  $i++;
+}
+\end{minted}
+
+
+These are not the only ways in which you can loop through values or data
+structures, but they probably represent the most common usages.
+
+\subsubsection{Reading and writing data}
+\label{sec-5-0-5}
+
+To read or write from a file we use a filehandle. This is just an
+identifier associated with the file and the reading or writing process.
+To write to a file we usually use the \texttt{print} function. Using \texttt{print}
+without specifying a filehandle will lead to the text being printed to
+STDOUT. In most cases this means your terminal screen, but STDOUT can
+also be piped to other processes as demonstrated previously in this
+guide. To open a text file and read a line at a time:
+
+\begin{minted}[fontsize=\scriptsize,bgcolor=lightgray,linenos]{perl}
+## we wish to read from a file specified by the varialbe $fname
+
+open(IN, $fname) || die "unable to open $fname $!\n";
+## here IN becomes specified as the filehandle (This is one of the few cases
+## where we use an undecorated string literal as an identifier).
+## The second half of the statement uses the '||' operator which simply means 'or'.
+## If we are unable to open the file then the program will print out the warning statement
+## following die and exit. $! is a magic variable that contains the error string.
+
+## to read all of the lines we can make use of a while loop
+while(<IN>){
+  ## this will assign the text of each line to another magical variable, $_
+  ## we can print this out to STDOUT by calling
+  print;   ## without arguments this prints $_ to STDOUT
+
+  ## normally we would do something useful first by processing the data in the line.
+  ## but more of that later.
+}
+\end{minted}
+
+
+
+To write to a file we also use open, but modify the filename to indicate
+that we wish to write to a new file by prefixing the name with a '>'
+character. If a file of the same name exists it will be overwritten. If
+we wish to append to an existing file we can use '>>'.
+
+\begin{minted}[fontsize=\scriptsize,bgcolor=lightgray,linenos]{perl}
+## given that we wish to write something to a file specified by the
+## $fname variable.
+open(OUT, ">$fname") || die "unable to open $fname $!\n";
+## write out the multiplication table (1..10) to the file
+## first write out some column headers
+for $i(1..10)\{
+  print OUT "\t$i";
+}
+print OUT "\n";
+
+for $i(1..10){
+  print OUT $i;
+  for $j(1..10){
+    print OUT "\t", $i * $j;
+  }
+  print OUT "\n";
+}
+
+close OUT;
+\end{minted}
+
+\subsubsection{Regular Expressions}
+\label{sec-5-0-6}
+
+Regular expressions are widely used to describe text patterns. The Perl
+implementation of regular expressions is perhaps one of the best and
+most powerful ones available and a large part of the power of Perl comes
+through its ability to make use of regular expressions.
+
+As mentioned previously regular expressions are used to identify matches
+to generalised text patterns in strings. There are a very large number
+of tutorials on how to use regular expressions in Perl available on the
+net and we will only provide a very short introduction here.
+
+In Perl, regular expression matching makes use of the \texttt{=\textasciitilde{}} operator,
+where the left operand contains the text to be searched for matches to the
+pattern given by the right operand. Some examples:
+
+\begin{minted}[fontsize=\scriptsize,bgcolor=lightgray,linenos]{perl}
+## The left operand is usually a variable, but for clarity we'll use
+## plain strings.
+
+## The regular expression is usually written as follows:
+## "some string to be tested" = m/ a regular expression /
+##
+## the character immediately following the m delimits the regular expression. If you wish to
+## include this character within the regular expression it will need to be escaped by placing
+## a \ in front of it. For regular pattern matching you do not need to specify the
+## m if you are using the forward slash as the delimiter. This is the most common way to write it.
+## So to check if an expression looks like the name of a Hox gene we can do:
+
+"HoxA3" =~ /hox[a-z][0-9]+/;
+
+## Normal characters are matched directly, characters within square brackets [] represent a character
+## class (any character specified will allow a match). In the above example, the regular expression
+## will fail to recognise the left operand since the regular expression is case sensitive. To overcome
+## this we can do:
+
+"HoxA3" =~ /hox[a-z][0-9]+/i;
+
+## we could also specify a character class at each position, but this would be ugly:
+"HoxA3" =~ /[hH][oO][xX][A-z][0-9]+/;
+
+## which reads as: h OR H followed by o OR O followed by x OR X 
+## followed by a single character between A and z
+## followed by at least one number. But that is pretty ugly.
+
+## if you wish to use a different delimiter, like the # character you can write it like:
+"HoxA3" =~ m#hox[a-z][0-9]+#i
+
+## this can be useful when trying to match directory names that contain lots of forward slashes.
+
+## The above expressions on their own do nothing as we do not make use of the returned value
+## To actually use a regular expression we make use of conditionals, eg...
+
+if("HoxA3" =~ /hox[a-z][0-9]+/i){
+  ## we have Hox gene, do something here..
+}
+## to substitute words we can use the s modifier. We may wish to substitute spaces within a
+## a string with underscores.
+$string = "Goodbye cruel World";
+$string =~ s/ /_/g;
+
+## here we also make use of the g (global) modifier to replace all instances rather than just the first
+## match.
+\end{minted}
+
+Regular expressions make use of a number of special characters and
+modifiers to represent textual patterns. The characters represent
+character classes, followed by a modifier specifying how many matches
+should be present to give a match. In Perl, the most widely used special
+characters are:
+
+\begin{itemize}
+\item \texttt{.} The dot. This matches any character.
+
+\item \texttt{\textbackslash{}d} A numeric character. Equivalent to specifying [0-9].
+
+\item \texttt{\textbackslash{}s} A space.
+
+\item \texttt{\textbackslash{}S} Non space characters.
+
+\item \texttt{\textbackslash{}w} Word characters (alpha numeric and some others).
+
+\item \texttt{\textbackslash{}b} Word boundaries (tabs, spaces, newlines, punctuation).
+
+\item \texttt{\textbackslash{}t} Tab characters.
+\end{itemize}
+
+A character may be followed by a modifier specifying how many times the
+character should be present in the text.
+
+\begin{itemize}
+\item \texttt{+} 1 or more.
+
+\item \texttt{*} 0 or more.
+
+\item \texttt{?} 0 or 1.
+
+\item \texttt{\{N\}} Exactly N times.
+
+\item \texttt{\{n..N\}} n to N times.
+\end{itemize}
+
+Other modifiers can be used to specify where a match should be present:
+\texttt{\textasciicircum{}} and \texttt{\$} specify the beginning and end of lines respectively. Note
+that \texttt{\textasciicircum{}} inside a character class indicates an inverted character class
+(matches characters not present in the class).
+
+Regular expressions can also be used to capture specific subsections of
+text. A very common example would be to extract a sequence identifier
+from a fasta file. This can easily be done in Perl.
+
+\begin{minted}[fontsize=\scriptsize,bgcolor=lightgray,linenos]{perl}
+## $line contains a line from a file. Identifiers begin with the > character.
+if( $line =~ /^>(\S+)/ ){
+    $seqId = $1;
+}
+## if brackets are used in the regular expression, the values matching within the brackets
+## will be assigned to variables $1 - $9. (Ordered from left to right). If you wish to match
+## brackets you will need to escape them with backslashes.
+\end{minted}
+
+There's a lot more to regular expressions than this, but this may be enough to get
+started with.
+
+\subsubsection{Various operators}
+\label{sec-5-0-7}
+
+Operators are symbols that denote specific operations; like regular
+expression matching or regular mathematical operations. We have already
+come across a few of these, but there are more (and the following list
+is not complete).
+
+\begin{itemize}
+\item \texttt{+} The addition operator. Returns the sum of the left and right
+operand.
+
+\item \texttt{-} The subtraction operator.
+
+\item \texttt{++} The auto-increment operator. Increases the value of its single
+operand by 1. There are in fact two different increment operators;
+post-increment \texttt{\$v++} and pre-increment \texttt{++\$v}. The former increments
+the value after other operations, the latter before. Consider the
+difference between \texttt{\$i=5; print \$i++;} and \texttt{\$i=5; print ++\$i;}.
+
+\item \texttt{–} The auto-decrement operator. Opposite of auto-increment.
+
+\item \texttt{+=} The increment operator. Increases the value of its left operand
+by the value of its right operand.
+
+\item \texttt{-=} The decrement operator. Opposite of the increment operator.
+
+\item \texttt{*} Multiplication.
+
+\item \texttt{/} Division.
+
+\item \texttt{*=} Sets the value of its left operand to the product of the left
+and right operands. Identical to \texttt{\$left = \$left * \$right}.
+
+\item \texttt{/=} As above but for division.
+
+\item \texttt{**} Exponentiation. Returns the value of the left operand to the
+power of the right operand.
+
+\item \texttt{.} String concatenation. Concatenates left and right operands.
+
+\item \texttt{.=} Concatenates right operand to left operand.
+
+\item \texttt{==} Numerical equality operator. Returns TRUE if the value of the
+left and right operands are equal. Causes an error if either
+operand is not numerical.
+
+\item \texttt{!=} Numerical inequality operator. Returns TRUE if the value of the
+left and right operands are not equal. Causes an error if either
+operand is not numerical.
+
+\item \texttt{eq} String equality operator. Returns TRUE if the strings specified
+by the left and the right hand operators are the same.
+
+\item \texttt{ne} String inequality operator. Returns TRUE if the strings specified
+by left and right hand operators are not the same.
+\item \texttt{>} Numerical greater than. Returns true if left operator is larger than
+the right operator.
+
+\item \texttt{<} Numerical less than. Opposite of above.
+
+\item \texttt{>=} Numerical greater than or equal to.
+
+\item \texttt{\%} The modulus operator. Returns the remainder of the division of
+  its left operand by its right operand. A very useful operator!
+\end{itemize}
+
+This is an incomplete list, but is sufficient to do rather a lot with. Note
+that some operators should be used with numerical values and others with strings
+(pieces of text). Using the wrong data types will sometimes raise errors, but
+can also result in the program silently doing something unexpected (which is the
+worst kind of behaviour as it can result in corrupt output).
+
+\subsubsection{A somewhat useful example}
+\label{sec-5-0-8}
+
+As an example of something potentially useful we can write a short script
+that reads in sequences from a fasta file and identifies sequences that
+contain a specific pattern within the first N bases. To do this we'll
+make use of most of the techniques outlined above, but we'll also need
+to be able to work out options specified by the user on the command
+line. The arguments specified to a Perl script are assigned to a special
+array called \texttt{@ARGV}, and we'll make use of this array to work out what
+the user wants to do.
+
+The following segment contains a full script that you should be able to
+run, using the ./scriptname invocation.
+
+\begin{minted}[fontsize=\scriptsize,bgcolor=lightgray,linenos]{perl}
+#!/usr/bin/perl -w
+
+## the first line is not really a comment, but is used to make the shell 
+## invoke the perl interpreter on the script.
+
+## first check the command line arguments to make sure that the user has specified three arguments.
+## the first argument should give the name of the fasta file containing the sequences to be searched,
+## the second argument the pattern to look for, and the third argument the maximum distance from the
+## beginning of the sequence.
+
+if(@ARGV != 3)\{
+  die "usage: script_name fasta_file pattern max_distance_from_edge \n";
+}
+
+## we could also use regular expressions to check if the arguments are of the correct type
+
+$seqId = "";
+$seq = "";
+
+## open the fasta file and read line by line.
+open(IN, $ARGV[0]) || die "unable to open $ARGV[0] $!\n";
+while(<IN>){
+  chomp; ## this removes the end of line character from $_
+  ## does the line look like it contains a sequence identifier?
+  if( $_ =~ /^>(\S+)/ ){
+    $seqId = $1;
+    next;  ## go to the next iteration of the loop
+  }
+  ## if we have defined a sequence identifer, we will just assume
+  ## that the rest of the text contains sequence.
+  if(length($seqId)){
+    $seq{$seqId} .= $_;
+  }
+}
+
+## We should now have read all of the sequences into an associative array 
+## where the keys are the sequence identifiers. We now go through the 
+## sequences and check for the pattern. The identifiers of sequences which 
+## match are printed out to STDOUT. 
+## We could also print the matching sequences if we wished.
+
+for $seqId(keys %seq){
+  if( $seq{$seqId} =~ /^.{0,$ARGV[2]}$ARGV[1]/ ){
+    print "$seqID\n";
+  }
+}
+
+## end of the script!
+\end{minted}
+
+This script probably has a few bugs in it. Working out where those bugs
+are is a pretty good exercise for honing your Perl skills. Note also
+that bad command line arguments can cause all sorts of problems as the
+script does not check the arguments given. The script is quite useful
+though, as you can use it as a sort of configurable grep to learn more
+about regular expressions in Perl.
+
+Be aware that this is not a very memory efficient way of solving the
+problem as all of the sequences are read into memory before any
+processing is done. This is not only memory intensive, but it's also
+slower. It's been written this way to show the use of hashes and to keep
+it reasonably short. I've also avoided using custom functions as I've
+not included anything about how to write your own functions (subroutines
+in Perl). How to write your own functions is probably the first thing
+you should look at after this introduction if you wish to start using
+Perl seriously.
+
+Good luck with Perl!
+
+\end{document}
+
+
+

@@ -1,0 +1,415 @@
+% Created 2015-05-28 Thu 13:42
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{fixltx2e}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{marvosym}
+\usepackage{wasysym}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\tolerance=1000
+\usepackage{minted}
+\usepackage{color}
+\usepackage{listings}
+\usepackage{grffile}
+\usepackage[inline]{enumitem}
+\usepackage{setspace}
+\usepackage{xcolor}
+\hypersetup{
+colorlinks,
+linkcolor={red!50!black},
+citecolor={blue!50!black},
+urlcolor={blue!80!black}
+}
+\usepackage{setspace}%% The linestretch
+\singlespacing
+\usepackage[format=hang,indention=0cm,singlelinecheck=true,justification=raggedright,labelfont={normalsize,bf},textfont={normalsize}]{caption} %
+\usepackage{vmargin}
+\setpapersize{A4}
+\setmarginsrb{2.5cm}{1cm}% links, oben
+{2.5cm}{2cm}% rechts, unten
+{12pt}{30pt}% Kopf: Höhe, Abstand
+{12pt}{30pt}% Fuß: Höhe, AB
+\usepackage{upquote}
+%  use straight quotes when printing a command in minted
+\AtBeginDocument{%
+\def\PYZsq{\textquotesingle}%
+}
+\definecolor{mintedbackground}{rgb}{0.95,0.95,0.95}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{\baselineskip}
+\definecolor{mintedbackground}{rgb}{0.95,0.95,0.95}
+
+%% I detest indentation in footnotes etc, so try this:
+\makeatletter
+\renewcommand\@makefntext[1]{\noindent\makebox[0em][r]{\@makefnmark}\footnotesize#1}
+\makeatother
+%% the makeatletter and makeatother are required to allow me to
+%% to change the macro beginning with an @. (though when I call it
+%% I don't use the @ ... 
+
+\renewcommand\scriptsize\normalsize
+
+\author{Martin Jakt\thanks{University of Nordland, Norway}}
+\date{\textbf{Bioinformatics \& Genomics}}
+\title{\textbf{Perl Assignment 1} (2015-09-11)}
+\hypersetup{
+ pdfkeywords={},
+  pdfsubject={},
+  pdfcreator={}}
+\begin{document}
+
+\maketitle
+%\tableofcontents
+
+\section{The story so far}
+\label{sec-1}
+In this week's classes you learnt\footnote{I hope anyway} how to: 
+\begin{enumerate}
+\item write and run a perl script on your computer.
+\item access the arguments given to the script when it is run eg. \texttt{\$ARGV[0]}.
+\item assign a value to a scalar variable eg. \texttt{\$score=10;}.
+\item split a string (piece of text) using \texttt{split //, \$ARGV[0]} and store each character
+  as an element of an array (a list).
+\item use a \texttt{for} loop to go through each element of an array and do something with it.
+\item use the \texttt{eq} operator to check whether two strings (or characters) are the same or different.
+\end{enumerate}
+
+From my previous experience of teaching how to write and run scripts this
+is perhaps reasonable progress. However, there were some issues that slowed us
+down:
+
+\subsection{The location of files and the working directory}
+\label{sec-1-1}
+One error message that I saw several times when you were trying to
+run your scripts was the, "No such file" error. Which suprised you since
+you had saved the file, so why couldn't the computer find it. So far we've been running our scripts by explicitly
+calling the Perl interpreter to run the script, eg. (\texttt{perl scriptname.pl arg1 arg2}).
+
+When you do that, you just type \texttt{perl}, and the operating system (OS)\footnote{technically this is
+the shell, but let's keep it simple.} magically knows to run the perl interpreter.
+The perl interpreter (like pretty much all other programs) is just a file that is lying around
+somewhere on your disk that happens to have been marked as an executable file (i.e. a file
+that can be run). There are 1000s of files lying around on your computer (and many of those could be called 'perl'
+or in windows 'perl.exe'), so how
+does your operating system decide what to do when you just type perl into the command line?
+The answer to this is that the operating system keeps a small list of directories that it
+looks in to find programs. This list of directories is stored
+in the \texttt{PATH} environment variable. On Macs you can see the value of it by
+typing \texttt{echo \$PATH} in the terminal. on Windows you can simply type \texttt{PATH} into your command
+window. (In both cases you obviously have to hit the 'Return' (also known as the 'Enter') key.)
+
+So when you type \texttt{perl scriptname.pl arg1 arg2} and hit 'Return' in your terminal window,
+the OS looks at the first word (in this case 'perl') of the line, and then goes through each directory in the \texttt{PATH}
+variable and searches for a file whose name matches that first word. When it finds a file with
+a matching name it runs (executes) that program and gives it the rest of the words you typed
+as arguments. In this case the perl interpreter assumes that the first argument passed to it
+is the name of the file that contains the script, and that the remaining arguments should be used
+by the script \footnote{There is also a way in which we can specify optional arguments to the perl
+interpreter which are not passed to the script, but let's ignore that for now}.
+
+Here then is the first problem. How does the perl interpreter find your script? In this case your
+script is just a file somewhere on your disk, and note there can be many files with the same name.
+Hence we have to specify the location of the script. There are two ways in which this can be done:
+\begin{itemize}
+  \item Specify the full path (location). On Windows this includes the drive letter (representing a physical
+    disk). So for a script called test1.pl in my scripts directory I could write:\\
+    \verb|perl C:\Users\lmj\apps\Perl\scripts\test1.pl arg1 arg2|\\
+    On Unix systems (eg. Macs) the absolute part starts with a \texttt{/} character representing
+    the root of the file system, directories then form a tree like structure from this. Your
+    files will be in your home directory which I believe is called \texttt{/Users/user\_name} where
+    \texttt{user\_name} is your own user name. Hence on the mac the above would be written like:\\
+    \verb|perl /Users/lmj/apps/Perl/scripts/test1.pl arg1 arg2|
+  \item Specify the path relative to your current working directory. Eh? What is this 'current working directory'
+    thing? Whenever you run a program it is associated with a specific directory within
+    the computer's file system (this is called its 'current working directory' and we can simplify and say
+    that the program runs in that location). If you start a program from the command line, then it will
+    inherit your current working directory. On windows you can see where you are by calling the
+    cd (change directory) command without any arguments, i.e. \texttt{cd}. On the Mac (i.e. Unix) you can use the \texttt{pwd} command.
+
+    When using the command line (i.e. the terminal or console) you change your working directory by using the \texttt{cd} command. \texttt{cd ..}
+    means go up one level in the directory tree and \texttt{cd dirname} means enter the directory
+    called 'dirname' (substitute a real directory name for 'dirname'). The easiest way for you to run your
+    scripts then is to use the \texttt{cd} command to change your current working directory to
+    the one where your script is (this we normally refer to as 'move to the directory...'). Then you can
+    simply run the script without specifying any directory name, eg.:\\
+    \texttt{perl test1.pl arg1 arg2}
+\end{itemize}
+Note that in the above examples \texttt{test1.pl}, \texttt{arg1} and \texttt{arg2} represent the name of your script and whatever arguments your
+script takes. \emph{Do not} just copy this blindly.
+
+\subsection{Data, variables and functions}
+\label{sec-1-2}
+I also noticed when looking at your scripts that some of you were writing something along the lines of:
+
+\begin{minted}[fontsize=\scriptsize,bgcolor=lightgray,linenos]{perl}
+#!/usr/bin/perl -w
+
+@ARGV;
+print "$ARGV[0] $ARGV[1]";
+\end{minted}
+
+\texttt{@ARGV} is an array containing data. It does not specify any action (i.e. it's a noun
+not a verb) and writing it on it's own doesn't actually do anything. This is different from
+R where simply writing the name of a variable either returns it (from a function) or prints
+it to the screen. But that is R, where mysterious things happen automatically without you
+knowing quite why or what it is that is happening.\footnote{eg. make a linear model with
+R using \texttt{lm}, and look at what happens when you type the name of your model as
+compared to the data that the model actually contains.} Perl is simpler than that.
+
+In the above script, nothing really happens until line 4 (well, line 3 might give an
+error) where the \texttt{print} function is called. Functions are like verbs, they
+make something happen. In this case the data (present in the array \texttt{@ARGV})
+is printed to the screen. Every statement (a piece of code ending with a \texttt{;})
+has to contain a function of some sort, otherwise nothing will happen (well, maybe
+you'll get an error or a warning of some sort). Most functions return a value, and
+this can be used either as part of a conditional statement (i.e. if / else)
+or be assigned to some variable. For example if we had a function called \texttt{mean}
+that calculates the average of an array of values it would usually return the
+calculated mean, so that the user (i.e. the programmer) can do something with it:
+
+\begin{minted}[fontsize=\scriptsize,bgcolor=lightgray,linenos]{perl}
+## in this case we have an array of values @values
+## that has been defined somewhere else in this script
+## we call the mean() function on this and it returns the mean
+## value. We can use this to assign to a new variable:
+
+$mean = mean(@values);
+
+## or we can make use of it in a conditional statement:
+
+if( mean(@values) > 0 ){
+  ## Do something clever here
+}else{
+  ## Do something different here
+}
+\end{minted}
+
+One thing that may be a little confusing is that we only sometimes use brackets.
+In perl they are often not needed, but they can make it easier to read
+the resulting code (even if a bit ugly in certain cases). However,
+when you define your own functions you will need to use brackets to make it
+clear to the interpreter that you are referring to a function. 
+
+There is a special class of functions called operators. Examples include the assignment
+(\texttt{=}), the numerical equality (\texttt{==}), the string equality (\texttt{eq}) and
+the less than (\texttt{<}) operators. An incomplete, but much longer list, is given in
+the introduction to Perl I sent to you before. The use of these may make it look like
+we can have statements without functions, but in fact they are just shorthand ways
+of writing out functions.\footnote{There are actually some technical differences that
+are important. Most importantly the operators can directly change the values of their
+operands.} We refer to the arguments that are passed to operators as their operands
+rather than their arguments. eg:
+
+\begin{minted}[fontsize=\scriptsize,bgcolor=lightgray,linenos]{perl}
+$a = $b + $c;
+\end{minted}
+Here we make use of two operators and three operands. \texttt{\$a} and the expression \texttt{\$a + \$b} are
+the left and right operands of the \texttt{=} (assignment) operator.
+\texttt{\$b} and \texttt{\$c} are also the left and right operands of the \texttt{+} operator
+which returns the sum of its operands. The \texttt{=} operator is a bit special since it
+does not return a value, but instead changes the value of its left operands (there are
+a number of other operators that also do this).
+
+The best way to think about this is that statements are like sentences. If you just string
+a bunch of nouns together they do not mean very much or anything. If you just say, 'money'
+I can't know whether you want me to give you money, or you want to give me money, or maybe
+that you just like money. I might make a guess, and acting on it, get into some degree of
+trouble. Generally it's better when the computer (well, the program, or the operating system, which
+comes down to the person writing the code) doesn't try to guess too much. Guessing too much
+leads to strange and unsafe behaviour.
+
+\subsection{Assignments}
+\label{sec-1-3}
+All, or most of you, have already written a script that takes two words specified
+on the command line and counts how many of the letters in the words match.
+You did this by doing something along the lines of:
+
+\begin{minted}[fontsize=\scriptsize,bgcolor=lightgray,linenos]{perl}
+#!/usr/bin/perl -w
+use warnings;
+
+## Remember, anything following a # on line is a comment
+## and is not interpreted. (Except when you use the
+## $# notation to get the largest index of an array.)
+
+@s1 = split //, $ARGV[0];
+@s2 = split //, $ARGV[1];
+
+$score = 0;
+for $i(0..$#s1){
+  if($s1[$i] eq $s2[$i]){
+    score++; ## this is short for $score = $score + 1
+  }
+print "the score is: $score \n";
+\end{minted}
+
+This will run into difficulty when the first word is longer than
+the second one. Try running the script with different length words
+and see what happens. Read the error message(s) and try to understand.
+
+\subsubsection{Step 1. Fix this}
+\label{sec-1-3-1}
+This is perl, so there are many ways to fix this problem. The simplest
+one is to change the loop so that it stops before \texttt{\$i} becomes
+too large. You could use an additional variable that is set to the
+length of the shorter array (\texttt{@s1} or \texttt{@s2}). 
+You can do this using something like:
+
+\begin{minted}[fontsize=\scriptsize,bgcolor=lightgray,linenos]{perl}
+$maxI = $#s1;
+if($#s2 < $#s1){
+  $maxI = $#s2;
+}
+## then use $maxI in the for statement
+\end{minted}
+
+You can also make use of the \texttt{break} statement within the loop.
+Google perl and break to find out more. This is used to exit a loop
+early:
+
+\begin{minted}[fontsize=\scriptsize,bgcolor=lightgray,linenos]{perl}
+## exit the loop if $i becomes bigger than 10:
+for $i(0..$#s1){
+  if($i > 10){  ## if $i is larger than 10
+    break;  ## exit the loop.
+  }
+}
+\end{minted}
+
+\subsubsection{Step 2. Get scores for all alignments without internal gaps}
+\label{sec-1-3-2}
+Previously you've simply compared the letters in the same positions
+within the two individual words. That is given the two words \texttt{ATGCA}
+and \texttt{ATATG} you have done the comparison like this:
+\begin{verbatim}
+ATGCA
+||***
+ATATG
+\end{verbatim}
+Though it would seem more reasonable to do:
+\begin{verbatim}
+ATATG
+  |||
+  ATGCA
+\end{verbatim}
+
+For this part calculate alignment scores for all of the possible alignments
+that do not contain interal gaps. That is, for:
+
+\begin{minipage}{\linewidth}
+\begin{verbatim}
+ATATG       ATATG      ATATG     ATATG     ATATG
+    *          **        |||      ****     ||***
+    ATGCA      ATGCA     ATGCA    ATGCA    ATGCA
+
+ ATATG       ATATG      ATATG     ATATG 
+ ****        **|        **        *
+ATGCA      ATGCA     ATGCA    ATGCA    
+\end{verbatim}
+\end{minipage}
+
+Try both with and without scores for terminal gaps. You can
+also use a constant gap penalty 
+or use separate penalty for gap insertion and extension.
+
+Print out a representation of the best scoring alignment.
+
+\subsubsection{Step 3. An ASCII art dot plot}
+\label{sec-1-3-3}
+Modify the script from the previous step so that it prints
+out a dotplot that visualises the possible ways to align
+the sequences. For example, for the two sequences \texttt{ATGGGCGA}
+and \texttt{ATGCGATT} print out something like the following:
+\begin{spacing}{0.75}
+\begin{verbatim}
+  ATGGGCGA
+A *      *
+T  *     
+G   *** *
+C      * 
+G   *** * 
+A *      *
+T  *      
+T  *      
+\end{verbatim}
+\end{spacing}
+Here I have used the \texttt{*} to indicate a match. Maybe a bad choice
+as I've used it to indicate mismatches above. This is not the prettiest
+thing in the world, but it's a start.
+
+\subsubsection{Step 4. Begin a Needleman-Wunsch}
+\label{sec-1-3-4}
+The first step of the Needleman-Wunsch algorithm is to fill in a matrix
+of scores that are then used to find the optimal alignment. In order to
+do this you need to make use of a two-dimensional array to store the
+individual position scores in. We haven't yet covered this, but in perl
+the values of a two-dimensional array can simply be entered by specifying
+two sets of square brackets, as in:
+
+\begin{minted}[fontsize=\scriptsize,bgcolor=lightgray,linenos]{perl}
+## to initialise a two dimensional array required for the Needleman-Wunsh
+## algorithm
+## @s1 and @s2 hold the characters of the words used as defined above..
+for $i(0..@s1){
+  for $j(0..@s2){
+    $scores[$i][$j] = 0;
+  }
+}
+\end{minted}
+
+Remember that our matrix has to have one more row and one more column
+than the lengths of the sequences and that in the above code \texttt{@s1}
+will evaluate to the length of first word.
+
+Initially use only a simple fixed gap penalty for the calculations. Using
+different penalties for gap initiaion and extension is a little bit more
+complicated and does run into a problem that is usually omitted from
+explanations.
+
+\subsubsection{Optional enhancements}
+\label{sec-1-3-5}
+If you get all of the above done and wish to proceed further. Then please do so.
+The two obvious next steps are:
+\begin{enumerate}
+\item Record the paths that give rise to the scores in the score matrix. That is
+  all the little arrows that we draw in the figures. Again, you can use separate
+  two-dimensional arrays to store whether or not a path was taken, or you
+  can do something a bit more clever (here bitwise operations seem a natural fit).
+\item Use affine gap penalties (i.e. a lower penalty for gap extension than insertion).
+  This is not straightforward as you need to look backwards and there sometimes exist
+  more than two reasonable options. But you can have a go.
+\end{enumerate}
+
+You can also consider to read the sequences from one or two files instead of specifying
+them on the command line. This is all explained in the Introduction to Perl that I made
+available to you before (including all the code needed to read in sequences from a multi
+sequence fasta file). See the reading and writing data and regular expression sections as
+well as the last somewhat useful example part. Remember to read the comment sections within
+the code examples as these explain a lot of what is done.
+
+You can also have a look at the dotplot\_svg.pl script that I uploaded before and see if it
+makes more sense to you now. If it does, then see if you can work out how to use
+the SVG module to output somewhat more pleasant output.
+
+The last step of the Needleman-Wunsch is to backtrack to find the optimal path(s). This
+is simple when there is only a single path, but it is more difficult to find all optimal
+paths. It is most commonly performed using recursion\footnote{a function 
+that calls itself}, and this introduces some additional problems. However, you don't have
+to use recursion and I would suggest you have a bit of a think about it and see if you 
+can come up with a good idea.
+
+
+\end{document}
+
+
+

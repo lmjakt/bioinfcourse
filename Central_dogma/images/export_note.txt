@@ -1,0 +1,1 @@
+inkscape -D -z --file=Difference_DNA_RNA-EN.svg --export-pdf=Difference_DNA_RNA-EN.pdf 

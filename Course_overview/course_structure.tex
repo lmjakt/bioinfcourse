@@ -1,0 +1,360 @@
+% Created 2015-07-16 to. 11:51
+\documentclass{scrartcl}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{fixltx2e}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{soul}
+\usepackage{textcomp}
+\usepackage{marvosym}
+\usepackage{wasysym}
+\usepackage{latexsym}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\tolerance=1000
+\providecommand{\alert}[1]{\textbf{#1}}
+
+\title{Topics to be covered by B1229F 2015 (Genomikk og Bioinformatikk)}
+\author{Lars Martin Jakt\thanks{lmj@uin.no}}
+\date{\today}
+\hypersetup{
+  pdfkeywords={},
+  pdfsubject={},
+  pdfcreator={Emacs Org-mode version 7.9.3f}}
+
+\begin{document}
+
+\maketitle
+
+\setcounter{tocdepth}{3}
+\tableofcontents
+\vspace*{1cm}
+
+
+
+
+\section{General Introduction}
+\label{sec-1}
+
+\begin{itemize}
+\item What do we mean by bioinformatics
+\item Why do we need it
+\item Some expansive examples of usage.
+\end{itemize}
+\section{Basic molecular biology.}
+\label{sec-2}
+\subsection{Central dogma}
+\label{sec-2-1}
+
+DNA -> RNA -> protein\\
+With some exceptions:
+\begin{itemize}
+\item RNA viruses
+\item Retrotransposons
+\item Transposons
+\end{itemize}
+Transcription is a dynamically regulated process.
+
+Translation efficiency is variable and an (the most?)
+important variable affecting protein abundance.
+
+Protein degradation is also dynamically regulated (both by cell
+state and through reading of external signals).
+\subsection{Gene structure, prokaryotes \& eukaryotes}
+\label{sec-2-2}
+
+\begin{itemize}
+\item Prokaryotes, Operon, as example perhaps the lac operon.
+\item Eukaryotes, promoter, introns, exons, poly A signal.
+\item locus control region (eg. B-globin).
+\end{itemize}
+\subsection{Encoding of amino acid sequence in DNA}
+\label{sec-2-3}
+
+\begin{itemize}
+\item 4 bases encode 20 amino acids
+\item Number of encodings possible with different message length
+\item Binary representation ?
+\end{itemize}
+\subsection{Basic regulation of transcription}
+\label{sec-2-4}
+
+\begin{itemize}
+\item Transcription factors \& cis acting regions
+\item Stabilisation or implementation through changes in chromatin
+\item DNA methylation ?
+\end{itemize}
+\subsection{Information flow in cellular systems (input --> output)}
+\label{sec-2-5}
+
+\begin{itemize}
+\item Conversion of external signals to cellular decisions
+\item How DNA sequence is read: the fundamental requirement to
+  be able to identify different sequences
+\begin{itemize}
+\item Transcription factors and sequence specific binding
+\item RNA as a targetting factor (but by design must be self-targetting)
+\end{itemize}
+\item Stabilisation of state through chromatin and DNA modification
+\begin{itemize}
+\item Polycomb / Trithorax
+\item Histone modifications
+\item DNA methylation
+\end{itemize}
+\item Cell state modifies the response to the cellular environment.
+\end{itemize}
+\subsection{Genome / Transcriptome / Proteome}
+\label{sec-2-6}
+
+What we mean by these terms.
+\begin{itemize}
+\item Genome: The full set of DNA sequence, a constant.
+\item Transcriptome: The full set of RNA molecules present in a cell.
+  A function of the genome, the state of the cell, its past activity
+  (history), and it's environment.
+\item Proteome: The full set of protein molecules present in a cell.
+  A time delayed function of the cell's transcriptome and state
+  (consider regulated protein degradation).
+\end{itemize}
+\section{Informatics}
+\label{sec-3}
+\subsection{Theoretical}
+\label{sec-3-1}
+\subsubsection{Introduction (what do we mean by Informatics)}
+\label{sec-3-1-1}
+\subsubsection{What is information (Akaike's information criteria?)}
+\label{sec-3-1-2}
+
+Pictures:
+\begin{itemize}
+\item polar bear in a snow storm
+\item tropical fish?, repeated structures.
+\item Fourier transforms
+\end{itemize}
+Text:
+\begin{itemize}
+\item Redundancy
+\item Nonsense
+\item Political writing
+\end{itemize}
+\subsubsection{Linguistic redundancy \& lack of meaning}
+\label{sec-3-1-3}
+
+\begin{itemize}
+\item I am here now
+\item We have previously done
+\item Examples from thesis work
+\item Job postings (This position requires a good candidate)
+\end{itemize}
+\subsubsection{Data vs information (the reverse of AIK)}
+\label{sec-3-1-4}
+
+\begin{itemize}
+\item Picture of a .CEL file (microarray data)
+\item Linkage of values to identities to provide information
+\item RNA seq data, linked to genome
+\item Functional annotation
+\item Inferring biological mechanisms\\
+DNA methylation in cancer \& histone modification, polycomb proteins ? (too difficult perhaps)\\
+  Promoter classes (general classification problems)
+\end{itemize}
+\subsubsection{Entropy (probably not)}
+\label{sec-3-1-5}
+\subsection{Practical}
+\label{sec-3-2}
+\subsubsection{Computers networks \& file systems}
+\label{sec-3-2-1}
+\subsubsection{Operating systems and applications}
+\label{sec-3-2-2}
+\subsubsection{Shells (graphical \& command line)}
+\label{sec-3-2-3}
+\subsection{Mathematical considerations}
+\label{sec-3-3}
+
+This is probably best handled using practical classes, maybe try to
+combine a morning session of theoretical, followed by a couple of
+hours of playing around with R looking at numbers.
+\subsubsection{How to look at lots of numbers}
+\label{sec-3-3-1}
+
+\begin{itemize}
+\item Summarising numbers (eg, mean, median, mode), and their variance:
+  Variance, standard deviation, MAD (median of something around the median).
+  Use some simple example: how tall is a Norwegian person? How much beer
+  does a Norwegian drink?\\
+  This has obvious potential be bimodal (men / women), and then there
+  is also the impact of age. These are factors of variance, but can also
+  be used to consider correlation (for example, plot height vs. beer
+  consumption; drinking beer makes you taller!). (BMJ article on beer
+  consumption vs heart disease?)
+\item Derivatives in general for summarising numbers. Make up some potential
+  examples from an experimental condition. (Easy example is the t-statistic,
+  we can derive it through a reasoning. We can also consider the correlation
+  coefficient).
+\item Doesn't always work: Various ways of visualising numbers (theoretical component).
+\item Low level plot commands
+\item How to visualise distributions from numbers
+\end{itemize}
+\subsubsection{Distributions}
+\label{sec-3-3-2}
+
+\begin{itemize}
+\item Cover different types in lecture and how they can arise.
+\item Use simulations to derive distributions in practical class.
+  eg. taking arithmetic or geometric means, deriving extreme,
+  binomial, hypergeometric and other distributions by sampling.
+\end{itemize}
+\subsubsection{Deriving statistics from distributions}
+\label{sec-3-3-3}
+
+\begin{itemize}
+\item Explain a couple of commonly used statistical tests, like
+  t and F (i.e. Anova)
+\item Use sampling of random and non random numbers to derive t
+  and F statistics.
+\item Look at the cumulative distributions to see the likelihood of
+  observing a particular value.
+\item Compare observations with values from functions like pf, phyper,
+  pt (?).
+\end{itemize}
+\section{Bioinformatics}
+\label{sec-4}
+
+\begin{itemize}
+\item Applications of informatics to biology.
+\item Defined by the problem domain.
+\item Any problem that is difficult approach without a computer.
+\item Driven by:
+\begin{itemize}
+\item Experimental technologies that increase amount of data.
+\item Shift towards investigating systems of interactions.
+\end{itemize}
+\end{itemize}
+
+Bioinformatics can be though of as an enabling technology, similar those
+that allow us to produce reagents (eg. plasmids, antibodies, probes), make mutants,
+obtain large data sets and whatever you can think of. However, it is different in one fundamental aspect:
+\begin{itemize}
+\item Bioinformatics is used to analyse your data and (often) provides the final answer
+\item How it is used defines the (biological) question asked
+\item The output is used to make conclusions which may not be confirmed by other means
+\end{itemize}
+
+\textbf{Therefore you really should have some understanding of what the tools you use do}
+\subsection{Sequence alignment}
+\label{sec-4-1}
+\subsubsection{Theoretical}
+\label{sec-4-1-1}
+
+\begin{itemize}
+\item Scoring alignments
+\end{itemize}
+Explanation of substitution matrice
+\begin{itemize}
+\item Nucleotide sequences
+\item Insertion, gap and extension penalties
+\item Amino acid sequences
+\item Development of scoring / substitution matrices
+\item Global vs. local
+\item Algorithms
+\item Visualising alignments: eg. dotplot
+\item Needleman-Wunch / Smith-Waterman (but what to say about these)
+\end{itemize}
+\subsubsection{Practical}
+\label{sec-4-1-2}
+
+\begin{itemize}
+\item Manual alignment (or just scoring) exercise ?
+\item Gapped
+\item Gapless
+\item Global alignment
+\item Local alignment
+\end{itemize}
+\subsection{Database searches (sequence homology)}
+\label{sec-4-2}
+\subsubsection{Theoretical}
+\label{sec-4-2-1}
+
+Blast and Blat. Something about how they work, and what they are used for. Are there
+any alternatives?
+Different types of Blast and how they relate to the type of analysis to be carried out.
+\subsubsection{Practical}
+\label{sec-4-2-2}
+
+Run some blast analyses, and look at the results.
+Analyse an unknown sequence, follow by suggestions for futher analysis.
+\subsection{Multiple sequence alignment and phylogeny}
+\label{sec-4-3}
+\subsubsection{Theoretical considerations}
+\label{sec-4-3-1}
+
+\begin{itemize}
+\item Purpose of alignment
+\item Identification of important residues
+\item Determination of relationships (orthology / paralogy / equivalent function)
+\item Give information on protein structure
+\end{itemize}
+\subsection{Sequence (\& genome) assembly}
+\label{sec-4-4}
+\subsection{Genome annotation}
+\label{sec-4-5}
+\subsection{Literature (not just bioinformatics)}
+\label{sec-4-6}
+\subsection{Google! (everything, network structures).}
+\label{sec-4-7}
+\subsection{Organisation of data}
+\label{sec-4-8}
+\subsubsection{Structured vs non-structured}
+\label{sec-4-8-1}
+
+    The only thing I learnt from my supervisor: how to label tubes.
+\subsubsection{Backends and frontends}
+\label{sec-4-8-2}
+\subsubsection{Relational vs object-oriented (probably not)}
+\label{sec-4-8-3}
+\subsubsection{Representing data structure in a relational framework}
+\label{sec-4-8-4}
+
+\begin{itemize}
+\item Use Ensembl as an example of how gene structure is encoded, and how this extends
+  to additional data. Eg. genes -> transcripts -> shared exons.
+\item Representing laboratory data, reagents (plasmids, antibodies), experiments, procedures.\\
+And why we don't actually bother doing so.
+\end{itemize}
+\subsubsection{Making a mess of it}
+\label{sec-4-8-5}
+
+UCSC genome browser database (maybe not worth it)
+\subsection{Explaining the behaviour of systems (modelling component interactions)}
+\label{sec-4-9}
+\section{Genomics \& Large data sets}
+\label{sec-5}
+
+\begin{itemize}
+\item Genomics: questions related to full genomes
+\item Functional Genomics: high throughput technologies
+\begin{itemize}
+\item Fishing expeditions (common). Identify some genes likely to be involved in some process.
+    Not really genomics / transcriptomics / proteomics but often called as such.
+\item Genome scale characterisation (eg, how many genes, spacing, proportion functional,
+    spatial organisation, genome evolutionary mechanisms, etc\ldots{})
+\end{itemize}
+\item History of large data sets. (Historical background)
+  SAGE, Microarrays, HTS (including PacBio, Nanopore), image data \& transcript counting
+\item Types of data analysed.
+  Expression, DNA-protein interactions \& Histone modifications, genome assemblies (i.e.
+  the structure of genomes, and their annotation).
+\item How to analyse:
+\begin{itemize}
+\item Visualisation of data (distributions, dimensionality reduction methods, relationships),
+\item derivatives
+\item models (primarily linear)
+\end{itemize}
+visualisation -> derivatives -> visualisation of derivatives -> selection \& visualisation
+  of low level data.
+\end{itemize}
+
+\end{document}
