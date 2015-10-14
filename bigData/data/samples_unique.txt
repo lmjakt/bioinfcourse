@@ -1,0 +1,19 @@
+genotype	tissue	drug
+GSM532993	lean (fa/+)	adipose tissue (epididymal)	control
+GSM533011	lean (fa/+)	liver	control
+GSM533029	lean (fa/+)	skeletal muscle (gastrocnemius)	control
+GSM532987	fatty (fa/fa)	adipose tissue (epididymal)	AG035029
+GSM532996	fatty (fa/fa)	adipose tissue (epididymal)	Pioglitazone
+GSM532999	fatty (fa/fa)	adipose tissue (epididymal)	Rosiglitazone
+GSM533002	fatty (fa/fa)	adipose tissue (epididymal)	Troglitazone
+GSM532990	fatty (fa/fa)	adipose tissue (epididymal)	control
+GSM533005	fatty (fa/fa)	liver	AG035029
+GSM533014	fatty (fa/fa)	liver	Pioglitazone
+GSM533017	fatty (fa/fa)	liver	Rosiglitazone
+GSM533020	fatty (fa/fa)	liver	Troglitazone
+GSM533008	fatty (fa/fa)	liver	control
+GSM533023	fatty (fa/fa)	skeletal muscle (gastrocnemius)	AG035029
+GSM533032	fatty (fa/fa)	skeletal muscle (gastrocnemius)	Pioglitazone
+GSM533035	fatty (fa/fa)	skeletal muscle (gastrocnemius)	Rosiglitazone
+GSM533038	fatty (fa/fa)	skeletal muscle (gastrocnemius)	Troglitazone
+GSM533026	fatty (fa/fa)	skeletal muscle (gastrocnemius)	control

@@ -1,0 +1,18 @@
+adipose tissue  & fatty  & Pioglitazone \\
+adipose tissue  & fatty  & AG035029 \\
+adipose tissue  & fatty  & Rosiglitazone \\
+adipose tissue  & fatty  & Troglitazone \\
+adipose tissue  & fatty  & control \\
+adipose tissue  & lean  & control \\
+liver & lean  & control \\
+liver & fatty  & AG035029 \\
+liver & fatty  & Rosiglitazone \\
+liver & fatty  & Pioglitazone \\
+liver & fatty  & control \\
+liver & fatty  & Troglitazone \\
+skeletal muscle  & fatty  & control \\
+skeletal muscle  & fatty  & Troglitazone \\
+skeletal muscle  & fatty  & AG035029 \\
+skeletal muscle  & fatty  & Rosiglitazone \\
+skeletal muscle  & fatty  & Pioglitazone \\
+skeletal muscle  & lean  & control \\
