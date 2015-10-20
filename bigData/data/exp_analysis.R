@@ -148,6 +148,14 @@ ctl.b <- samples[,'drug'] == 'control'
 points(pca.l1$x[ctl.b,1], pca.l1$x[ctl.b,2], col='purple', lwd=2, pch=1, cex=1.5)
 dev.off()
 ###
+
+### lets look at correlations
+sample.cor <- cor(log(exp.data))
+pdf("sample_correlation.pdf", width=10, height=10)
+heatmap(sample.cor, scale='none', col=rainbow(255, v=0.8))
+dev.off()
+
+
 ### lets get some interesting data. Get the f-stats for a simple grouping..
 source("~/R/general_functions.R")
 sample.mf <- mulFactor(samples, c('genotype', 'tissue', 'drug'))
@@ -207,6 +215,11 @@ fstats.dl <- fStats(log(exp.data[,liver.b]), as.numeric(as.factor(samples[liver.
 fstats.dl.o <- order(fstats.dl$f, decreasing=TRUE)
 
 plotExp(fstats.dl.o[1:30])
+
+pdf("fstatsDrugLiver.pdf", width=12, height=9)
+par(mfrow=c(3,4))
+plotExp(fstats.dl.o[1:12], interactive=FALSE)
+dev.off()
 
 ## this function makes use of global variables. These can't be modified,
 ## but can still result in unexpected behaviour
