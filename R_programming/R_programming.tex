@@ -1,0 +1,749 @@
+\documentclass[pdf]{beamer}
+\mode<presentation>{}
+\usepackage{minted}
+\usepackage{tikz}
+\usepackage{pgffor} %% gives looping with \foreach
+\usepackage[absolute,overlay]{textpos}
+\usepackage{lmodern} %% scalable latin characters
+\usetikzlibrary{arrows,shapes,backgrounds}
+\usepackage{multirow}
+\usepackage{listings} %% another package for code related stuff
+%\usepackage[fleqn]{amsmath}
+
+%% stuff for minted
+\definecolor{mintedBg}{rgb}{0.95, 0.95, 0.95}
+\definecolor{blockBg}{rgb}{0.6, 0.6, 0.95}
+\definecolor{rnaColor}{rgb}{0, 0.6, 0}
+\definecolor{cdsColor}{rgb}{0, 0.4, 0.4}
+\definecolor{rnaPol}{rgb}{0.8,0,0.8}
+\definecolor{ribosomeCol}{rgb}{0.5,0.5,0.1}
+\definecolor{protColor}{rgb}{0.6,0,0.6}
+%% colours for nucleotides:
+\definecolor{dACol}{rgb}{0.5, 0.5, 0}
+\definecolor{dCCol}{rgb}{0.8, 0, 0}
+\definecolor{dGCol}{rgb}{0, 0.8, 0}
+\definecolor{dTCol}{rgb}{0, 0, 0.8}
+
+\definecolor{navy}{rgb}{0, 0, 0.6}
+\definecolor{pur}{rgb}{0, 0, 0.6}
+\definecolor{pyr}{rgb}{0.6, 0, 0.2}
+
+\definecolor{purple1}{rgb}{1.0, 0, 0.6}
+\definecolor{purple2}{rgb}{0.8, 0, 0.8}
+\definecolor{purple3}{rgb}{0.6, 0, 1.0}
+%% define styles for different codes
+\newminted{cpp}{linenos, bgcolor=blockBg, fontsize=\footnotesize}
+%% then use \begin{cppcode}
+\newminted{c}{linenos, bgcolor=mintedBg, fontsize=\footnotesize}
+\newminted{perl}{linenos, bgcolor=mintedBg, fontsize=\footnotesize}
+\newminted{r}{linenos, bgcolor=mintedBg, fontsize=\tiny}
+
+%% a command to define a subheading
+\newcommand\subHeading[1]{
+  \par\bigskip {\Large\bfseries#1}\par\smallskip
+}
+
+%% I detest indentation in footnotes etc, so try this:
+\makeatletter
+\renewcommand\@makefntext[1]{\noindent\makebox[0em][r]{\@makefnmark}\tiny#1}
+\makeatother
+%% the makeatletter and makeatother are required to allow me to
+%% to change the macro beginning with an @. (though when I call it
+%% I don't use the @ ... 
+
+\setlength\parskip{0.5em}
+\setlength\parindent{0ex}
+
+%% to have footnotes without references. This from tex.stackexchange.com
+\newcommand\blfootnote[1]{%
+  \begingroup  %% this makes it a local redefinition
+  \renewcommand\thefootnote{}\footnote{#1}%
+  \addtocounter{footnote}{-1}  % this adjusts the footnote counter
+  \endgroup
+}
+
+
+%% to draw a pair of genes..
+\newcommand{\genePair}[3][]{
+        \draw [-,#1] (#2-1,#3) -- (#2+1,#3);
+        \draw [-,line width=2, purple1] (#2-0.5,#3) -- (#2+0.5,#3);
+        \draw [-,#1] (#2-1,#3-0.5) -- (#2+1,#3-0.5);
+        \draw [-,line width=2, purple3] (#2-0.5,#3-0.5) -- (#2+0.5,#3-0.5);  
+}
+
+\title{Looking at big Data sets}
+\subtitle{Programming with R}
+\author{Martin Jakt}
+
+\begin{document}
+
+\begin{frame}
+\titlepage
+\end{frame}
+
+\begin{frame}{What is R?}
+  \pause
+  R is an implementation of S
+  \pause
+  
+  {\small
+  \begin{itemize}
+  \item An implementation of a statistical programming language (S).
+  \item Written by statisticians for statisticians
+  \item Makes statistical analysis easy, but general purpose programming difficult.
+  \item Usually used in an interactive manner.
+  \item Has become the dominant platform for analysis of large scale biological data.
+  \end{itemize}
+  }
+\end{frame}
+
+\begin{frame}{Using R}
+  Can be used directly from a console, just by typing stuff into the
+  R session without any 
+
+  However, it is better to have a record of the commands you used to create
+  data members (i.e. variables), so do use some sort of editor to write your code
+  into:
+  \begin{itemize}
+  \item type code into an editor, copy \& paste into R console.\\
+  \item RStudio has both editor and console (more elegant choice)
+  \end{itemize}
+
+  \textcolor{navy}{\emph{Be aware of the working directory of your session}}. R will by default save
+  output files into its working directory, and if you save your session, it will go
+  here as well. In RStudio start by defining a new session or open an old one. From
+  the console simply \texttt{cd} to your working directory and run R. You can use
+  \texttt{getwd} and \texttt{setwd} to find out and change your working directory.
+
+\end{frame}
+
+\begin{frame}{Essential knowledge}
+  \begin{itemize}
+  \item Data types (numeric, logical, character)
+  \item Data structures (vectors, arrays, lists, matrices, data.frames)
+  \item Reading writing data (read.table, write.table, readLines, scan)
+  \item Loops with for, apply, sapply, tapply
+  \item Drawing arbitrary stuff in R
+  \item Defining functions
+  \item Vectorised operations (eg. rowSums, colSums, colMeans, rowMeans, ifelse)
+  \item Classes and functions in R
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{The source of all wisdom}
+  
+  \footnotesize All you ever need to know:
+
+  Advanced R \small by Hadley Wickham
+
+  \url{http://adv-r.had.co.nz/Data-structures.html}
+
+\blfootnote{If my information and Hadley's differ, then I'm wrong}
+\end{frame}
+
+\begin{frame}{Data structures}
+
+  {\small
+  \begin{description}
+    \item[vector] A one dimensional ordered list\footnote{but don't think of it as a list!} 
+      of values of a single type (numeric, logical or character).
+    \item[matrix] A two dimensional vector. All values of the same type; accessed
+      by row and column numbers.
+    \item[array] An N-dimensional vector. Can have arbitrary numbers of dimensions.
+    \item[list] A special kind of vector that can contain values of different types.
+      Lists can contain complex objects like
+      lists, dataframes as well as custom objects such as those defined by functions.
+    \item[dataframe] A list of lists all of the same length. Dataframes are used to store
+      tabular data where the type of the column are not all the same (eg, probe identifiers
+      or gene names, and expression values).
+  \end{description}
+}
+\end{frame}
+
+\begin{frame}{Data types}
+  In R we essentially deal with 4 different types of objects:
+  \begin{description}
+  \item[numeric] Integers and real numbers (doubles). Numbers are by default read as real
+    numbers (continuously variable) but can be forced to integer type.
+  \item[character] Text, strings made up of characters.
+  \item[logical] TRUE / FALSE values.
+  \item[classes] Objects with some specified structure. Usually implemented as named lists.
+  \end{description}
+  
+  R also deals with imaginary and complex numbers, so the above is a little oversimplified.
+\end{frame}
+
+\begin{frame}[fragile]{Numeric types}
+  \begin{rcode}
+    > a <- 1
+    > b <- 3L
+    > is.integer(a)
+    [1] FALSE
+    > is.double(a)
+    [1] TRUE
+    > is.numeric(a)
+    [1] TRUE
+
+    > is.integer(b)
+    [1] TRUE
+    > is.double(b)
+    [1] FALSE
+    > is.numeric(b)
+    [1] TRUE
+
+    > is.integer(b/2L)
+    [1] FALSE
+
+    > is.integer(4L/2L)
+    [1] FALSE
+
+    ## coercing values
+    > as.integer(5.4)
+    [1] 5
+    > as.double(4L)
+    [1] 4
+
+    ## big numbers can be written using exponential notation
+    > 1e6
+    [1] 1e+06
+
+    ## or simply using ^ to raise the power
+    > 10^6
+    [1] 1e+06
+    
+  \end{rcode}
+\end{frame}
+
+\begin{frame}[fragile]{character}
+character type
+
+\begin{rcode}
+  > a <- "hello"
+  > b <- 'world'
+
+  ## " and ' are interchangable in R. But can be used to define
+  ## internal quotation marks: eg..
+  
+  > c <- "the 3' UTR"
+  > d <- 'she said, I "do not like that at all"'
+  ## use \ to escape internal quotation marks
+  > e <- 'she said, "I don\'t like that at all"'
+  ## but note that
+  > e
+  [1] "she said, \"I don't like that at all\""
+  
+  ## but cat does the right thing
+  > cat(e, '\n')
+  she said "I don't like that at all"
+
+  ## to combine strings together use paste
+  > paste(a, b)
+  [1] hello world
+
+  > paste(a, b, sep="|")
+  [1] hello|world
+\end{rcode}
+\end{frame}
+
+\begin{frame}[fragile]{logical}
+  \begin{rcode}
+    ## c is the concatenate function. It makes a vector
+    > a <- c(TRUE, FALSE, TRUE)
+    > a
+    [1] TRUE FALSE TRUE
+
+    ## you can be lazy as well:
+    > a <- c(T, F, T)
+    > a
+    [1] TRUE FALSE TRUE
+    
+    ## you can convert other types to logical
+    > a <- as.logical(c(0, 3, 1, 2))
+    > a
+    [1] FALSE, TRUE TRUE TRUE
+    
+    ## and the other way around
+    > as.numeric(a)
+    [1] 0 1 1 1
+    
+    ## and implicitly by calling a function
+    > sum(a)
+    [1] 3
+    
+    ## you can also set up logical values using
+    ## comparisons
+    > c(1 > 0, 0 > 2, 3 == 4)
+    [1] TRUE FALSE FALSE
+
+    ## or vectorised comparisons
+    > a <- c(0, 1, 2, 4)
+    > b <- c(0, 1, 2, 3)
+    > a == b
+    [1] TRUE TRUE TRUE FALSE
+  \end{rcode}
+\end{frame}
+
+\begin{frame}[fragile]{Vectors}
+  \begin{rcode}
+    ## can be created by concatenation:
+    > a <- c(1, 2, 3)
+    > a
+    [1] 1 2 3
+    
+    ## but note that the type will end up the same
+    > c('a', 'b', 'c')  ## OK!
+    [1] "a" "b" "c"
+    
+    > c('a', 2, 'c') ## maybe not what you want
+    [1] "a" "2" "c"
+   
+    ## numeric ranges
+    > 1:4
+    [1] 1 2 3 4
+
+    ## by the seq command
+    > seq(1, 4, by=0.5)
+    [1] 1.0 1.5 2.0 2.5 3.0 3.5 4.0
+
+    ## c gives a flat vector
+    > c(1:3, c(4, 5, 6), 9:10)
+    [1]  1  2  3  4  5  6  9 10
+
+    ## you can also create empty vectors with
+    ## the vector() function
+    > vector(length=4, mode='logical')
+    [1] FALSE FALSE FALSE FALSE
+    > vector(length=4, mode='numeric')
+    [1] 0 0 0 0
+    > vector(length=4)
+    [1] FALSE FALSE FALSE FALSE
+    > vector(length=4, mode='character')
+    [1] "" "" "" ""
+  \end{rcode}
+\end{frame}
+
+\begin{frame}[fragile]{Vectors (2)}
+Accessing elements of a vector
+
+\begin{rcode}
+  ## define a vector
+  > a <- 2 * 1:10
+  > a
+  [1]  2  4  6  8 10 12 14 16 18 20
+
+  ## to get a single element use a single number
+  > a[4]
+  [1] 8
+
+  ## use a vector of indices to get several elements
+  > a[3:4]
+  [1] 6 8
+  
+  ## use negative indices to remove one
+  > a[-2]
+  [1]  2  6  8 10 12 14 16 18 20
+  ## or more elements
+  > a[-1:-3]
+  [1]  8 10 12 14 16 18 20
+  
+  ## or use a vector of logical values
+  > a > 10
+  [1] FALSE FALSE FALSE FALSE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE
+  > a[ a > 10 ]
+  [1] 12 14 16 18 20
+
+  ## All of these can be used to set values as well
+  > a[-1] <- 1:9
+  > a
+  [1] 2 1 2 3 4 5 6 7 8 9
+\end{rcode}
+\end{frame}
+
+\begin{frame}[fragile]{Matrices}
+  
+  { \small
+  2 dimensional vectors. Defined by number of rows (\texttt{nrow})
+  and by number of columns (\texttt{ncol}).
+
+  \begin{verbatim}
+Usage:
+
+     matrix(data = NA, nrow = 1, ncol = 1, byrow = FALSE,
+            dimnames = NULL)
+\end{verbatim}
+}
+  \begin{rcode}
+    ## data is filled by column by default
+    > matrix(1:9, ncol=3)
+         [,1] [,2] [,3]
+    [1,]    1    4    7
+    [2,]    2    5    8
+    [3,]    3    6    9
+    ## but can be by column
+    > matrix(1:9, ncol=3, byrow=TRUE)
+         [,1] [,2] [,3]
+    [1,]    1    2    3
+    [2,]    4    5    6
+    [3,]    7    8    9
+
+  \end{rcode}
+\end{frame}
+
+\begin{frame}[fragile]{Matrices (2)}
+  Specifying the data of a matrix
+
+  \begin{rcode}
+    ## no need to specify the data
+    > matrix(nrow=3, ncol=4)
+         [,1] [,2] [,3] [,4]
+    [1,]   NA   NA   NA   NA
+    [2,]   NA   NA   NA   NA
+    [3,]   NA   NA   NA   NA
+
+    ## or with a repeated values
+    > matrix(nrow=3, ncol=4, data='A')
+        [,1] [,2] [,3] [,4]
+    [1,] "A"  "A"  "A"  "A" 
+    [2,] "A"  "A"  "A"  "A" 
+    [3,] "A"  "A"  "A"  "A" 
+
+    > matrix(nrow=3, ncol=4, data=c('A', 'B'))
+        [,1] [,2] [,3] [,4]
+    [1,] "A"  "B"  "A"  "B" 
+    [2,] "B"  "A"  "B"  "A" 
+    [3,] "A"  "B"  "A"  "B" 
+
+  \end{rcode}
+
+\end{frame}
+
+\begin{frame}[fragile]{Matrices (3)}
+  Transposition and dimensions
+
+  \begin{rcode}
+    ## t() transposes matrices:
+    > matrix(1:4, ncol=2)
+          [,1] [,2]
+    [1,]    1    3
+    [2,]    2    4
+    > t(matrix(1:4, ncol=2))
+         [,1] [,2]
+    [1,]    1    2
+    [2,]    3    4
+
+    ## to get the dimensions, use dim(), ncol() and nrow()
+    > a <- matrix(ncol=4, nrow=50)
+    > dim(a)
+    [1] 50  4
+    > ncol(a)
+    [1] 4
+    > nrow(a)
+    [1] 50
+  \end{rcode}
+\end{frame}
+
+\begin{frame}[fragile]{Matrices (4)}
+  Accessing elements and slices of matrices:
+
+  \begin{rcode}
+    # a matrix a
+    > a <- matrix(1:9, ncol=3)
+
+    ## to get a single element specify both row
+    ## and column
+    > a[2,2]
+    [1] 5
+    
+    ## to get a row or colum:
+    > a[1,]
+    [1] 1 4 7
+    > a[,1]
+    [1] 1 2 3
+
+    ## or several columsn or rows
+    > a[1:2,]
+         [,1] [,2] [,3]
+    [1,]    1    4    7
+    [2,]    2    5    8
+
+    ## you can use negative numbers as before
+    > a[-1,]
+         [,1] [,2] [,3]
+    [1,]    2    5    8
+    [2,]    3    6    9
+    
+    ## and logical vectors and so on...
+  \end{rcode}
+\end{frame}
+
+\begin{frame}[fragile]{Matrices (5)}
+
+  {\small
+  \texttt{cbind()} and \texttt{rbind} are like \texttt{c()} but for matrices.
+  
+  can be used to combine vectors to matrices and matrices
+  to matrices:
+}
+  \begin{rcode}
+    ## make a couple of vectors
+    > a <- 1:5
+    > b <- 11:15
+    ## and play around with them:
+    > cbind(a,b,b,a)
+         a  b  b a
+    [1,] 1 11 11 1
+    [2,] 2 12 12 2
+    [3,] 3 13 13 3
+    [4,] 4 14 14 4
+    [5,] 5 15 15 5
+
+    > rbind(a,b,a)
+      [,1] [,2] [,3] [,4] [,5]
+    a    1    2    3    4    5
+    b   11   12   13   14   15
+    a    1    2    3    4    5
+
+    ## can nest the calls as we like
+    > cbind( cbind(a,a), rbind(b,b,b,b,b) )
+      a a               
+    b 1 1 11 12 13 14 15
+    b 2 2 11 12 13 14 15
+    b 3 3 11 12 13 14 15
+    b 4 4 11 12 13 14 15
+    b 5 5 11 12 13 14 15
+    
+    ### But note that dimensions must be compatible!!!
+  \end{rcode}
+\end{frame}
+
+\begin{frame}[fragile]{Matrices Warning}
+  Extracting a single row converts the value to a vector.
+  
+  A vector has no dimensions / column number / row number.
+  \begin{rcode}
+    > a <- matrix(1:12, ncol=4)
+    > dim(a)
+    [1] 3 4
+    > dim(a[1:2,])
+    [1] 2 4
+    > dim(a[1,])
+    NULL
+    > ncol(a[1,])
+    NULL
+    
+    ## this can cause troubles when you don't know how many rows
+    ## or columns will be extracted
+
+    ## use drop=FALSE to avoid this:
+    > dim(a[1,,drop=FALSE])
+    [1] 1 4
+    > ncol(a[1,,drop=FALSE])
+    [1] 4
+  \end{rcode}
+\end{frame}
+
+
+\begin{frame}[fragile]{Arrays}
+  An array is an N-dimensional vector. A matrix is
+  a special case.
+
+  \begin{rcode}
+    ## eg a cube:
+    > array(1:27, dim=c(3,3,3), dimnames=c('x', 'y', 'z'))
+    , , 1
+
+        [,1] [,2] [,3]
+   [1,]    1    4    7
+   [2,]    2    5    8
+   [3,]    3    6    9
+
+   , , 2
+
+        [,1] [,2] [,3]
+   [1,]   10   13   16
+   [2,]   11   14   17
+   [3,]   12   15   18
+
+   , , 3
+
+         [,1] [,2] [,3]
+   [1,]   19   22   25
+   [2,]   20   23   26
+   [3,]   21   24   27
+  \end{rcode}
+
+  Arrays are not used so commonly, so we will not cover them further here.
+\end{frame}
+
+\begin{frame}[fragile]{Lists}
+  
+  {\small
+  Lists are special vectors that can hold different types of elements,
+  including nested lists, matrices and dataframes (see later). This 
+  means they can be used to represent more complex data structures like
+  trees. But they are rather slow to access, so this is generally not a good idea.
+  }
+
+  \begin{rcode}
+    ## you can use the list() function to make a list:
+    > list( 1, "two", 3, 1:4)
+    [[1]]
+    [1] 1
+    
+    [[2]]
+    [1] "two"
+    
+    [[3]]
+    [1] 3
+    
+    [[4]]
+    [1] 1 2 3 4
+    
+    ## the resulting list has 4 elements, the last one which is a vector of numbers.
+    
+    ## you can also provide names when creating a list
+    > list("a"=1:3, "b"=3:1)
+    $a
+    [1] 1 2 3
+    
+    $b
+    [1] 3 2 1
+  \end{rcode}
+\end{frame}
+
+\begin{frame}[fragile]{accessing list elements}
+  To access the elements making up a list you need to make
+  use of a double indexing operator \texttt{[[]]}. 
+
+  \begin{rcode}
+    > a <- list(a=1:4, b=4:1)
+    > a
+    $a
+    [1] 1 2 3 4
+    
+    $b
+    [1] 4 3 2 1
+    
+    ## the first element with single []
+    > a[1]
+    $a
+    [1] 1 2 3 4
+    
+    ## and with [[]]
+    > a[[1]]
+    [1] 1 2 3 4
+
+    ## we can also access named elements using the $
+    ## operator:
+    > a$a
+    [1] 1 2 3 4
+    > a$b
+    [1] 4 3 2 1
+    > 
+  \end{rcode}
+\end{frame}
+    
+\begin{frame}[fragile]{accessing elements (2)}
+
+  {\small
+  What happens when we use \texttt{[]} instead of \texttt{[[]]}?
+}
+  \begin{rcode}
+    ## to see what happens when we use single and double
+    ## []
+    > is.list(a)
+    [1] TRUE
+    > is.list(a[1])
+    [1] TRUE
+    > is.list(a[[1]])
+    [1] FALSE
+  \end{rcode}
+  {\small
+  Using the usual \texttt{[]} operator returns a list of length one.
+  This kind of makes sense if you think of doing \texttt{a[1:2]}.
+
+  A list is a special type of vector and you can create one using the
+  \texttt{vector} command:
+  }
+
+  \begin{rcode}
+    > vector(mode='list', length=3)
+    [[1]]
+    NULL
+    
+    [[2]]
+    NULL
+    
+    [[3]]
+    NULL
+  \end{rcode}
+  {\small
+  This is useful when you wish to define the length of the list when you
+  define it. Extending a list is an expensive operation that can slow down
+  your code a great deal so it is better to avoid doing that.
+}
+\end{frame}
+
+\begin{frame}[fragile]{dataframes}
+  
+  {\small
+    \begin{itemize}
+      \item dataframes can be created with the \texttt{data.frame()} function
+        and are returned by by many functions that read data from files
+        (eg. \texttt{read.table()}).
+      \item They are useful for storing tabular data where rows and columns
+        can be of different types. They are implemented as a list of lists
+        with columns containing independent lists.
+      \item  In general they can be used in a similar manner to matrices, but
+        there are some situations where this doesn't work. Functions like
+        apply will coerce the dataframe to a matrix, and this can cause problems
+        if the dataframe contains data of different types.
+      \end{itemize}
+  }
+\end{frame}
+
+\begin{frame}[fragile]{making dataframes}
+
+  \begin{rcode}
+    ## read in the sample description file we created last time:
+    > tbl <- read.table("sample_data.txt", header=TRUE, sep="\t", stringsAsFactors=FALSE)
+    > dim(tbl)
+    [1] 54  3
+    
+    ## We will cover the read.table in a bit more detail later on, but note:
+    ## stringsAsFactors=FALSE
+    
+    ## don't forget this. Forgetting this when reading data can cause all sorts
+    ## trouble. For details check out Hadley's web page linked above.
+
+    > colnames(tbl)
+    [1] "genotype" "tissue"   "drug"    
+
+    ## which you hopefully recognise. 
+    
+    ## we can also make a dataframe from a set of vectors.
+    > a <- 1:5
+    > b <- letters[a]
+    > a
+    [1] 1 2 3 4 5
+    > b
+    [1] "a" "b" "c" "d" "e"
+    > data.frame(a, b, stringsAsFactors=FALSE)
+      a b
+    1 1 a
+    2 2 b
+    3 3 c
+    4 4 d
+    5 5 e
+    ## note that the letters are not quoted in the data frame this makes it
+    ## more difficult to distinguish character and numeric values
+  \end{rcode}
+\end{frame}
+
+\begin{frame}{Names}
+  Vectors, matrices, lists and datframes can be named.
+
+  Elements can be accessed both by position and by names.
+\end{frame}
+
+\end{document}
