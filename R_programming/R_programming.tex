@@ -740,10 +740,328 @@ Usage:
   \end{rcode}
 \end{frame}
 
-\begin{frame}{Names}
-  Vectors, matrices, lists and datframes can be named.
+\begin{frame}[fragile]{Names}
+  
+  {\small
+  \begin{itemize}
+  \item Vectors, matrices, lists and dataframes can be named.
+  \item Elements can be accessed both by position and by names.
+  \end{itemize}
+  
+  To get and set names of vectors use the \texttt{names()}
+  function:
+  }
+  \begin{rcode}
+    > a <- 1:5
+    > names(a) <- c('one', 'two', 'three', 'four', 'five')
+    > a
+    one   two three  four  five 
+      1     2     3     4     5 
+    > names(a)
+    [1] "one"   "two"   "three" "four"  "five" 
+  \end{rcode}
 
-  Elements can be accessed both by position and by names.
+  {\small
+  To set column and row names of a matrix or a dataframe use colnames
+  and rownames:
+  }
+  \begin{rcode}
+    > m <- matrix(1:9, nrow=3)
+    > m
+         [,1] [,2] [,3]
+    [1,]    1    4    7
+    [2,]    2    5    8
+    [3,]    3    6    9
+    > rownames(m) <- c('r1', 'r2', 'r3')
+    > colnames(m) <- c('c1', 'c2', 'c3')
+    > m
+       c1 c2 c3
+    r1  1  4  7
+    r2  2  5  8
+    r3  3  6  9
+  \end{rcode}
+
+\end{frame}
+
+\begin{frame}[fragile]{accesing by name}
+  for vectors and matrices use \texttt{['name']},
+  or alternatively a vector of names.
+
+  \begin{rcode}
+    > v <- 4:7
+    > names(v) <- c('v1', 'v2', 'v3')
+    ## gives us a vector with 3 named elements
+    > v
+    v1   v2   v3 <NA> 
+    4    5    6    7 
+
+    ## to access the element with name v1
+    > v['v1']
+    v1 
+    4 
+
+    ## make a vector with the names
+    > vn <- names(v)
+    > vn
+    [1] "v1" "v2" "v3" NA  
+
+    ## and use this to access all but the first element
+    > v[vn[-1]]
+    v2   v3 <NA> 
+    5    6   NA 
+  \end{rcode}
+\end{frame}
+
+\begin{frame}[fragile]{accesing by name (2)}
+  for matrices, use as for vectors:
+  
+  \begin{rcode}
+    ## using as an example the samples table we prepared
+    ## from GDS3850.
+    
+    ## the annotation for GSM533014
+    > samples['GSM533014',]
+           genotype          tissue            drug 
+    "fatty (fa/fa)"         "liver"  "Pioglitazone" 
+
+    ## The genotype from the first 5 samples
+    > samples[1:5, 'genotype']
+    GSM532993     GSM532994     GSM532995     GSM533011     GSM533012 
+    "lean (fa/+)" "lean (fa/+)" "lean (fa/+)" "lean (fa/+)" "lean (fa/+)" 
+
+    ## genotype for a specific sample
+    > samples['GSM533014','genotype']
+    [1] "fatty (fa/fa)"
+  \end{rcode}
+
+\end{frame}
+
+\begin{frame}[fragile]{lists, dataframes and names}
+
+  {\small
+  For lists and dataframes you can use names as you would
+  with indices, but you can also use the \texttt{\$} operator:
+  }
+  \begin{rcode}
+    > l <- list(1, 2, 3)
+    > names(l) <- c('l1', 'l2', 'l3')
+    > l[['l1']]
+    [1] 1
+    > l$l1
+    [1] 1
+  \end{rcode}
+
+  {\small
+  With dataframes you don't need double \texttt{[]}, but use names
+  as you would with a matrix. If you use the \texttt{\$} operator it
+  will give you the columns associated with the given column name.
+  }
+  \begin{rcode}
+    ## making use of the data dataframe from our previous analysis
+    ## remember the colnames define the samples:
+    
+    ## using the $ operator I get a column
+    > length(data$GSM532993)
+    [1] 15923
+     
+    ## that can be accessed like a normal vector
+    > data$GSM532993[200:205]
+    [1] "8470.7" "901.7"  "7231.1" "1640.6" "1280.9" "3025.5"
+
+    ## the above is equivalent to
+    > data[200:205, 'GSM532993']
+    [1] "8470.7" "901.7"  "7231.1" "1640.6" "1280.9" "3025.5"
+  \end{rcode}
+\end{frame}
+
+\begin{frame}[fragile]{Reading data}
+
+  {\small
+  In R we mostly read in tabular data, where every row has the
+  same number of columns. This can be done using the read.table
+  function.
+  }
+  
+  \begin{rcode}
+    ## to read in a file containing records seperated by tabs
+    ## in this case a version of the data dataframe that I exported
+    > data.full <- read.table("data.txt", header=TRUE, sep="\t", stringsAsFactors=FALSE)
+    > dim(data)
+    [1] 15923    76
+  \end{rcode}
+  
+  {\footnotesize
+    The arguments to the \texttt{read.table()} function used here:
+    \begin{itemize}
+    \item \texttt{"data.txt"} The name of the file to read data from.
+    \item \texttt{header=TRUE} The first line should contain the column
+      headers. If \texttt{TRUE}, or determined to be \texttt{TRUE}, R will 
+      also attempt to obtain
+      rownames from the file.
+    \item \verb|sep="\t"| The records should be seperated by tabs. Other
+      common separators are spaces (\texttt{" "}) and commas (\texttt{","}).
+    \item \texttt{stringsAsFactors=FALSE} To avoid turning character data
+      to factor data. Don't forget this.
+    \end{itemize}
+
+    There are many more options. See \texttt{?read.table}.
+    }
+
+\end{frame}
+
+\begin{frame}[fragile]{Reading data (2)}
+  There are more ways to read data:
+  \begin{itemize}
+    \item \texttt{readLines} Reads lines in a file into a character vector which
+      can be parsed line by line.
+    \item \texttt{scan} Reads records in a file into a single vector. Useful
+      for scanning through the lines of a file where something is known about
+      the structure of the data.
+    \item \texttt{readBin} Reads binary data
+    \item \texttt{readChar} Similar to \texttt{readBin}
+  \end{itemize}
+  
+  You are unlikely to need these. If you think you do: \texttt{?readLines},
+  etc..., and experiment your way to a solution.
+\end{frame}
+
+\begin{frame}[fragile]{Writing data}
+  Mostly, \texttt{write.table()} should be sufficient.
+  
+  Remember to specify:
+  \begin{description}
+  \item[x] The data (usually a matrix or dataframe) to be written.
+  \item[file] The name of the file to write it to.
+  \item[quote] Whether to quote records or not. Defaults to \texttt{TRUE}
+  \item[sep] The character that separates the records (defaults to \texttt{"
+    "}, but better to use something like \verb|"\n"| or \verb|","|.
+  \item[row.names] Whether to write the rownames, 
+    or a set of rownames. Defaults to \texttt{TRUE}.
+  \item[col.names] As for row.names, but for columns.
+  \end{description}
+
+  for more details, \texttt{?write.table}
+\end{frame}
+
+\begin{frame}[fragile]{Loops and repeating yourself}
+  In R we try to avoid looping as looping through large data
+  sets can be rather slow. It's also generally considered
+  more readable to use commands like \texttt{apply}.
+
+  However, we have the usual suspects \texttt{for} and \texttt{while}
+  loops.
+  
+  \begin{rcode}
+    ## For each value of i in the range of loop
+    for(i in 1:5){
+      ## do something with i
+      j <- i^2
+    }
+    
+    ## this is often used with vectors or matrices:
+    v <- 1:10
+    for(i in 1:length(v))
+       v[i] <- v[i] * i
+    ## in R you don't need the {} if the loop or the conditional has
+    ## only one line.
+    
+    ## We also have the while loop
+    i <- 1
+    while(i <= length(v)){
+       v[i] <- v[i] / i
+       i <- i + 1
+    }
+  \end{rcode}
+\end{frame}
+
+\begin{frame}[fragile]{Loops and vectorisation}
+  In R you usually don't need to loop through vectors as there many operators
+  and functions that work directly on vectors:
+
+  \begin{rcode}
+    > v1 <- 1:10
+    > v2 <- 10:1
+    > v1 + v2
+    [1] 11 11 11 11 11 11 11 11 11 11
+    > v1 * v2
+    [1] 10 18 24 28 30 30 28 24 18 10
+    > v1 ^ v2
+    [1]     1   512  6561 16384 15625  7776  2401   512    81    10
+    > sum(v1)
+    [1] 55
+    > mean(v1)
+    [1] 5.5
+    > 
+    > v1 + 1
+    [1]  2  3  4  5  6  7  8  9 10 11
+    > v1 + c(1,10)
+    [1]  2 12  4 14  6 16  8 18 10 20
+  \end{rcode}
+  
+  You should always try to make use of vectorised functions. They are usually
+  less work to write, look quite natural, and even if not, then they are
+  vastly faster than looping in R.
+\end{frame}
+
+\begin{frame}[fragile]{matrices and apply}
+  
+  {\small
+  use \texttt{apply} to run functions on every row or column
+  of a matrix\footnote{Or dataframe, but then the dataframe is first
+  coerced to a matrix; which can give some bad side effects.}
+  }
+  \begin{rcode}
+    > m <- matrix(1:12, nrow=3)
+    > m
+    [,1] [,2] [,3] [,4]
+    [1,]    1    4    7   10
+    [2,]    2    5    8   11
+    [3,]    3    6    9   12
+    
+    ## get the sums of the rows (margin=1)
+    > apply(m, 1, sum)
+    [1] 22 26 30
+    
+    ## get the sums of the columns (margin=2)
+    > apply(m, 2, sum)
+    [1]  6 15 24 33
+    
+    ## get the max of the rows
+    > apply(m, 1, max)
+    [1] 10 11 12
+    
+    ## do something silly with a custom function
+    ## x will be a vector obtained from each column
+    > apply(m, 2, function(x){ x[length(x)] - x })
+        [,1] [,2] [,3] [,4]
+    [1,]    2    2    2    2
+    [2,]    1    1    1    1
+    [3,]    0    0    0    0
+  \end{rcode}
+  {\footnotesize
+  The above are terrible examples, as you can use \texttt{rowSums} and
+  \texttt{colSums}. There is however, no built \texttt{rowMax} function 
+  (though it is provided by some packages). The last example is of an
+  arbitrary function that could be calculated with \texttt{nrow(m) - m}.
+
+  However there are many occasions when using \texttt{apply} is the quickest
+  thing to do.
+  }
+\end{frame}
+
+\begin{frame}[fragile]{Pretty pictures}
+  Plotting stuff in R. Because you're probably bored silly now.
+  
+  The basic toolkit:
+  \begin{description}
+  \item[plot] and its optional parameters
+  \item[points] draw points!
+  \item[lines] draw lines!
+  \item[segments] draw lines. A different way
+  \item[rect] draw rectangles
+  \item[polygon] draw polygons
+  \item[par] the myriad plot options specified by par
+  \end{description}
 \end{frame}
 
 \end{document}
