@@ -97,7 +97,7 @@ a 2 dimensional array of oligonucleotide sequences which are manufactured
 by light directed chemical extension of the oligonucleotides on the
 array itself. This differs from the typical array where an oligonucleotide
 solution is spotted, and offers a higher density of features; it's
-an approach directly inspired by and analogous to the way in which
+an approach directly inspired by, and analogous to, the way in which
 computer chips are fabricated by photolithography.
 
 On Affymetrix chips each transcript is represented by a set of 25 base
@@ -195,7 +195,8 @@ This can be used either to load data directly from NCBI, or from downloaded file
 source("http://www.bioconductor.org/biocLite.R")
 
 ## the source command reads in R code from a file; usually the file
-## contains function definitions that can then be in local scripts.
+## contains function definitions that can then be used in the
+## current session.
 
 biocLite("GEOquery")
 ## this installs the GEOquery package and any packages that it
@@ -228,6 +229,12 @@ This will download the file, save a copy in your current directory
 and load the data into the \texttt{gds} object. Note, that I haven't
 tried doing this myself, and there is always a possibility that something
 might end up somewhat not right.
+
+If you download the file from GEO manually you can choose "DataSet full SOFT file";
+this includes extensive annotation for the genes represented on the array.
+In contrast, the direct download option loads the data from the "DataSet SOFT file"
+which contains only the probe identifiers and the gene symbols associated
+with the probes.
 
 \subsection{A first look at the data}
 \label{sec-1-2}
@@ -265,8 +272,8 @@ using the \texttt{\$} operator (\texttt{listName\$elementName}).
   gds.meta$description
 
   ## we can also access these by
-  gds.met[['sample_id']]
-  gds.met['sample_id']
+  gds.meta[['sample_id']]
+  gds.meta['sample_id']
   ## these two return slightly different results. See if you
   ## can work out what (try using is.list() on the result).
 
@@ -286,7 +293,7 @@ work out how the experiment was designed.
 When I had a look at the data I noticed a couple of things. Try:
 
 \begin{rcode}
-  length(Meta(gds)$sample_count
+  Meta(gds)$sample_count
   length(unlist( strsplit( Meta(gds)$sample_id, ",")))
 \end{rcode}
 
@@ -325,9 +332,13 @@ reasonable description of the samples:
     description <- Meta(gds)$description[-1]
     ## that selects all the elements except the first one
 
+    ## Get a list of vectors of sample ids from the vector of
+    ## comma separated sample ids given by Meta(gds)$sample_id:
+    sample.id.group <- strsplit(Meta(gds)$sample_id, ',')
+
     ## to get a list of the sample ids we can do:
     sample.ids <- unique(unlist(strsplit(Meta(gds)$sample_id, ',')))
-    
+  
     ## from the description we have
     ## 1, 2 : genotype
     ## 3..5 : tissue
@@ -367,7 +378,7 @@ description.
 
 \subsubsection{The data}
 \label{sec-1-2-2}
-The actual data can be obtained using the \texttt{Table()} function.
+The actual expression data can be obtained using the \texttt{Table()} function.
 
 \begin{rcode}
   data <- Table(gds)
@@ -394,7 +405,7 @@ values) of colnames that include GSM simply do:
   grepl('GSM', colnames(data))
 \end{rcode}
 
-Try \texttt{?rcode} and see if the documentation of the function makes sense
+Try \texttt{?grepl} and see if the documentation of the function makes sense
 to you. (Understanding R documentation is not that easy, but it is very useful.)
 Since the function returns a logical vector we can reverse the meaning using
 \texttt{!}. Hence we simply do:
@@ -414,6 +425,10 @@ or use the \texttt{head} function:
   feat.data[1:10, 1:10]
 \end{rcode}
 
+Note that \texttt{feat.data[1:10, 1:10]} may give you an error code. Read this
+and try to understand what it means, and see if you can work out why you got
+the error (the reason is explained above).
+
 At this point you may notice that the entries in the exp.data table have quotation
 marks around them. That means that they are not numbers, but are in fact text.
 This may be caused by missing values in the data table, or non-numeric looking
@@ -429,7 +444,7 @@ so we can convert the table to a numeric one:
 \end{rcode}
 
 Here I have used a step by step, overly cautious method to force the conversion of the
-data. I suspect it can be done in a single step, but sometimes it's good to be
+data. It ca be done in a single step, but sometimes it's good to be
 careful. To convert to a numeric type, we use the \texttt{as.numeric} function.
 Unfortunately this does not return a matrix, but a single vector made up of
 all of the elements of the input matrix. Hence we need to recreate the matrix
@@ -440,6 +455,18 @@ that the values in the temporary matrix are correct before you commit to renamin
 it. Finally we remove the temporary matrix (this isn't necessary, but better not
 to have too many variables littering your environment).
 
+To do the above conversion in a single step, you can also do:
+
+\begin{rcode}
+exp.data[,] <- as.numeric(exp.data)
+\end{rcode}
+
+The difference here is that the command says, 'set the contents of exp.data
+to the result of as.numeric(exp.data)', rather than, 'set the value of of
+exp.data to...'. This means that we do not overwrite the exp.data object
+and that the result of \texttt{as.numeric(exp.data)} must fit the dimensions
+of the \texttt{exp.data} matrix. 
+
 We should now have both the annotation, feature data and the expression
 data in reasonable data structures that we can use to look at the data.
 
@@ -447,7 +474,7 @@ data in reasonable data structures that we can use to look at the data.
 \label{sec-1-2-3}
 Although not really necessary as we can easily re-extract the
 data from the soft file using the code shown here, it is often
-useful to save (write) the data in it's new format. In this case
+useful to save (write) the data in its new format. In this case
 this would mean saving three files; one for the sample annotation,
 one for the feature annotation and one for the data itself.
 We can do this using the \texttt{write.table()} function. This
@@ -560,7 +587,7 @@ This will give you a pdf containing both the linear and log distributions.
   \label{allhist}
 \end{figure}
 
-The distributions we obtain here are fairly typical for what global
+The distributions we obtain here are fairly typical for global
 expression values. That is that we have something that approximates
 normality after log transformation. What the distribution should
 actually look like is somewhat controversial (or at least it was
@@ -568,11 +595,14 @@ last time I read about it a few years ago): in any case it will depend
 on the sensitivity of the measurement being used. With next generation
 sequencing it is possible to increase the sensitivity by increasing
 the number of sequences determined. When this is done for pure populations
-of cells (a homogeneous sample) it has been reported that a bimodal
+of cells (i.e. homogeneous samples) it has been reported that a bimodal
 log normal distribution is observed. In fact if you look carefully at
 the distribution in the right hand side it looks a little bit like it
 is the sum of two distinct populations, but the sensitivity of the
-array used isn't really good enough to separate the distributions
+array used isn't really good enough to separate the distributions\footnote{
+The way in which the expression values have been calculated from the
+underlying probe data will also affect the distribution and the topic is
+somewhat more complicated than described here.}
 (and also remember that here we are looking at values from three
 distinct tissue types).
 
@@ -587,7 +617,7 @@ hist command does. When you call:
 
 the distribution for the data is determined and plotted. In addition
 the \texttt{hist()} function returns an object of the class "histogram".
-However, it does this invisibly. ?? This means that if you don't assign
+However, it does this invisibly. This means that if you don't assign
 the object returned to some variable, then it is simply discarded,
 and all you get is the plot. That is often ok, but if you wish to 
 compare the distributions from different populations then you will
@@ -647,7 +677,7 @@ determine something that is suitable for the full data set (as we
 did above). When we ran the \texttt{hist(log(exp.data))} above, we
 assigned the returned value to the \texttt{h.all} object. So, we can
 simply use the \texttt{breaks} component of \texttt{h.all} 
-(\texttt{h.all\$breaks}) when we call hist for the individual components.
+(\texttt{h.all\$breaks}) when we call hist for the individual columns (samples).
 
 In R, if we wish to call a function on all columns or all rows of a
 matrix we usually use the \texttt{apply} function. You can also loop
@@ -677,7 +707,7 @@ each of these into a matrix that we can give to the heatmap function we can do:
   ## the sapply function is similar to the apply function, but works
   ## with vectors and lists, and tries to simplify the output to
   ## give a matrix if possible (if all the returned vectors have the
-  ## same length
+  ## same length)
 
   h.sample.c <- sapply(h.sample, function(x){ x$counts }
   ## remember that the last statement of a function is just returned
@@ -771,6 +801,8 @@ it's good to know how to do. In R, ofcourse, that is very simple.
   ## to plot sample 1 vs 2 and 1 vs 4
   ## in a single pdf 
   pdf("pairwise1.pdf", width=14, height=7)
+  ## the par call below is used to set graphical parameters
+  ## here we set the plotting area to be split into 1 row and 2 columns.
   par(mfrow=c(1,2))
   plot(log2(exp.data[,1]), log2(exp.data[,2]), cex=0.2, col=rgb(0,0,0,0.5))
   ## we can add a couple of lines to this
@@ -807,8 +839,8 @@ would expect that most of the points should lie along the diagonal, but here we
 see a sort of L-shape in the plot. That is a result of the difference in the
 distributions that we observed in the earlier analyses. However, we should
 always be careful to normalise away such differences as they may reflect
-biological differences in the samples (and here we will not do any more such
-analysis).
+biological differences in the samples (and here we will not do any such
+normalisation).
 
 \subsubsection{An overview of the samples using PCA}
 \label{sec-1-3-2}
@@ -836,7 +868,7 @@ what a PCA does, and how it does it, is not particularly simple; so we will just
 do it, and hopefully some feeling of what the analysis does will stick in your mind.
 
 \begin{rcode}
-  ## use the prcomp functin after transposing the data
+  ## use the prcomp function after transposing the data
   ## (otherwise we'll rotate points representing the features
   ## not the samples. This can also be interesting, but for now
   ## keep it simple.
@@ -846,8 +878,11 @@ do it, and hopefully some feeling of what the analysis does will stick in your m
 Setting the \texttt{scale} option to \texttt{TRUE} means that the pattern
 of expression for each gene will be scaled across the experimental series.
 If we don't do this, genes with higher expression values will have a larger
-impact on the result than genes with low levels of expression. Whether this is
-appropriate depends on the biological question, but in gengeral when dealing
+impact on the result than genes with low levels of expression.\footnote{
+More accurately, genes with a higher variance will have a larger impact
+on the PCA (this generally correlates with expression, though not
+after log transformation).} Whether this is
+appropriate depends on the biological question, but in general when dealing
 with gene expression it is better to scale the data.
 
 If we simply call plot on the returned object it will give a plot of the
