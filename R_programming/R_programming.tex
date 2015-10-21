@@ -38,6 +38,8 @@
 \newminted{perl}{linenos, bgcolor=mintedBg, fontsize=\footnotesize}
 \newminted{r}{linenos, bgcolor=mintedBg, fontsize=\tiny}
 
+\setbeamersize{description width=0.57cm}
+
 %% a command to define a subheading
 \newcommand\subHeading[1]{
   \par\bigskip {\Large\bfseries#1}\par\smallskip
@@ -71,8 +73,8 @@
         \draw [-,line width=2, purple3] (#2-0.5,#3-0.5) -- (#2+0.5,#3-0.5);  
 }
 
-\title{Looking at big Data sets}
-\subtitle{Programming with R}
+\title{Programming with R}
+\subtitle{general isssues}
 \author{Martin Jakt}
 
 \begin{document}
@@ -99,7 +101,7 @@
 
 \begin{frame}{Using R}
   Can be used directly from a console, just by typing stuff into the
-  R session without any 
+  R session without doing anything else. 
 
   However, it is better to have a record of the commands you used to create
   data members (i.e. variables), so do use some sort of editor to write your code
@@ -948,7 +950,7 @@ Usage:
   sets can be rather slow. It's also generally considered
   more readable to use commands like \texttt{apply}.
 
-  However, we have the usual suspects \texttt{for} and \texttt{while}
+  However, we have the usual suspects: \texttt{for} and \texttt{while}
   loops.
   
   \begin{rcode}
@@ -1038,15 +1040,38 @@ Usage:
     [2,]    1    1    1    1
     [3,]    0    0    0    0
   \end{rcode}
-  {\footnotesize
-  The above are terrible examples, as you can use \texttt{rowSums} and
+\end{frame}
+
+\begin{frame}[fragile]{apply (2)}
+
+  {\small
+  but these are terrible examples, as you can use \texttt{rowSums} and
   \texttt{colSums}. There is however, no built \texttt{rowMax} function 
   (though it is provided by some packages). The last example is of an
   arbitrary function that could be calculated with \texttt{nrow(m) - m}.
-
+  
   However there are many occasions when using \texttt{apply} is the quickest
   thing to do.
-  }
+}
+
+  \begin{rcode}
+    ## To find out how long it takes to run a command:
+    > system.time( apply(exp.data, 1, mean) )
+    user  system elapsed 
+    0.366   0.000   0.207 
+
+    ## using rowMeans is about a 100 times faster
+    > system.time(rowMeans(exp.data))
+    user  system elapsed 
+    0.000   0.000   0.002 
+
+    ## strangely, this can be faster, but the data isn't big
+    ## enough to show the difference
+    > system.time(rowSums(exp.data) / ncol(exp.data) )
+    user  system elapsed 
+    0.000   0.000   0.002 
+  \end{rcode}
+
 \end{frame}
 
 \begin{frame}[fragile]{Pretty pictures}
@@ -1060,8 +1085,411 @@ Usage:
   \item[segments] draw lines. A different way
   \item[rect] draw rectangles
   \item[polygon] draw polygons
+  \item[text] draw text on the plot
   \item[par] the myriad plot options specified by par
   \end{description}
+\end{frame}
+
+\begin{frame}[fragile]{Plot ?}
+
+  \small What does the plot command do?
+  \begin{rcode}
+    > ?plot
+    plot                 package:graphics                  R Documentation
+
+    Generic X-Y Plotting
+
+    Description:
+
+    Generic function for plotting of R objects.  For more details
+    about the graphical parameter arguments, see 'par'.
+
+    For simple scatter plots, 'plot.default' will be used.  However,
+    there are 'plot' methods for many R objects, including
+    'function's, 'data.frame's, 'density' objects, etc.  Use
+    'methods(plot)' and the documentation for these.
+    
+    Usage:
+
+     plot(x, y, ...)
+     
+    Arguments:
+
+       x: the coordinates of points in the plot. Alternatively, a
+          single plotting structure, function or _any R object with a
+          'plot' method_ can be provided.
+
+       y: the y coordinates of points in the plot, _optional_ if 'x' is
+          an appropriate structure.
+
+     ...: Arguments to be passed to methods, such as graphical
+          parameters (see 'par').  Many methods will accept the
+          following arguments:
+          
+  \end{rcode}
+\end{frame}
+
+\begin{frame}[fragile]{Plot??}
+  \texttt{plot()} is a different function depending on what arguments
+  are passed to it.
+
+  \begin{rcode}
+    > x <- 1:10
+    > plot(x, x^2)
+  \end{rcode}
+  \small Calls the \texttt{plot.default()} function.
+
+  \begin{rcode}
+    > pca.l1 <- prcomp(t(log(exp.data)))
+    > class(pca.l1)
+    [1] "prcomp"
+    > plot(pca.l1)
+  \end{rcode}
+
+  {\small
+  Here \texttt{plot()} is called with an object of class \texttt{'prcomp'}
+  and \texttt{plot} will call a method defined by the \texttt{'prcomp'} class.
+  This plots a kind of bar plot of the variances associated with
+  each dimension.
+  
+  Finding out what happens when you call \texttt{plot()} on an arbitrary
+  object can be difficult to find out.
+}
+\end{frame}
+
+\begin{frame}[fragile]{Plot types}
+  There are many builtin plot types:
+
+  {\small
+  \begin{description}
+  \item[barplot] Plots bars in different ways
+  \item[boxplot] Plots ranges of values. Can be combined with formulas for
+    grouping different values together.
+  \item[stripchart] Shows ranges of values by plotting individual values. Useful
+    for smaller data sets (but quite a primitive function in some ways).
+  \item[qqplot] Produces a quantiles / quantiles plot of two data sets.\\
+    \texttt{qqplot(x, y)} is equivalent to \texttt{plot(sort(x), sort(y))}
+  \item[plot.default] Plots points and lines (x vs y). This is called when
+    you call \texttt{plot()} without special objects.
+  \item[...]
+  \end{description}
+  
+  For more complicated beautiful graphs have a look at the \texttt{ggplot}
+  package. see:\\
+  \url{http://ggplot2.org}\\
+  \url{https://www.google.no/search?q=ggplot}
+   }
+\end{frame}
+
+\begin{frame}[fragile]{Arbitrary drawing}
+  
+  \begin{rcode}
+    plot(x, y)
+  \end{rcode}
+
+  {\small
+  Uses \texttt{plot.default()} to set up a plotting surface that we can draw
+  arbitrary shapes on.
+  }
+
+  \texttt{?plot.default}
+  \begin{rcode}
+    plot.default             package:graphics              R Documentation
+
+    The Default Scatterplot Function
+
+    Description:
+
+     Draw a scatter plot with decorations such as axes and titles in
+     the active graphics window.
+
+    Usage:
+
+     ## Default S3 method:
+     plot(x, y = NULL, type = "p",  xlim = NULL, ylim = NULL,
+          log = "", main = NULL, sub = NULL, xlab = NULL, ylab = NULL,
+          ann = par("ann"), axes = TRUE, frame.plot = axes,
+          panel.first = NULL, panel.last = NULL, asp = NA, ...)
+  \end{rcode}
+\end{frame}
+
+\begin{frame}[fragile]{important arguments}
+
+  {
+    \small
+  \begin{description}
+    \item[x] positions on the x-axis
+    \item[y] positions on the y-axis
+    \item[type] the type of plot:
+      \begin{description}
+      \item[p] points (the default)
+      \item[l] lines connecting the points
+      \item[b] both lines and points
+      \item[n] draw nothing
+      \end{description}
+    \item[xlim] the range of the x-axis; defaults to \texttt{range(x)}
+    \item[ylim] the range of the y-axis; defaults to \texttt{range(y)}
+    \item[main] the main title of the graph
+    \item[xlab] the label along the x-axis
+    \item[ylab] the label along the y-axis
+    \item[axes] whether to draw the axes
+    \item[...]
+    \end{description}
+    }
+\end{frame}
+
+\begin{frame}[fragile]{more arguments}
+  
+  
+  \begin{description}
+  \item[col] the colour of points or lines; can be defined in many ways
+    \begin{itemize}
+    \item using a numeric value; this gives 9 distinct colours
+    \item using a name, eg. \texttt{col='green'}
+    \item specifying red, green, blue, and alpha components, eg. \texttt{col=rgb(1, 0, 1, 0.5)}
+    \item specifying hue, saturation, value and alpha components, eg. \texttt(col=hsv(1, 1, 1, 0.5))
+    \end{itemize}
+  \item[pch] the plot character to use
+  \item[cex] the size of points
+  \item[lwd] the width of lines
+  \item[lty] the type of lines (indicated by number, 1=solid, 2=dashed, etc...)
+  \end{description}
+  
+  All of these can be specified as a single value, or as a vector of values
+  allowing each point to to have a different colour, size or whatever.
+
+\end{frame}
+
+\begin{frame}[fragile]{some examples}
+  \begin{figure}[ht]
+    \includegraphics[width=0.7\textwidth]{images/circles.pdf}
+  \end{figure}
+  \begin{rcode}
+    > r <- seq(-pi, +pi, length.out=100)
+    par(mfrow=c(2, 3))
+    > plot(sin(r), cos(r))
+    > plot(sin(r), cos(r), col=hsv(seq(0, 1, length.out=100), 1, 1), cex=1)                            
+    > plot(sin(r), cos(r), col=hsv(seq(0, 1, length.out=100), 1, 1), cex=10)
+    > plot(sin(r), cos(r), col=hsv(seq(0, 1, length.out=100), 1, 1), cex=10, pch=2)
+    > plot(sin(r), cos(r), col=hsv(seq(0, 1, length.out=100), 1, 1), cex=10, pch=19)
+  \end{rcode}
+\end{frame}
+
+\begin{frame}[fragile]{a spiral}
+  \begin{figure}[ht]
+    \includegraphics[width=0.5\textwidth]{images/spiral}
+  \end{figure}
+  \begin{rcode}
+    l <- 200
+    a <- seq(-2*pi, +2*pi, length.out=l)
+    r <- seq(0, 1, length.out=l)
+    plot(r*sin(a), 0.8*r*cos(a), pch=19, cex=seq(1, 10, length.out=l),
+         col=rgb(seq(0,1,length.out=l), 0, seq(1,0,length.out=l)), xlim=c(-1.1,1.1),
+         ylim=c(-1.1,1.1) )
+  \end{rcode}
+  
+\end{frame}
+
+\begin{frame}[fragile]{plotting expression}
+  get some expression patterns from our previous data analysis.
+  \begin{rcode}
+    ## get some genes by similarity of expression:
+    ## fstats.dl.o is the order of the f-statistic for drug effect in
+    ## the liver samples (which we obtained previously)
+
+    ## cor calculates correlation coefficients betwen columns, so we
+    ## we need to transpose the data. I'm also scaling it, which is
+    ## probably not necessary...
+    cr <- cor(scale(exp.data[fstats.dl.o[1],]), scale(t(exp.data)))
+    cr.o <- order(cr, decreasing=TRUE)
+
+    ## make matrix of the top 10
+    exp.cr <- exp.data[ cr.o[1:10], ]
+    
+    ## and make a couple of plots:
+    pdf("expression.pdf", width=14, height=7)
+    par(mfrow=c(1,2))   ## one row
+
+    plot(1, 1, xlim=c(1,ncol(exp.cr)), ylim=range(exp.cr), type='n', xlab='sample', 
+         ylab='expression', main="Raw values")
+    apply(exp.cr, 1, function(x){ lines(1:length(x), x, col='grey')})
+    lines(1:ncol(exp.cr), colMeans(exp.cr), lwd=3)
+    
+    exp.cr <- t( scale(t(exp.cr)) )
+    plot(1, 1, xlim=c(1,ncol(exp.cr)), ylim=range(exp.cr), type='n', xlab='sample', 
+         ylab='expression', main="Normalised values")
+    apply(exp.cr, 1, function(x){ lines(1:length(x), x, col='grey')})
+    lines(1:ncol(exp.cr), colMeans(exp.cr), lwd=3)
+    dev.off()
+  \end{rcode}
+\end{frame}
+
+\begin{frame}{expression plotted}
+  \begin{figure}[ht]
+    \includegraphics[width=\textwidth]{images/expression}
+  \end{figure}
+\end{frame}
+
+\begin{frame}[fragile]{arbitrary drawing}
+  use rectangles, lines and segments.
+  
+  \begin{rcode}
+    pdf("arbitrary.pdf", width=7, height=7)
+    plot(1,1, type='n', axes=FALSE, xlim=c(0,100), ylim=c(0,100), xlab='', ylab='')
+    x <- sort(rnorm(40, mean=40, sd=15))
+    y <- sort(rnorm(40, mean=50, sd=30))
+    r <- rnorm(40)
+    points(x, y)
+    points(x[11:20], y[11:20], pch=1:10, cex=3*r[1:10], 
+           col=rgb(0,0,1,seq(0.3, 1.0, length.out=10)) )
+    
+    ## draw some rectangles:
+    rect(c(10, 30, 40), c(3, 40, 80), c(15, 40, 47), c(12, 43, 82), lwd=c(1,2,3),
+         col=c('grey', rgb(0.3, 0, 0.8, 0.5), hsv(0.3, 0.5, 0.8, 0.3)) )
+
+    ## draw a filled ellipse
+    a <- seq(-pi,pi, length.out=100)
+    polygon(50+20*sin(a), 50+40*cos(a), col=rgb(0, 0.5, 0.5, 0.8), border='green') 
+    
+    ## a bit of text
+    text(c(10, 10), c(60, 50), labels=c('hello', 'there'), cex=3)
+    dev.off()
+  \end{rcode}
+  
+  \huge $\Rightarrow$
+\end{frame}
+
+\begin{frame}{drawn arbitrarily}
+  \begin{figure}[ht]
+    \includegraphics[width=0.8\textwidth]{images/arbitrary}
+  \end{figure}
+\end{frame}
+
+\begin{frame}[fragile]{defining functions}
+  You should always avoid doing the same thing more than once;
+
+  functions are one way to reuse code. In R they are treated
+  as objects that can easily be passed to other functions
+  (eg. as in \texttt{apply}).
+
+  \begin{rcode}
+    ## to define a function use the function function...
+    myFunction <- function(a, b){
+      ## the last statement is just returned
+      a * b
+    }
+    ## use the function
+    > myFunction(2,3)
+    [1] 6
+
+    ## and hey it's vectorised as its underlying operations are
+    > myFunction(1:10, 1:10)
+    [1]   1   4   9  16  25  36  49  64  81 100
+  \end{rcode}
+
+  use\\
+  \hspace{4em} \texttt{function(arguments){ function body }}
+
+  to define new functions
+\end{frame}
+
+\begin{frame}{other stuff}
+  \begin{itemize}
+  \item \texttt{par()}. This sets plotting parameters. There are
+    a very large number around, see, \texttt{?par} for further details.
+  \item \texttt{image} Plots the values in a matrix, mapping values to
+    colours. The basis for heatplots of various sorts.
+  \item \texttt{identify} Lets you identify and label items on a plot
+    in an interactive manner.
+ \end{itemize}
+ 
+ Remember that you can always decorate a plot arbitrarily after it's
+ been plotted by some higher level fuction. To get the coordinates that
+ have been plotted use: \texttt{par("usr")}
+
+\end{frame}
+
+\begin{frame}[fragile]{function arguments}
+  The arguments to your new function are specified as arguments
+  to the \texttt{function()} function.
+
+  Defaults can be specified for each argument. Which will be used
+  if not specifed:
+
+  \begin{rcode}
+    myFunction <- function(a=10, b=5){
+      a * b
+    }
+    
+    > myFunction(10, 10)
+    [1] 100
+
+    > myFunction(3)  ## a will take the argument
+    [1] 15
+
+    > myFunction()
+    [1] 50
+
+    ## you can make use of the names
+    > myFunction(b=20)
+    [1] 200
+  \end{rcode}
+\end{frame}
+
+\begin{frame}[fragile]{the ellipsis}
+  in R, the ellipsis, (\texttt{...}) is often used to
+  pass arguments from one function to nested functions.
+
+  For example you may wish to make a special plot function
+  
+  \begin{rcode}
+    cubePlot <- function(x, ...){
+      ## your function plots the cube of values
+      plot(x, x^3, ...)
+    }
+    ## this allows the user to specify arguments that will
+    ## be sent to the plot function:
+    pdf("cubeplot.pdf", width=14, height=7)
+    par(mfrow=c(1,2))
+    cubePlot(-10:10)
+    cubePlot(-10:10, main='cubes of -10 to +10', xlab='x', ylab='y', type='b')
+    dev.off()
+  \end{rcode}
+
+  \huge $\Rightarrow$
+\end{frame}
+
+\begin{frame}{cubePlot}
+  \begin{figure}[ht]
+    \includegraphics[width=\textwidth]{images/cubeplot.pdf}
+  \end{figure}
+
+  The result of \texttt{cubePlot()} without and with arguments
+  fed forward using \texttt{...}
+\end{frame}
+
+\begin{frame}{classes in R}
+  Classes are complicated in R. There are at least three different types.
+
+  \begin{itemize}
+  \item S3 classes. The simplest kind of class.
+  \item S4 classes. Newer class that has methods and slots.
+  \item Reference classes. These don't seem to have a specific names.
+    They can be passed by reference in functions and behave quite differently
+    to other objects in R.
+  \end{itemize}
+  
+  to understand these, check out Hadley's pages linked above.
+\end{frame}
+
+\begin{frame}{The most important R function}
+
+\texttt{?}
+
+learn to read the manual pages!
+
+don't just read, but experiment with the functions, arguments, options
+and numbers to work out what is going on.
 \end{frame}
 
 \end{document}

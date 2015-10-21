@@ -221,6 +221,25 @@ par(mfrow=c(3,4))
 plotExp(fstats.dl.o[1:12], interactive=FALSE)
 dev.off()
 
+## get some genes by similarity of expression:
+cr <- cor(scale(exp.data[fstats.dl.o[1],]), scale(t(exp.data)))
+cr.o <- order(cr, decreasing=TRUE)
+## make matrix of the top 10
+exp.cr <- exp.data[ cr.o[1:10], ]
+
+pdf("expression.pdf", width=14, height=7)
+par(mfrow=c(1,2))
+
+plot(1, 1, xlim=c(1,ncol(exp.cr)), ylim=range(exp.cr), type='n', xlab='sample', ylab='expression', main="Raw values")
+apply(exp.cr, 1, function(x){ lines(1:length(x), x, col='grey')})
+lines(1:ncol(exp.cr), colMeans(exp.cr), lwd=3)
+
+exp.cr <- t( scale(t(exp.cr)) )
+plot(1, 1, xlim=c(1,ncol(exp.cr)), ylim=range(exp.cr), type='n', xlab='sample', ylab='expression', main="Normalised values")
+apply(exp.cr, 1, function(x){ lines(1:length(x), x, col='grey')})
+lines(1:ncol(exp.cr), colMeans(exp.cr), lwd=3)
+dev.off()
+
 ## this function makes use of global variables. These can't be modified,
 ## but can still result in unexpected behaviour
 plotExp <- function(ind, interactive=TRUE){
