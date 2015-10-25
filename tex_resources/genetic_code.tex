@@ -1,0 +1,46 @@
+%% this requires 
+%% usepackage{multirow}
+%% usepackage{tabularx}
+
+\renewcommand{\arraystretch}{1.25}
+\begin{tabular}{ |l| l l|l l| l l|l l|l| }
+  \hline
+  \multirow{2}{2em}{1st base} &
+  \multicolumn{8}{|c|}{2nd base} &
+  \multirow{2}{2em}{3rd base} \\
+  \cline{2-9}
+  &
+  \multicolumn{2}{|c|}{U} &
+  \multicolumn{2}{|c|}{C} &
+  \multicolumn{2}{|c|}{A} &
+  \multicolumn{2}{|c|}{G} & \\
+  \hline
+  \multirow{4}{2em}{U} & 
+  UUU & \multirow{2}{4em}{\tiny (Phe/F)} &
+  UCU & \multirow{4}{4em}{\tiny (Ser/S)} &
+  UAU & \multirow{2}{4em}{\tiny (Tyr/Y)} &
+  UGU & \multirow{2}{4em}{\tiny (Cys/C)} & U \\
+  & UUC & & UCC & & UAC & & UGC & & C \\ \cline{2-3} \cline{6-9}
+  & UUA & \multirow{6}{4em}{\tiny (Leu/L)} 
+  & UCA & & UUA & Stop & UGA & (Stop) & A \\ \cline{8-9}
+  & UUG & & UCG & & UAG & Stop & UGG & \tiny (Trp/W) & G \\ \cline{4-9} 
+  \cline{1-1}
+  \multirow{4}{2em}{C}
+  & CUU & & CCU & \multirow{4}{4em}{(Pro/P)} & CAU & \multirow{2}{4em}{(His/H)} & CGU & \multirow{4}{4em}{(Arg/R)} & U \\
+  & CUC & & CCC & & CAC & & CGC & & C \\ \cline{6-7}
+  & CUA & & CCA & & CAA & \multirow{2}{4em}{Gln/Q} & CGA & & A \\
+  & CUG & & CCG & & CAG & & CGG & & G \\ \cline{1-9}
+  \multirow{4}{2em}{A}
+  & AUU & \multirow{3}{4em}{(Ile/I)} & ACU & \multirow{4}{4em}{(Thr/T)} & AAU 
+  & \multirow{2}{4em}{(Asn/N)} & AGU & \multirow{2}{4em}{(Ser/S)} & U \\
+  & AUC & & ACC & & AAC & & AGC & & C \\ \cline{6-9}
+  & AUA & & ACA & & AAA & \multirow{2}{4em}{(Lys/K)} & AGA & \multirow{2}{4em}{(Arg/R)} & A \\
+  \cline{2-3}
+  & AUG & (Met/M) & ACG & & AAG & & AGG & & G \\ \cline{1-9}
+  \multirow{4}{4em}{G}
+  & GUU & \multirow{4}{4em}{(Val/V)} & GCU & \multirow{4}{4em}{(Ala/A)} 
+  & GAU & \multirow{2}{4em}{(Asp/D)} & GGU & \multirow{4}{4em}{(Gly/G)} & U \\
+  & GUC & & GCC & & GAC & & GGC & & C \\ \cline{6-7}
+  & GUA & & GCA & & GAA & \multirow{2}{4em}{(Glu/E)} & GGA & & A \\
+  & GUG & & GCG & & GAG & & GGG & & G \\ \hline
+\end{tabular}

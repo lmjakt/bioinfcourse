@@ -12,6 +12,7 @@
 ## gap opening penalty
 ## gap extension penalty
 
+
 (@ARGV == 6) || die "usage: needleman_tikz.pl seq1 seq1 match_penalty mismatch_penalty gap_opening_penalty gap_extension_penalty\n";
 
 @seq1 = split //, $seq1;

@@ -1,0 +1,262 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{minted}
+\usepackage{multirow}
+\usepackage{enumerate}
+\usepackage{tikz}
+
+%% for listings..
+\newminted{perl}{linenos, bgcolor=mintedBg, fontsize=\footnotesize}
+\newminted{r}{linenos, bgcolor=mintedBg, fontsize=\footnotesize}
+\definecolor{mintedBg}{rgb}{0.95, 0.95, 0.95}
+\definecolor{blockBg}{rgb}{0.6, 0.6, 0.95}
+
+\begin{document}
+
+\section{Bioinformatics in General}
+\begin{enumerate}
+\item What is bioinformatics and why is it becoming an essential topic for
+  biologists?\\
+  Note that the there is no single correct answer to this question, and that
+  you will not be judged on what you argue, but on how reasonable and informed
+  your argument is.
+  
+  In your answer you may wish to consider the following:
+  \begin{itemize}
+  \item your opinion of what bioinformatics is
+  \item the technologies or skills that are used within the field
+  \item the impact of technological process on biological experiments
+  \end{itemize}
+  \item Describe some examples of problems and fields addressed by
+    Bioinformatics. Full marks require at least three examples; points
+    will be given both for depth of explanation and for numbers of points.
+  \item Why is there such an emphasis of the analysis of sequences within
+    bioinformatics? (Any reasonable answer will be accepted).
+  \item Describe and contrast how genes were identified before and after the
+    availability of cheap DNA sequencing.
+  \item Why do we need sequences?
+  \item Given an example of DNA sequence analysis that does not involve the
+    alignment of sequences.
+  \item What do we mean by, and when do we make use of sequence assembly?
+  \item Give some examples of how we make use of sequence comparisons?
+  \item What's the general relationship between sequence alignment and
+    sequence comparison?
+\end{enumerate}
+
+\section{Molecular Biology \& the Central Dogma}  
+\begin{enumerate}
+\item Describe how information is stored, transmitted and made use of in biological
+  systems. What are the important properties of the different types of
+  macro-molecules used in this process?
+  \begin{itemize}
+    \item What is DNA?
+    \item How does it differ from RNA?
+    \item Why does this matter?
+    \item How do proteins differ from nucleic acids?
+    \item What do we mean when we say that two nucleic acid sequences (RNA or
+      DNA) are complementary?
+    \item The majority of DNA molecules are double stranded, whereas the
+      majority of RNA molecules are single stranded. Discuss the impact of
+      strandedness (consider replication / structural properties).
+    \item What is this process generally called?
+  \end{itemize}
+\item Describe the structure of genes in both prokaryotes and
+  eukaryotes. Include as many features as you can.
+  \begin{itemize}
+  \item How do we usually define a gene? (bonus points: How does this differ
+    from the historical definition of a gene).
+  \item For bonus points, discuss what should be included as part of a gene
+    and how this makes it difficult to define the number of genes an organism
+    has. 
+  \end{itemize}
+\item Give some exceptions to the Central Dogma.
+\item What is the difference between RNA and DNA monomers?
+\item How do the monomers of nucleic acids differ from those of proteins? How
+  does this relate to their function?
+\item What are exons and introns?
+\item What is a codon? How long is it and why?
+\item What do we mean when we talk about the degeneracy of the genetic code?
+\item Given a genetic code:\\
+  \begin{minipage}{0.6\textwidth}
+  {\tiny
+    \input{../tex_resources/genetic_code.tex}
+  }
+  \end{minipage}
+
+  Give all the amino acide sequences that can be encoded by:\\
+  \verb|ATCAGATAGATATTACCG|
+\item What is an open reading frame (ORF)? What good are they to
+  bioinformaticians?
+\item What kind of mutations can arise in DNA sequences? What effects
+  do the different types of mutations have on genes?
+\end{enumerate}
+
+\section{Biological databases}
+\begin{enumerate}
+\item Describe the typical structure of a web-facing databases. Comment on the
+  different types of users and on how they use the database differently.
+\item Describe examples of the types of data that is held in different
+  databases. Comment on how the type of data affects how the data is stored
+  and accessed.
+\item Where can you find DNA sequences? (If you have trouble remembering
+  specific names of databases, describe in some detail how you would go about finding a
+  location / database that gives you DNA sequences).
+\item How would you find biological information about a given DNA sequence?
+  Include details about the type of information you can obtain from a DNA
+  sequence and how this relates to the different types of DNA sequences
+  (remember the structure of genes).
+\item You search the [name witheld] database for a sequence representing a
+  specific gene. You get several hundred sequences back. What is the reason
+  for the multitude of sequences? What can you do to obtain only relevant
+  sequences? Finally, what questions might you be able to address with the
+  full set of sequences you obtained?
+\item What are the differences between the Genbank, EMBL and DDBJ databases?
+\item Describe the fasta sequence format.
+\item Apart from sequence data what does the fastq format contain?
+\item What are genome databases and why are they useful?
+\end{enumerate}
+
+\section{Pairwise alignment}
+\begin{enumerate}
+\item For the two sequences: \verb|5' TAATTAGC 3'| and \verb|5' CATTA 3'| :
+  \begin{enumerate}
+    \item Provide three reasonable alignments.
+    \item Describe how you can score the alignments using sets of penalties
+      (remember that you can have negative penalties).
+    \item Score the alignments using at least two different sets of
+      penalties. Comment on how the choice of penalties relates to the
+      biological question being asked.
+    \item Which of your alignments do you think is most reasonable and why? If you
+      think all are equally reasonable then explain your opinion.
+  \end{enumerate}
+\item Why do we often use a different penalty for gap insertion and gap
+  extension? Provide an example alignment with your question.
+\item What's a dotplot? What can we use it for?
+\item What do we mean by an optimal alignment?
+\item What is the difference between a global and local alignment?
+\item What is this?
+  \begin{figure}[H]
+    \begin{tikzpicture}[scale=0.6]
+      \input{nm1_aa.tikz}
+    \end{tikzpicture}
+  \end{figure}
+  \begin{enumerate}
+  \item Fill in the next row with both numbers and arrows.
+  \item What can you obtain from this table after it is completely filled in?
+  \end{enumerate}
+\item Obtain all optimal alignments from the following table:
+  \begin{figure}[H]
+    \begin{tikzpicture}[scale=0.6]
+      \input{nm2_aa.tikz}
+    \end{tikzpicture}
+  \end{figure}
+  \begin{enumerate}
+  \item Draw the process directly on the table.
+  \item What kind of alignment(s) did you obtain?
+  \end{enumerate}
+\item How would you modify the Needleman-Wunsch (global alignment) to
+  obtain a local alignment (Smith-Waterman)?
+\item Fill in the first two rows and the first column of the following
+  alignment table for a local alignment (Smith-Waterman).
+  \begin{figure}[H]
+    \begin{tikzpicture}[scale=0.6]
+      \input{sm1_aa.tikz}
+    \end{tikzpicture}
+  \end{figure}
+\item What is an amino acid substitution matrix and how would you use one?
+\item Describe at least two ways in which you can derive an amino acid
+  substitution matrix?
+\item On what basis could you define a nucleotide substitution matrix for
+  aligning DNA sequences?
+\item The following is an example of an amino acid substitution table.
+  \begin{figure}[H]
+    \includegraphics[width=0.7\textwidth]{images/dayhoff_256}
+  \end{figure}
+  \begin{enumerate}
+  \item The table has high and low values. What do these mean?
+  \item What do the numbers along the diagonal indicate? Why do they
+    vary?
+  \end{enumerate}
+\end{enumerate}
+  
+\section{Multiple sequence alignment}
+\begin{enumerate}
+\item What are homologues, orthologues and paralogues?
+\item Describe some uses of multiple sequence alignment.
+\item What are heuristic methods? Why do we use them?
+\item What are the three steps of the Clustal method?
+\item How does the Clustal method make use of a guide tree?
+\item Describe a simple method to obtain a guide tree.
+\end{enumerate}
+
+\section{Perl}
+\begin{enumerate}
+\item What is Perl, and what is it useful for?
+\item What are the three ways in which you can store values in Perl? Give
+  examples as to how you can assign values to such variables?
+\item What does the following code do?
+
+  \begin{perlcode}
+    #!/usr/bin/perl -w
+    
+    $a = $ARGV[0];
+    $b = $ARGV[1];
+
+    print "$a + $b = ", $a + $b, "\n";
+    
+  \end{perlcode}
+  Explain what kind of errors you may get running the above code.
+\item What does the following code do?
+
+  \begin{perlcode}
+    #!/usr/bin/perl -w
+
+    @a = (0,1);
+    for($i = 2; $i < 100; $i++){
+      $a[$i] = $a[$i-2] + $a[$i-1];
+    }
+    
+    for $v(@a){
+      print "$v\n";
+    }
+    \end{perlcode}
+\item The Fibonacci sequence is defined as a sequence of numbers starting
+  with 1,1 or 0,1 and where every subsequent number is the sum of the two
+  previous numbers. That is: $F_i = F_{i-2} + F_{i-1}$. Write a small piece
+  of Perl that calculates and prints the first 100 values of the Fibonacci
+  sequence.
+\item How would you represent a table of values in Perl?
+\item Why is the following problematic:
+
+  \begin{perlcode}
+    $v1 = "one";
+    $v2 = 2;
+    $v3 = $v1 + $v2;
+  \end{perlcode}
+\item What is the difference between:
+
+  \begin{perlcode}
+    if($a eq $b)
+  \end{perlcode}
+  and
+
+  \begin{perlcode}
+    if($a == $b)
+  \end{perlcode}
+  When would you use one rather than the other?
+\item What will the following code print:
+
+  \begin{perlcode}
+  $a = 10;
+  $b = 8;
+  if($b = $a){
+    print "$a is equal to $b\n";
+  }else{
+    print "$a is not equal to $b\n";
+  }
+  \end{perlcode}
+  Read carefullly; there is a small trick here.
+\end{enumerate}
+
+\end{document}
