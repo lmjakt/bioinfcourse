@@ -1,0 +1,41 @@
+\begin{verbatim}
+LOCUS       XM_008953060            3226 bp    mRNA    linear   PRI 30-SEP-2015
+DEFINITION  PREDICTED: Pan paniscus homeobox B3 (HOXB3), mRNA.
+ACCESSION   XM_008953060
+VERSION     XM_008953060.2  GI:931599499
+DBLINK      BioProject: PRJNA169343
+...
+...
+FEATURES             Location/Qualifiers
+     source          1..3226
+                     /organism="Pan paniscus"
+                     /mol_type="mRNA"
+                     /isolate="Ulindi"
+                     /db_xref="taxon:9597"
+                     /chromosome="17"
+                     /sex="female"
+                     /country="Germany"
+     gene            1..3226
+                     /gene="HOXB3"
+                     /note="Derived by automated computational analysis using
+                     gene prediction method: Gnomon. Supporting evidence
+                     includes similarity to: 46 ESTs, 18 Proteins, and 96%
+                     coverage of the annotated genomic feature by RNAseq
+                     alignments"
+                     /db_xref="GeneID:100976858"
+     STS             357..1846
+                     /gene="HOXB3"
+                     /db_xref="UniSTS:480777"
+     STS             407..1791
+                     /gene="HOXB3"
+                     /db_xref="UniSTS:482026"
+     CDS             454..1746
+                     /gene="HOXB3"
+...
+...
+ORIGIN      
+        1 tgactgccag atagtgcagt gttttggcca cgcaaatctc cttggaccgg ctgttggggg
+       61 aaaaaagtgt tagccgtctc tcccggatct gcaaggggga aaaaatttgg aaccataaag
+      121 ttgaaaactt ttttctctca gtttggaaga agcccttcgt catgaatggg atccgcagag
+...
+\end{verbatim}

@@ -1,0 +1,149 @@
+LOCUS       XM_008953060            3226 bp    mRNA    linear   PRI 30-SEP-2015
+DEFINITION  PREDICTED: Pan paniscus homeobox B3 (HOXB3), mRNA.
+ACCESSION   XM_008953060
+VERSION     XM_008953060.2  GI:931599499
+DBLINK      BioProject: PRJNA169343
+KEYWORDS    RefSeq; includes ab initio.
+SOURCE      Pan paniscus (pygmy chimpanzee)
+  ORGANISM  Pan paniscus
+            Eukaryota; Metazoa; Chordata; Craniata; Vertebrata; Euteleostomi;
+            Mammalia; Eutheria; Euarchontoglires; Primates; Haplorrhini;
+            Catarrhini; Hominidae; Pan.
+COMMENT     MODEL REFSEQ:  This record is predicted by automated computational
+            analysis. This record is derived from a genomic sequence
+            (NW_014014294.1) annotated using gene prediction method: Gnomon,
+            supported by EST evidence.
+            Also see:
+                Documentation of NCBI's Annotation Process
+            
+            On Sep 30, 2015 this sequence version replaced gi:675788001.
+            
+            ##RefSeq-Attributes-START##
+            ab initio :: 4% of CDS bases
+            ##RefSeq-Attributes-END##
+            
+            ##Genome-Annotation-Data-START##
+            Annotation Provider         :: NCBI
+            Annotation Status           :: Full annotation
+            Annotation Version          :: Pan paniscus Annotation Release 102
+            Annotation Pipeline         :: NCBI eukaryotic genome annotation
+                                           pipeline
+            Annotation Software Version :: 6.4
+            Annotation Method           :: Best-placed RefSeq; Gnomon
+            Features Annotated          :: Gene; mRNA; CDS; ncRNA
+            ##Genome-Annotation-Data-END##
+FEATURES             Location/Qualifiers
+     source          1..3226
+                     /organism="Pan paniscus"
+                     /mol_type="mRNA"
+                     /isolate="Ulindi"
+                     /db_xref="taxon:9597"
+                     /chromosome="17"
+                     /sex="female"
+                     /country="Germany"
+     gene            1..3226
+                     /gene="HOXB3"
+                     /note="Derived by automated computational analysis using
+                     gene prediction method: Gnomon. Supporting evidence
+                     includes similarity to: 46 ESTs, 18 Proteins, and 96%
+                     coverage of the annotated genomic feature by RNAseq
+                     alignments"
+                     /db_xref="GeneID:100976858"
+     STS             357..1846
+                     /gene="HOXB3"
+                     /db_xref="UniSTS:480777"
+     STS             407..1791
+                     /gene="HOXB3"
+                     /db_xref="UniSTS:482026"
+     CDS             454..1746
+                     /gene="HOXB3"
+                     /codon_start=1
+                     /product="homeobox protein Hox-B3"
+                     /protein_id="XP_008951308.1"
+                     /db_xref="GI:675788002"
+                     /db_xref="GeneID:100976858"
+                     /translation="MQKATYYDNAAAALFGGYSSYPGSNGFGFDGSPQPPFQAATHLE
+                     GDYQRSACSLQSLGNAAPHAKSKELNGSCMRPGLAPEPLSAPPGSPPPSAAPTSATSN
+                     SSNGGGPSKSGPPKCGPGTNSTLTKQIFPWMKESRQTSKLKNNSPGTGTSSLPSLSSA
+                     FVGARNLPSTGASESSRRPTPPGSAASKRARTAYTSAQLVELEKEFHFNRYLCRPRRV
+                     EMANLLNLSERQIKIWFQNRRMKYKKDQKAKGLASSSGGPSPAGSPPQPMQSTAGFMN
+                     ALHSMTPSYESPSPPAFGKAHQNAYALPSNYQPPLKGCGAPQKYPPTPAPEYEPHVLQ
+                     ANGGAYGTPTMQGSPVYVGGGGYADPLPPPAGPSLYGLNHLSHHPSGNLDYNGAPPMA
+                     PSQHHGPCEPHPTYTDLSSHHAPPPQGRIQEAPKLTHL"
+     STS             464..867
+                     /gene="HOXB3"
+                     /standard_name="Hoxb3"
+                     /db_xref="UniSTS:143381"
+     STS             1352..2074
+                     /gene="HOXB3"
+                     /standard_name="HOXB3_127"
+                     /db_xref="UniSTS:277319"
+     STS             1701..1992
+                     /gene="HOXB3"
+                     /standard_name="SHGC-83404"
+                     /db_xref="UniSTS:101908"
+     STS             1723..1986
+                     /gene="HOXB3"
+                     /standard_name="GDB:196132"
+                     /db_xref="UniSTS:155815"
+     STS             1736..1839
+                     /gene="HOXB3"
+                     /standard_name="RH75958"
+                     /db_xref="UniSTS:86356"
+ORIGIN      
+        1 tgactgccag atagtgcagt gttttggcca cgcaaatctc cttggaccgg ctgttggggg
+       61 aaaaaagtgt tagccgtctc tcccggatct gcaaggggga aaaaatttgg aaccataaag
+      121 ttgaaaactt ttttctctca gtttggaaga agcccttcgt catgaatggg atccgcagag
+      181 ttcgggcgag aggaggcgag aggcgcaaag gaggggagat ttgtcgcctg ccgctcgctc
+      241 tggggctcga tgtgaatata tattatgtct gcctgttctc ccctcatcgg tggctaaggt
+      301 cagccgcttg gaacagaccc cggaggaggg gggcagagag gggaggtggg ggggggtccg
+      361 gcgtgtcacg tgacccccag ggttgccaat gtccggtcct gagggtatca ggcctttcca
+      421 agttgccacc cactgcccag gcctcaccca gcgatgcaga aagccaccta ctacgacaac
+      481 gccgcggctg ctctcttcgg aggctattcc tcgtaccctg gcagcaatgg cttcggcttc
+      541 gatggctccc cccaaccccc atttcaggcc gccacgcacc tggagggcga ctaccagcgc
+      601 tcagcttgct cgctgcagtc cctgggcaac gctgccccac atgccaagag caaggagctc
+      661 aacggcagct gcatgaggcc gggtctggcc cccgagcccc tgtcggcccc gcccggctca
+      721 cccccgccca gtgccgcacc taccagtgcc actagcaaca gcagtaatgg gggcgggccc
+      781 agcaaaagtg gtcccccaaa gtgcggtccc ggcaccaact ccaccctcac caaacagata
+      841 ttcccctgga tgaaagagtc gaggcaaacg tccaagctga aaaacaactc ccccggcaca
+      901 ggtaccagtt ctctgccttc cttgtcctca gcttttgtcg gagccaggaa tctgccctcc
+      961 accggagctt ctgaaagctc cagaaggccc acccccccgg ggtcggcggc gtccaagcgg
+     1021 gcgcggacgg cgtacacgag cgcacagctg gtggagctgg agaaggagtt ccattttaac
+     1081 cgctacctgt gccggcctcg ccgtgtagag atggccaacc tgctgaacct cagcgagcgg
+     1141 cagatcaaga tctggttcca gaaccggcgc atgaagtaca agaaggacca gaaggccaag
+     1201 ggattggcct cgtcgtcggg gggcccatct ccagccggca gccccccgca gcccatgcag
+     1261 tccacggccg gcttcatgaa cgccttacac tccatgaccc ccagctacga gagcccgtcc
+     1321 ccacccgcct tcggtaaagc ccaccagaat gcctacgcgc tgccctccaa ctaccagccc
+     1381 cctctcaaag gctgcggcgc cccgcagaag taccctccga ccccggcgcc cgagtatgag
+     1441 ccgcacgtcc tccaagccaa cgggggcgcc tacgggacgc ccaccatgca gggcagtccg
+     1501 gtgtacgtgg gcgggggcgg ctacgcggat ccgctgccgc cccctgccgg cccctccctc
+     1561 tatggcctca accacctttc ccatcaccct tccgggaacc tggactacaa cggggcgccc
+     1621 cctatggcgc ccagccagca ccacggaccc tgcgaacccc accccaccta cacagacctc
+     1681 tcctctcacc acgcgcctcc tcctcagggt agaatccaag aagcgcccaa attaacacac
+     1741 ctgtgatggg aaagggcgaa cgaggattag gggatgggga ggaagagaga gactgtggag
+     1801 ctctgggggc agcctggagg tctgaaaaga ggagccagag aaggtggtac ccaggcttcc
+     1861 tggtcagaac cggcctggag ctccttcccc tccccctggc ctgagaggtt gcttttaagt
+     1921 cttccacccc ttgttccatc tgcctgccaa cccatcggaa aggaatccac atcatattgg
+     1981 agatgacccc atcaacccca gggctccagc actaccaagt tggaattcca cgcccgggag
+     2041 tggggtagag gaagacgaga caggaagagg cagaaaagca cattttaaaa accagacaag
+     2101 atggctaggc catcaccaac caacggactt accttacatc tttgtaggta attcccccca
+     2161 aatcttgatt ttttttcctc aattatcctt taaaaaataa gaaaacacat ttcaaaccca
+     2221 aagggcacaa aacacgttcc cttccaactt tcccaaaacc tcaaatttgt tcccatttat
+     2281 ttgaggttta ttgaggtacc taccccctcc acttctagcc cccggttttt ctgctctaga
+     2341 acattcatat ctatacatcc cacccccatc aattacagtt tttagagggc tcagggatgg
+     2401 tgagagatcc tgaaagagct gcctatatta taaattatat acattttttt tttaaggaaa
+     2461 agtgtggagg ctagggcagg caggttgtta ggactgaagg tttgcccatt ctgctgcctc
+     2521 catctcagct ccagctccat ccccctctcc acggaaagca gttggtgaca cgaggttcta
+     2581 tacttttctt ctgttgctct cttgacttaa cgtgaaaaca gggtatattt gaacaaactg
+     2641 tctgtcccag gcaggggctg ggcatcccct gtgtgccttg ctcagcctcc tgacaggaca
+     2701 cttttgttgc acttagagtt tacattttaa tggatgtaaa aacaactgtg agagatgtct
+     2761 gggcctgcag aagtccagca ttgctcaaaa aagcgtgtgt tctagtgaac attttcatat
+     2821 atatttattg gttatagcct gttaaaatat tttctttttt gtattattta tccccctaca
+     2881 ttatgtattt atatgagggg aaaaaaggaa aaaattgtac ttttttagta tttacctgtt
+     2941 acaaaggaca ttgtgtttcc tgtcatgtaa aaccagctat tttagttact attgtactct
+     3001 agaaaagagc tgtagattta tgttaaactt gtacttacga acaattgtaa ttagttctaa
+     3061 aaggcatgaa ctcagctcct aatcgtcact gtatagtcct gaatttgtag aactagagtt
+     3121 aattccctct tggaactttc tttgttcttc agtagttact tttttcctta cctaaaaggg
+     3181 ttgtctgtca aacaattctt gaataaactt tctgttatca atttta
+//
+
