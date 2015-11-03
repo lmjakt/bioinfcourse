@@ -37,26 +37,26 @@
     bioinformatics? (Any reasonable answer will be accepted).\\
     (2 points)
   \item Describe and contrast how genes were identified before and after the
-    availability of cheap DNA sequencing.
+    availability of cheap DNA sequencing.\\
     (4 points)
-  \item Why do we need sequences?  [This can be phrased better: what quality
-    of sequence data distinguishes it from others: qualitative allows identification]
+  \item What makes sequence data special?  [This can be phrased better: what quality
+    of sequence data distinguishes it from others: qualitative allows identification]\\
     (2 points)
   \item Describe an example of DNA sequence analysis that does not involve the
-    alignment of sequences.
+    alignment of sequences.\\
     (3 points)
-  \item What do we mean by, and when do we make use of sequence assembly?
+  \item What do we mean by, and when do we make use of sequence assembly?\\
     (3 points)
-  \item Give some examples of how we make use of sequence comparisons?
+  \item Give some examples of how we make use of sequence comparisons?\\
     (3 points)
   \item What's the general relationship between sequence alignment and
-    sequence comparison?
+    sequence comparison?\\
     (2 points)
 \end{enumerate}
 
 \section{Molecular Biology \& the Central Dogma}  
 \begin{enumerate}
-\item Describe how information is stored, transmitted and made use of in biological
+\item Describe how information stored in DNA sequence is transmitted and made use of in biological
   systems. What are the important properties of the different types of
   macro-molecules used in this process?
   \begin{itemize}
@@ -69,11 +69,11 @@
     \item The majority of DNA molecules are double stranded, whereas the
       majority of RNA molecules are single stranded. Discuss the impact of
       strandedness (consider replication / structural properties).
-    \item What is this idea generally called?
+    \item What is this concept generally called?
   \end{itemize}
   (10 points)
 \item Describe the structure of genes in both prokaryotes and
-  eukaryotes. Include as many features as you can.
+  eukaryotes.Include as many features as you can.
   \begin{itemize}
   \item How do we usually define a gene? How does this differ
     from the historical definition of a gene.
@@ -128,8 +128,8 @@
   location / database that gives you DNA sequences).\\
   (3 points)
 \item How would you find biological information about a given DNA sequence?
-  Include details about the type of information you can obtain from a DNA
-  sequence and how this relates to the different types of DNA sequences
+  Include details about the type of information that can be encoded by a DNA
+  sequence and how this relates to your choice of database.
   (remember the structure of genes).\\
   (3 points)
 \item You search the [name witheld] database for a sequence representing a
@@ -252,12 +252,12 @@
 \item What does the following code do?
 
   \begin{perlcode}
-    #!/usr/bin/perl -w
+  #!/usr/bin/perl -w
     
-    $a = $ARGV[0];
-    $b = $ARGV[1];
+  $a = $ARGV[0];
+  $b = $ARGV[1];
 
-    print "$a + $b = ", $a + $b, "\n";
+  print "$a + $b = ", $a + $b, "\n";
     
   \end{perlcode}
   Explain what kind of errors you may get running the above code.\\
@@ -265,18 +265,18 @@
 \item What does the following code do?
 
   \begin{perlcode}
-    #!/usr/bin/perl -w
+  #!/usr/bin/perl -w
 
-    @a = (0,1);
-    for($i = 2; $i < 100; $i++){
-      $a[$i] = $a[$i-2] + $a[$i-1];
-    }
-    
-    for $v(@a){
-      print "$v\n";
-    }
-  \end{perlcode}
-  (4 points)
+  @a = (0,1);
+  for($i = 2; $i < 100; $i++){
+    $a[$i] = $a[$i-2] + $a[$i-1];
+  }
+  
+  for $v(@a){
+    print "$v\n";
+  }
+\end{perlcode}
+(4 points)
 \item The Fibonacci sequence is defined as a sequence of numbers starting
   with 1,1 or 0,1 and where every subsequent number is the sum of the two
   previous numbers. That is: $F_i = F_{i-2} + F_{i-1}$. Write a small piece
@@ -284,25 +284,25 @@
   sequence. (You will be minimally penalised for syntax errors, the logic is
   more important).\\
   (5 points)
-\item How would you represent a table of values in Perl?
+\item How would you represent a table of values in Perl?\\
   (2 points)
 \item Why is the following problematic:
 
   \begin{perlcode}
-    $v1 = "one";
-    $v2 = 2;
-    $v3 = $v1 + $v2;
+  $v1 = "one";
+  $v2 = 2;
+  $v3 = $v1 + $v2;
   \end{perlcode}
   (2 points)
 \item What is the difference between:
 
   \begin{perlcode}
-    if($a eq $b)
+  if($a eq $b)
   \end{perlcode}
   and
 
   \begin{perlcode}
-    if($a == $b)
+  if($a == $b)
   \end{perlcode}
   When would you use one rather than the other?\\
   (2 points)
@@ -327,7 +327,7 @@
   searching a database of sequences for homologous sequences.\\
   (3 points)
 \item Describe three examples of situations where you may wish to search a
-  sequence database for homologous sequences.\\
+  sequence database for homologous or overlapping sequences.\\
   (4 points)
 \item When would you use Blat as opposed to Blast?\\
   (2 points)
@@ -351,14 +351,14 @@ affect the inferences that you can make?\\
 (4 points)
 \item Give three different types of nucleic acid sequences (from eukaryotes)
   depending on their relationship to genes. What are these types and how does
-  it affect your choice of database to use when looking for similar sequences?
+  it affect your choice of database to use when looking for similar sequences?\\
 (3 points)
-\item How would you identify an alignment between sequence 1 and 2 from the following table:
+\item How would you identify an alignment between sequence 1 (\verb|FLWRTWS|) 
+  and 2 (\verb|SWKTWT|) from the following table:
 \begin{figure}[H]
   \input{fasta_table.tex}
 \end{figure}
-{\small Hints: you will need to reconstruct sequence 1 from the lookup table
-  given in column \texttt{S1}, and it may help you to plot column \texttt{S1} vs
+{\small Hints: It may help you to plot column \texttt{S1} vs
   \texttt{S2}.
 }\\
 (5 points)
@@ -369,7 +369,7 @@ affect the inferences that you can make?\\
 \item The following shows several parts of a genbank formatted file. Lines
   containing only \texttt{...} indicate parts that have been removed from the
   file. What can you tell about the sequence given in the file?
-  {\tiny \input{sequence_parts.gb}}\\
+  {\tiny \input{sequence_parts.gb}}
   (4 points)
 \item The following image shows the graphical output from an NCBI blast
   search. What can you tell from the picture?
@@ -416,7 +416,7 @@ affect the inferences that you can make?\\
     \includegraphics[width=0.5\textwidth]{R/hyper}
   \end{figure}
   How would you estimate the probability of
-  observing an \texttt{X} value of more 10?\\
+  observing a value of more 10?\\
   (hint: you don't need to plot the distribution, but it is shown as an aid to
   your thinking)\\
   (4 points)
@@ -452,41 +452,44 @@ affect the inferences that you can make?\\
 \item In the following R-code;
 
   \begin{rcode}
-    ## exp.data is a matrix of expression values that 
-    ## has been defined earlier in the analysis
-    ## where each column represents a sample 
-    ## and each row a gene transcript
-
-    h.all <- hist( log(exp.data) )
-    h.sample <- apply( log(exp.data), 1, function(x){ hist(x,
-      breaks=h.all$breaks) })
-
-    h.sample.c <- sapply( h.sample, function(x){ x$counts })
+  ## exp.data is a matrix of expression values that 
+  ## has been defined earlier in the analysis
+  ## where each column represents a sample 
+  ## and each row a gene transcript
+  
+  h.all <- hist( log(exp.data) )
+  h.sample <- apply( log(exp.data), 2, function(x){ hist(x,
+    breaks=h.all$breaks) })
+  
+  h.sample.c <- sapply( h.sample, function(x){ x$counts })
   \end{rcode}
   Describe what is obtained on each line of functional code (6, 7, 10).\\
   (4 points)
 \item What does the following R-code do?
 
   \begin{rcode}
-    a <- vector(mode='numeric', length=1000)
-    b <- vector(mode='numeric', length=length(a))
-    for(i in 1:length(a)){
-      a[i] <- rnorm(1, 10, 2)
-      b[i] <- a[i] * rnorm(1, 2, 0.25) + rnorm(1, 3, 1)
-    }
-    plot(a, b, pch=1, col='red', xlab='a', ylab='b')    
+  a <- vector(mode='numeric', length=1000)
+  b <- vector(mode='numeric', length=length(a))
+  for(i in 1:length(a)){
+    a[i] <- rnorm(1, 10, 2)
+    b[i] <- a[i] * rnorm(1, 2, 0.25) + rnorm(1, 3, 1)
+  }
+  plot(a, b, pch=1, col='red', xlab='a', ylab='b')    
   \end{rcode}
   Describe what each line does, one by one.\\
   The above code is bad R-code that will run very slowly for larger data
   sets. How would you rewrite it to make it run much, much faster?\\
+  Hint: \texttt{rnorm(n, m, sd)} is a function that provides 
+  \texttt{n} random samples from a normal distribution with a mean
+  of \texttt{m} and standard deviation of \texttt{sd}.\\
   (4 points)
 \item The following code creates some matrices:
  
   \begin{rcode}
-    a <- matrix(1:12, nrow=4)
-    b <- a[1:2, ]
-    c <- cbind(b, c(10,11))
-    d <- a[ rowSums(a) > 18, ]
+  a <- matrix(1:12, nrow=4)
+  b <- a[1:2, ]
+  c <- cbind(b, c(10,11))
+  d <- a[ rowSums(a) > 18, ]
   \end{rcode}
   Draw the resulting data structures (a, b, c and d).\\
   (3 points)
