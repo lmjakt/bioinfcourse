@@ -1,0 +1,23 @@
+mysql> describe gene;
++-------------------------+------------------------------------------------------------------------------------------+------+-----+---------------------+----------------+
+| Field                   | Type                                                                                     | Null | Key | Default             | Extra          |
++-------------------------+------------------------------------------------------------------------------------------+------+-----+---------------------+----------------+
+| gene_id                 | int(10) unsigned                                                                         | NO   | PRI | NULL                | auto_increment |
+| biotype                 | varchar(40)                                                                              | NO   |     | NULL                |                |
+| analysis_id             | smallint(5) unsigned                                                                     | NO   | MUL | NULL                |                |
+| seq_region_id           | int(10) unsigned                                                                         | NO   | MUL | NULL                |                |
+| seq_region_start        | int(10) unsigned                                                                         | NO   |     | NULL                |                |
+| seq_region_end          | int(10) unsigned                                                                         | NO   |     | NULL                |                |
+| seq_region_strand       | tinyint(2)                                                                               | NO   |     | NULL                |                |
+| display_xref_id         | int(10) unsigned                                                                         | YES  | MUL | NULL                |                |
+| source                  | varchar(40)                                                                              | NO   |     | NULL                |                |
+| status                  | enum('KNOWN','NOVEL','PUTATIVE','PREDICTED','KNOWN_BY_PROJECTION','UNKNOWN','ANNOTATED') | YES  |     | NULL                |                |
+| description             | text                                                                                     | YES  |     | NULL                |                |
+| is_current              | tinyint(1)                                                                               | NO   |     | 1                   |                |
+| canonical_transcript_id | int(10) unsigned                                                                         | NO   | MUL | NULL                |                |
+| stable_id               | varchar(128)                                                                             | YES  | MUL | NULL                |                |
+| version                 | smallint(5) unsigned                                                                     | NO   |     | 1                   |                |
+| created_date            | datetime                                                                                 | NO   |     | 0000-00-00 00:00:00 |                |
+| modified_date           | datetime                                                                                 | NO   |     | 0000-00-00 00:00:00 |                |
++-------------------------+------------------------------------------------------------------------------------------+------+-----+---------------------+----------------+
+17 rows in set (0.00 sec)

@@ -152,8 +152,8 @@ Good for genome sequences (but not the annotation).
 
 \begin{frame}{Relational}
   \begin{itemize}
-  \item provide a framework for storing data in a structured manner
-  \item provide mechanisms for ensuring data integrity
+  \item provides a framework for storing data in a structured manner
+  \item provides mechanisms for ensuring data integrity
   \item based on well understood\footnote{by discrete mathematicians} discrete mathematics
   \end{itemize}
   \pause
@@ -279,7 +279,7 @@ Good for genome sequences (but not the annotation).
     that would be too much detail for this course}
 \end{frame}
 
-\begin{frame}{in the computer}
+\begin{frame}{books to computers}
   books $\rightarrow$ tables\\
   1 entry $\rightarrow$ 1 row\\
   1 column $\rightarrow$ 1 property of entries 
@@ -466,8 +466,8 @@ Good for genome sequences (but not the annotation).
   \end{itemize}
 \end{frame}
 
-\begin{frame}{obvious improvements}
-  Include data regarding:
+\begin{frame}{more data}
+
   {\small
   \begin{itemize}
   \item personal identifiers. It is useful to know who made a
@@ -484,10 +484,24 @@ Good for genome sequences (but not the annotation).
     to some stupid level of detail.
   \item Sample metadata (experimental details / half way measures etc...) should be included
     as this facilitates automated analyses.
-  \item ...
   \end{itemize}
   }
   but there is no end to this, and the database can get infinitely complex.
+\end{frame}
+
+\begin{frame}{inconsistencies}
+  A good structure will ensure:
+  \begin{itemize}
+  \item data consistency (no contradictory data)
+  \item data integrity (no missing data)
+  \item extensibility / flexibility
+  \end{itemize}
+
+  Database cannot gurantee absence of errors in data. 
+
+  But in complex systems small errors are like little lies;\\
+  difficult to introduce without also introducing inconsistencies 
+  into the narrative.
 \end{frame}
 
 \begin{frame}{a confession}
@@ -522,7 +536,7 @@ Good for genome sequences (but not the annotation).
   \end{figure}
 \end{frame}
 
-\begin{frame}{a logical structure?}
+\begin{frame}{genes to proteins}
   \begin{figure}[ht]
     \begin{tikzpicture}[scale=0.5]
 %      \draw [help lines] (0,0) grid (20,10);
@@ -583,6 +597,87 @@ Good for genome sequences (but not the annotation).
 %          \item 1 or 2 proteins
 %          \end{itemize} };
 %      }
+      
+    \end{tikzpicture}
+  \end{figure}
+\end{frame}
+
+\begin{frame}{Not a tree}
+! (gene $\rightarrow$ transcripts $\rightarrow$ exons)
+
+\begin{figure}[ht]
+  \begin{tikzpicture}[scale=0.5]
+%      \draw [help lines, opacity=1] (0,0) grid (22,12);
+%      \foreach \x in {1,2,...,20} \node [font=\small] at (\x,0) {\x};
+%      \foreach \y in {1,2,...,11} \node [font=\small] at (20,\y) {\y};
+
+      \visible<2->{
+      \draw [-, black!100] (0,9) -- (20,9);
+
+      \node [left] at (0,9) {\small DNA};
+      \node [left] at (0,7) {\small Transcripts};
+
+      \draw[green!80, line width=6] (1,9) -- (1.5,9);
+      \draw[blue!80, line width=6] (3,9) -- (4,9);
+      \draw[brown!80, line width=6] (6,9) -- (7,9);
+      \draw[purple!80, line width=6] (9,9) -- (10,9);
+      \draw[black!50, line width=6] (13,9) -- (16,9);
+      
+      \draw[->] (3,9) -- (3,9.5) -- (3.5,9.5);
+      \draw[->] (1,9) -- (1,9.5) -- (1.5,9.5);
+      \draw[->, thick] (1,9) -- (16,9);
+      
+      \node [above] at (8,9.5) {Gene};
+
+      
+      %   splice 1
+      \draw[-, red, thick, dotted] (1.5,9) -- ( 3.5,8 ) -- (6,9);
+      \draw[-, red, thick, dotted] (7,9) -- (8,8) -- (9,9);
+      \draw[-, red, thick, dotted] (10,9) -- (11.5,8) -- (13,9);
+      
+      \draw [green!80, line width=6] (1.5,7) -- (2,7);
+      \draw [brown!80, line width=6] (2,7) -- (3,7);
+      \draw [purple!80, line width=6] (3,7) -- (4,7);
+      \draw [black!50, line width=6] (4,7) -- (7,7);
+
+      %%   splice 2
+      \draw [-, blue, thick, dotted] (4,9) -- (6.5,8) -- (9,9);
+      
+      \draw [blue!80, line width=6] (10,7) -- (11,7);
+      \draw [purple!80, line width=6] (11,7) -- (12,7);
+      \draw [black!50, line width=6] (12,7) -- (15,7);
+
+      \draw [->, red] (3.5,8) -- (3.5,7.5);
+      \draw [->, blue] (6.5,8) -- (10.5,7.5);
+      
+      }
+      %%  exons 
+      \visible<3->{
+        \node [left] at (0,5) {\small Exons};
+        \draw [green!80, line width=6] (1.5,5) -- (2,5);
+        \draw [->, green!80, dashed] (1.75,6.75) -- (1.75,5.25);
+
+        \draw [brown!80, line width=6] (2.5,5) -- (3.5,5);
+        \draw [->, brown!80, dashed] (2.5,6.75) -- (3,5.25);
+
+        \draw [purple!80, line width=6] (4,5) -- (5,5);
+        \draw [->, purple!80, dashed] (3.5,6.75) -- (4.5,5.25);
+
+        \draw [black!50, line width=6] (5.5,5) -- (8.5,5);
+        \draw [->, black!50, dashed] (5.5,6.75) -- (7,5.25);
+        
+        \draw [blue!80, line width=6] (10,5) -- (11,5);
+        \draw [->, blue!80, dashed] (10.5,6.75) -- (10.5,5.25);
+
+        \draw [purple!80, line width=6] (11.5,5) -- (12.5,5);
+        \draw [->, purple!80, dashed] (11.5,6.75) -- (12,5.25);
+
+        \draw [black!50, line width=6] (13,5) -- (16,5);
+        \draw [->, black!50, dashed] (13.5,6.75) -- (14.5,5.25);
+      }
+      \visible<4->{
+        \node [right] at (3,3) {{\large Exons repeated}};
+        }
       
     \end{tikzpicture}
   \end{figure}
@@ -736,6 +831,14 @@ Good for genome sequences (but not the annotation).
   \end{figure}
 \end{frame}
 
+\begin{frame}{full structure}
+  
+  \tiny \url{http://www.ensembl.org/info/docs/api/core/core_schema.html}
+  \begin{figure}[ht]
+    \includegraphics[width=\textwidth]{images/ensembl_core_web}
+  \end{figure}
+\end{frame}
+
 \begin{frame}{how to query}
   Another language to learn:\\
   Structured Query Language \textcolor{blue}{SQL}
@@ -748,14 +851,135 @@ Good for genome sequences (but not the annotation).
 \end{frame}
 
 \begin{frame}[fragile]{SQL examples}
-  Take from my Rcode... 
   \begin{sqlcode}
- SELECT gene_id from gene where stable_id = 'ENSMUSG00002341';
+SELECT gene_id from gene where stable_id = 'ENSMUSG00002341';
 
- SELECT a.gene_id, b.name, a.seq_region_start, a.seq_region_start
-  from gene a
-  inner join xref b on a.display_xref_id=b.xref_id;
+SELECT a.gene_id, b.display_label, a.seq_region_start, 
+       a.seq_region_end, a.seq_region_strand
+       from gene a
+       inner join xref b on a.display_xref_id=b.xref_id;
+
+SELECT c.display_label as symbol, a.stable_id as gene, 
+       b.name as chr, d.seq_region_start as start, 
+       d.seq_region_end as end, a.seq_region_strand,
+       d.transcript_id, d.stable_id as transcript 
+       from gene a 
+       inner join seq_region b on a.seq_region_id=b.seq_region_id
+       inner join xref c on a.display_xref_id=c.xref_id
+       inner join transcript d on a.gene_id=d.gene_id
+       where c.display_label='nanog';
+                   
+
   \end{sqlcode}
+\end{frame}
+
+\begin{frame}[fragile]{table descriptions}
+  \begin{sqlcode}
+    describe gene;
+  \end{sqlcode}
+
+  { \tiny \hspace{-1cm}
+\begin{verbatim}
+mysql> describe gene;
++-------------------------+----------------------------+------+-----+---------------------+----------------+
+| Field                   | Type                       | Null | Key | Default             | Extra          |
++-------------------------+----------------------------+------+-----+---------------------+----------------+
+| gene_id                 | int(10) unsigned           | NO   | PRI | NULL                | auto_increment |
+| biotype                 | varchar(40)                | NO   |     | NULL                |                |
+| analysis_id             | smallint(5) unsigned       | NO   | MUL | NULL                |                |
+| seq_region_id           | int(10) unsigned           | NO   | MUL | NULL                |                |
+| seq_region_start        | int(10) unsigned           | NO   |     | NULL                |                |
+| seq_region_end          | int(10) unsigned           | NO   |     | NULL                |                |
+| seq_region_strand       | tinyint(2)                 | NO   |     | NULL                |                |
+| display_xref_id         | int(10) unsigned           | YES  | MUL | NULL                |                |
+| source                  | varchar(40)                | NO   |     | NULL                |                |
+| status                  | enum('KNOWN','NOVEL',...,) | YES  |     | NULL                |                |
+| description             | text                       | YES  |     | NULL                |                |
+| is_current              | tinyint(1)                 | NO   |     | 1                   |                |
+| canonical_transcript_id | int(10) unsigned           | NO   | MUL | NULL                |                |
+| stable_id               | varchar(128)               | YES  | MUL | NULL                |                |
+| version                 | smallint(5) unsigned       | NO   |     | 1                   |                |
+| created_date            | datetime                   | NO   |     | 0000-00-00 00:00:00 |                |
+| modified_date           | datetime                   | NO   |     | 0000-00-00 00:00:00 |                |
++-------------------------+----------------------------+------+-----+---------------------+----------------+
+17 rows in set (0.00 sec)
+
+\end{verbatim}
+}
+\end{frame}
+
+\begin{frame}[fragile]{Gene transcripts}
+  
+  {\tiny
+\begin{verbatim}
+mysql> select c.display_label as symbol, a.stable_id as gene,
+    -> b.name as chr, d.seq_region_start as start, d.seq_region_end as end,
+    -> a.seq_region_strand as strand, d.transcript_id, d.stable_id as transcript
+    -> from gene a
+    -> inner join seq_region b on a.seq_region_id=b.seq_region_id
+    -> inner join xref c on a.display_xref_id=c.xref_id
+    -> inner join transcript d on a.gene_id=d.gene_id
+    -> where c.display_label='cdh5';
++--------+--------------------+-----+----------+----------+--------+---------------+--------------------+
+| symbol | gene               | chr | start    | end      | strand | transcript_id | transcript         |
++--------+--------------------+-----+----------+----------+--------+---------------+--------------------+
+| cdh1   | ENSDARG00000102750 | 7   | 52827499 | 52847585 |     -1 |         41791 | ENSDART00000167882 |
+| cdh1   | ENSDARG00000102750 | 7   | 52788342 | 52847568 |     -1 |         41801 | ENSDART00000168890 |
+| cdh1   | ENSDARG00000102750 | 7   | 52826604 | 52847585 |     -1 |         41813 | ENSDART00000172179 |
++--------+--------------------+-----+----------+----------+--------+---------------+--------------------+
+3 rows in set (0.00 sec)
+
+\end{verbatim}
+}
+\end{frame}
+
+\begin{frame}{Too complicated?}
+  a little bit complicated, but:
+  \begin{itemize}
+  \item data can be directly imported into R-sessions, Perl scripts
+    and other programs by using packages / libraries / modules.\\
+    \textcolor{navy}{\emph{very convenient}}
+  \item data can be accessed from disparate locations and users
+  \item single location of data
+  \item data managed by a system: more difficult to screw things
+    up by deleting / moving stuff around
+  \item system provides a description of the data structure:\\
+    you don't have to keep a note of it on some piece of paper you will lose
+  \item complex queries can be stored in scripts / or files. No need
+    to redo.
+  \item transaction control possible
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Mutability?}
+  We can also divide databases by their usage:
+  \begin{itemize}
+  \item Read only, or primarily read only databases. These
+    are filled with data on creation and the data is used, but
+    only rarely modified. A typical example are the genome databases
+    like Ensembl.
+  \item Incremental databases are still primarily read only, but
+    users are able to add data to the system through standardised
+    interfaces but data should never be modified (eg. genbank).
+  \item Transaction databases. These are used for things like recording
+    reservations and are in constant flux and must be built with adequate
+    transaction controls in place (e.g. make sure two people don't book
+    the same seat, one person gets two salaries...). A laboratory data
+    management system would also be an example of such (reagents running out,
+    being purchased, etc...).
+  \end{itemize}
+  
+  \blfootnote{There is an argument that databases should never modify data,
+    but modify meaning by adding records, but lets not get into details.}
+\end{frame}
+
+\begin{frame}{but, I'm too lazy for all this}
+  Not always necessary to build database systems for what you are doing, but:
+
+  Do think about formalising the relationships between your data points (both
+  input and output). This helps to understand the nature of what you are doing.
+
+  if nothing else: may lead you to a rational way of labelling your tubes.
 \end{frame}
 
 \end{document}
