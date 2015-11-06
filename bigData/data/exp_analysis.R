@@ -267,3 +267,39 @@ plotExp <- function(ind, interactive=TRUE){
             inp <- readline(paste(feat.data[j,'Gene symbol'], ":"))
     }
 }
+
+## lets have a look at GDS4805
+##
+gds4 <- getGEO(filename=GDS4805)
+gds4.samples <- unique(unlist(strsplit(Meta(gds4)$sample_id, ",")))
+sample.treat <- vector(mode='character', length=length(gds4.samples))
+names(sample.treat) <- gds4.samples
+tmp.ids <- strsplit(Meta(gds4)$sample_id, ",")
+gds4.description <- (Meta(gds4)$description[-1])
+for(i in 1:length(tmp.ids)){
+    sample.treat[ names(sample.treat) %in% tmp.ids[[i]] ] <- gds4.description[i]
+}
+
+gds4.data <- Table(gds4)
+gds4.exp <- as.matrix(gds4.data[ , grep("GSM", colnames(gds4.data)) ])
+colnames( gds4.exp ) <- colnames(gds4.data)[ grep("GSM", colnames(gds4.data)) ]
+rownames( gds4.exp ) <- gds4.data[,'ID_REF']
+gds4.exp <- matrix(ncol=ncol(gds4.exp), data=as.numeric(gds4.exp) )
+## and they are ordered ok, so we can simply do
+treat.f <- c(rep(1,3), rep(2,3), rep(3,3), rep(4,3))
+gds4.pca <- prcomp(t(log(gds4.exp)))
+plot(gds4.pca$x[,1], gds4.pca$x[,2], col=treat.f )
+
+## and they are very nicely arranged.
+## lets get some overall fstats...
+gds4.f <- fStats(log(gds4.exp), as.numeric(as.factor(sample.treat)))
+gds4.fo <- order(gds4.f$f, decreasing=T)
+
+for(i in gds4.fo[1:100]){
+##for(i in 1:100){
+                                        #    plot(1:ncol(gds4.exp), gds4.exp[i,], col=treat.f, pch=19,
+#         ylim=c(0,max(gds4.exp[i,])))
+    plot(1:ncol(gds4.exp), gds4.exp[i,], col=hsvScale(treat.f), pch=19,
+         ylim=c(0,max(gds4.exp[i,])))
+    inp <- readline(do.call(paste, gds4.data[i,c('ID_REF', 'Gene symbol')] ))
+}

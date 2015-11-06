@@ -115,7 +115,7 @@ suitable for a general introduction to looking at numbers.
 \subsection{Getting the data into R}
 \label{sec-1-1}
 The data we will look at today can be obtained from the
-Gene Expreession Omnibus (GEO) database hosted at the
+Gene Expression Omnibus (GEO) database hosted at the
 NCBI (National Center for BioInformatics):
 
 \url{http://www.ncbi.nlm.nih.gov/geo}
@@ -133,7 +133,7 @@ file format can be found at:\\
 
 In theory one can use the file format specification and write some code
 to extract the relevant information. In practice, you pretty much always
-have to look at the sample descriptions within in order to understand
+have to look at the sample descriptions in order to understand
 the structure of the experimental data. This is partly because it is
 not easy to formalise the description of experimental samples, but also
 because everyone seems to submit their data in a different way. Unfortunately
@@ -179,14 +179,14 @@ Fig. \ref{soft1} shows part of the first section of the soft file. It contains a
 delineated by lines; these can be somewhat long and hence they overflow in the figure. If you
 are using a Mac or Linux system you can look at this file using the \texttt{more} or \texttt{less}
 programs from the terminal (eg. \texttt{more GDS3850\_full.soft}). There's probably
-nothing very convenient on Windows (Wordpad might be ok, but as the file is a bit big you
+nothing very convenient on Windows (Wordpad might be OK, but as the file is a bit big you
 may run into trouble. Notepad, doesn't work as it only recognises DOS style line ends.) 
 
 The second part of the file contains the actual expression data and descriptions of the individual
 features. This has very long lines, so I'm not even going to try to make a figure
 out of it. Normally to extract the information from a file like this, I would write
 a small Perl script and pick out the interesting bits (or possibly a bit of R depending
-on the situation). However, not surprisingly, there is now an R-package avaiable from
+on the situation). However, not surprisingly, there is now an R-package available from
 Bioconductor that can be used to get most of the data from the soft file: \texttt{GEOquery}.
 This can be used either to load data directly from NCBI, or from downloaded files.
 
@@ -230,9 +230,9 @@ and load the data into the \texttt{gds} object. Note, that I haven't
 tried doing this myself, and there is always a possibility that something
 might end up somewhat not right.
 
-If you download the file from GEO manually you can choose "DataSet full SOFT file";
+If you download the file from GEO manually you can choose "Dataset full SOFT file";
 this includes extensive annotation for the genes represented on the array.
-In contrast, the direct download option loads the data from the "DataSet SOFT file"
+In contrast, the direct download option loads the data from the "Dataset SOFT file"
 which contains only the probe identifiers and the gene symbols associated
 with the probes.
 
@@ -244,7 +244,7 @@ The metadata (data that describes the experiment) can be obtained from the
 \texttt{gds} object by the \texttt{Meta()} function.\footnote{I suspect that
 the object returned by the getGEO function is what's known as an S4 class.
 If so, then we should probably refer to \texttt{Meta()} as a slot or a method
-rather than a function.} This will returned a named list. In R there is
+rather than a function.} This will return a named list. In R there is
 an important distinction between vectors and lists. A vector is an ordered
 collection whose elements can be accessed by their position or index. All
 the elements of a vector have to be of the same type (eg., numeric, logical,
@@ -252,7 +252,7 @@ or character). A list is a special kind of vector that can contain
 elements of different types (these can be anything, including lists and matrices).
 Both vectors and lists can be named; that is individual elements of the vector
 or list can also be accessed using a character based name. This can be done
-either using the normal subsetting operators\footnote{For a vector these are
+either using the normal sub-setting operators\footnote{For a vector these are
 single square brackets, but for list elements double square brackets are required
 for the actual element.} (eg. \texttt{listName[['elementName']]}) or
 using the \texttt{\$} operator (\texttt{listName\$elementName}).
@@ -297,7 +297,7 @@ When I had a look at the data I noticed a couple of things. Try:
   length(unlist( strsplit( Meta(gds)$sample_id, ",")))
 \end{rcode}
 
-Ok, so the second of those may seem a little bit complicated, but look at
+OK, so the second of those may seem a little bit complicated, but look at
 what \texttt{Meta(gds\$sample\_id)} returns and maybe look at 
 \texttt{?strsplit} to see the documentation for \texttt{strsplit}. And
 as always to understand what a long series of commands do, try simplifying
@@ -321,7 +321,7 @@ we find that to be a vector of length 11, but the first entry looks like
 a description of the full experiment. After that we find terms that look
 like partial descriptions. The second one is ``fatty (fa/fa)'', looks like a
 genotype, terms 4 to 6 look like tissue types and terms 7 to 11 drug or
-treatment controls. Hmm, So we can make a guess that the identifers in
+treatment controls. Hmm, So we can make a guess that the identifiers in
 \texttt{Meta(gds)\$sample\_id} 1-10, map to the terms in \texttt{Meta(gds)\$sample\_id}
 to make up full descriptions. We can make use of this to make a more
 reasonable description of the samples:
@@ -482,7 +482,7 @@ function has many options (see \texttt{?write.table} for more)
 that change the way in which the data is saved to file. I normally
 like to save the data using a simple tab-delimited format. This
 can easily be looked at by eye, imported into a spreadsheet\footnote{
-Not that I'm recommending this for any analysis, but occassionaly
+Not that I'm recommending this for any analysis, but occasionally
 it can be useful for making tables for reports.} or parsed
 by Perl. If entries in the table can contain tab characters (\verb|\t|)
 then you'll need to put each entry into quotes (though this can
@@ -619,7 +619,7 @@ the distribution for the data is determined and plotted. In addition
 the \texttt{hist()} function returns an object of the class "histogram".
 However, it does this invisibly. This means that if you don't assign
 the object returned to some variable, then it is simply discarded,
-and all you get is the plot. That is often ok, but if you wish to 
+and all you get is the plot. That is often OK, but if you wish to 
 compare the distributions from different populations then you will
 need to store the objects and extract the relevant values.
 
@@ -795,7 +795,7 @@ do pairwise comparisons between samples. This can be quite useful
 to give a visualisation of how similar a pair of samples are, but
 given that for a data set with $n$ samples you can do $n^2$ such
 plots it's not something that I spend a lot of time doing. However
-it's good to know how to do. In R, ofcourse, that is very simple.
+it's good to know how to do. In R, of-course, that is very simple.
 
 \begin{rcode}
   ## to plot sample 1 vs 2 and 1 vs 4
@@ -920,7 +920,7 @@ rotation: the matrix of variable loadings (i.e., a matrix whose columns
 center, scale: the centering and scaling used, or ‘FALSE’.
 \end{verbatim}
 
-Normally we are most intersted in the \texttt{x} component. To plot the PCA
+Normally we are most interested in the \texttt{x} component. To plot the PCA
 we can do:
 
 \begin{rcode}
@@ -981,7 +981,7 @@ other. In this case I've allowed the heatmap to cluster the samples along
 the axis to group similar samples close to each other. Heatmap makes
 use of the \texttt{hclust} function which builds a tree based on the 
 correlations between the samples. This is very similar to the kind of trees
-that we discuseed in the multiple alignment lecture.
+that we discussed in the multiple alignment lecture.
 
 \newpage
 
