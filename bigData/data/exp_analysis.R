@@ -295,7 +295,10 @@ plot(gds4.pca$x[,1], gds4.pca$x[,2], col=treat.f )
 gds4.f <- fStats(log(gds4.exp), as.numeric(as.factor(sample.treat)))
 gds4.fo <- order(gds4.f$f, decreasing=T)
 
-for(i in gds4.fo[1:100]){
+gds4.t <- apply(gds4.exp, 1, function(x){ t.test(x[treat.f==1], x[treat.f!=1] )$statistic })
+gds4.to <- order(gds4.t, decreasing=TRUE)
+#for(i in gds4.fo[1:100]){
+for(i in gds4.to[1:100]){
 ##for(i in 1:100){
                                         #    plot(1:ncol(gds4.exp), gds4.exp[i,], col=treat.f, pch=19,
 #         ylim=c(0,max(gds4.exp[i,])))

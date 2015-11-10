@@ -1,0 +1,341 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{fixltx2e}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{marvosym}
+\usepackage{wasysym}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\tolerance=1000
+\usepackage{minted}
+\usepackage{color}
+\usepackage{listings}
+\usepackage{grffile}
+\usepackage[inline]{enumitem}
+\usepackage{setspace}
+\usepackage{tikz}
+\usepackage{subcaption}
+\usepackage{xcolor}
+\usepackage{fancyvrb}
+\hypersetup{
+colorlinks,
+linkcolor={red!50!black},
+citecolor={blue!50!black},
+urlcolor={blue!80!black}
+}
+\usepackage{setspace}%% The linestretch
+\singlespacing
+\usepackage[format=hang,indention=0cm,singlelinecheck=true,justification=raggedright,labelfont={normalsize,bf},textfont={normalsize}]{caption} %
+\usepackage{vmargin}
+\setpapersize{A4}
+\setmarginsrb{2.5cm}{1cm}% links, oben
+{2.5cm}{2cm}% rechts, unten
+{12pt}{30pt}% Kopf: Höhe, Abstand
+{12pt}{30pt}% Fuß: Höhe, AB
+\usepackage{upquote}
+%  use straight quotes when printing a command in minted
+\AtBeginDocument{%
+\def\PYZsq{\textquotesingle}%
+}
+\definecolor{mintedbackground}{rgb}{0.95,0.95,0.95}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{\baselineskip}
+\definecolor{mintedbackground}{rgb}{0.95,0.95,0.95}
+\definecolor{mintedBg}{rgb}{0.95, 0.95, 0.95}
+\definecolor{blockBg}{rgb}{0.6, 0.6, 0.95}
+
+%% define styles for different codes
+\newminted{cpp}{linenos, bgcolor=blockBg, fontsize=\footnotesize}
+%% then use \begin{cppcode}
+\newminted{c}{linenos, bgcolor=mintedBg, fontsize=\footnotesize}
+\newminted{perl}{linenos, bgcolor=mintedBg, fontsize=\footnotesize}
+\newminted{r}{linenos, bgcolor=mintedBg, fontsize=\footnotesize}
+
+
+%% I detest indentation in footnotes etc, so try this:
+\makeatletter
+\renewcommand\@makefntext[1]{\noindent\makebox[0em][r]{\@makefnmark}\footnotesize#1}
+\makeatother
+%% the makeatletter and makeatother are required to allow me to
+%% to change the macro beginning with an @. (though when I call it
+%% I don't use the @ ... 
+
+%% this should handle non-breaking space
+%% characters.
+\DeclareUnicodeCharacter{00A0}{~}
+
+\renewcommand\scriptsize\normalsize
+
+\author{Martin Jakt\thanks{University of Nordland, Norway}}
+\date{\textbf{Bioinformatics \& Genomics}}
+\title{\textbf{Course assignment} (2015-11-06)}
+\hypersetup{
+ pdfkeywords={},
+  pdfsubject={},
+  pdfcreator={}}
+\begin{document}
+
+\maketitle
+%\tableofcontents
+
+\section{pre-amble}
+\label{preamble}
+This is an exercise in looking at large scale expression data. It is very
+similar to what we did in the class previously, but with a simpler data set
+which should not cause you any trouble.
+
+To perform the analysis you will need a computer with R and a network connection.
+Because not all of you may have access to your own computer you can perform the
+analysis as pairs or threesomes if you so wish. You should however hand in a report
+individually, though in this case the source code as well as the figures will
+obviously be the same.
+
+The report should be a minimal document whose purpose is to demonstrate that you
+have performed the analysis and understand (mostly at least) what it is that you
+have done. The deadline for the report has been set for the 18th of December. For 
+someone familiar with R the tasks outlined here should take a very short time, but
+for those less familiar the exercise may take a little longer.
+
+Read this document in its entirety before you start doing anything. You will find
+more than you need in the previous document \texttt{bigDataSession.pdf}, and in
+the slides for lecture 10.
+
+\section{the GDS4805 data}
+\label{datasec}
+The GDS4805 data set contains expression values taken from
+a Mouse Embryonic Fibroblast (MEF) cell line transfected with
+4 different combinations of transcription factors including
+one control sample transfected with only the \emph{M2rtTA} transcription
+factor as a negative control\footnote{M2rtTA is a synthetic transcription
+factor created by combining parts from several different proteins. It is used
+as part of system that provides the ability to induce expression of transgenes by the addition
+of tetracycline or doxycycline to cells. It should have no effect on the cells on
+its own.}.
+
+\begin{tabular}{l|l}
+Sample group & Transgenes \\
+\hline
+1 & MrtTA \\
+2 & M2rtTA, GATA4, TBX5, MEF2C \\
+3 & M2rtTA, GATA4, TBX5, MEF2C, Mesp1, SMARCD3 \\
+4 & M2rtTA, GATA4, TBX5, MEF2C, Mesp1, SMARCD3, MYOCD, SRF \\
+\end{tabular}
+
+There are three replicates for each sample group.
+
+You can get all of the data for this at :\\
+\url{http://www.ncbi.nlm.nih.gov/geo/}\\
+
+by searching for GDS4805 and downloading the GDS4805\_full.soft file that
+contains information about the samples, the probes of the array and
+the expression data itself.
+
+Since this gives you the data in a \texttt{.gz} format which some of you may have
+trouble decompressing I have also made it available at:\\
+\url{http://martin.jakt.org.uk/bioinfgenomics/}\\
+{\bfseries \emph{Don't}} left click the link to the file, but right-click and select
+'download as' and save the file (Internet Explorer can't handle the file, and will
+probably die if you try to load the file directly).
+
+\section{The tasks}
+Given this data I want you to:
+
+\begin{enumerate}
+\item Load the data into an R-session.
+\item Work out which samples represent which
+  treatment group and make a data structure which summarises this.
+  In the previous time we used a matrix, but since there is only
+  one variable type (the set of transcription factors) you can use
+  a vector this time.
+\item Look at the distributions of the expression values using either
+  a heatmap, or simply a boxplot. See if there are any outliers.
+\item Perform a Principal Components Analysis (PCA) and plot the variances
+  as well as the positions of the samples in the two first dimensions.
+\item Identify genes which are expressed more highly in one of the treatment
+  types by calculating a suitable statistic.
+\item Use the information provided in the soft file to identify the the top 
+  10 over-expressed genes based on the statistic
+  you prepared in the previous section. Plot the expression of these
+  genes.
+\end{enumerate}
+
+\section{Hints}
+\subsubsection{General}
+I will require you to give me the R-code that you used to perform
+your analysis. Hence you will need to use a text-editor of some
+sort to write the code in. The easiest way for you to do this is
+to use RStudio. If you use RStudio remember to start with creating
+a new Project (preferably in a new directory) before you do anything else.
+You can then type the code into the source window and use Ctl. enter
+to run it. If you don't wish to use RStudio, then you can use a
+text editor of your choice; but do use one that gives you syntax
+highlighting and helps you to balance your brackets. In any case make
+sure to start the analysis in a new directory so that you can find the
+input and output files.
+
+\subsubsection{Loading data}
+You can use the \texttt{GEOquery} package we installed previously. See
+\texttt{bigDataSesssion.pdf} on fronter for details of how to install
+and use. 
+
+The \texttt{getGEO} function allows you to load the data. This is most
+easily done if you place the soft file in your current working directory;
+if not you will need to provide the path to your copy of the file. I recommend
+using a downloaded file rather than loading it directly as this allows you
+to get full set of probe information and avoids any trouble with firewalls
+that you may have.
+
+The function \texttt{Meta} returns a named list
+that contains the various details about the experiment. The entries
+named \texttt{description} and \texttt{sample\_id} are the ones you
+are most interested in.
+
+The \texttt{Table} function will give you the actual expression data. A number
+of the columns contain probe descriptions and columns whose
+column names begin with \texttt{GSM} contain the expression values. I recommend
+extracting the expression values into a separate matrix and setting the
+rownames to the \texttt{ID\_REF} column of the dataframe returned by
+the \texttt{Table} function. (We used the \texttt{grep} function last time
+to extract the columns with 'GSM' in their names).
+
+Unfortunately the expression values in the dataframe returned by \texttt{Table}
+are encoded as text ('character') so you will need to convert them
+to a numeric type (\texttt{as.numeric}).
+
+\subsubsection{the sample data}
+You can find the sample identifiers and descriptions in \verb|$sample_id| and
+\verb|$description| entries of the description data structure. Refer to our
+previous session as to how these are arranged. This time it's simpler than last
+time so you do not need such a complicated strategy to work out what's going on.
+(remember the use of \verb|%in%|). You can arrange the data as a simple vector;
+just make sure that the order of it correlates to the column order of
+the expression data.
+
+\subsubsection{distributions}
+Once you have extracted the expression values to a matrix (\texttt{as.matrix}) 
+and converted to
+a numeric format (\texttt{as.numeric}) remember to set the 
+\texttt{colnames} and \texttt{rownames} of this matrix. This will allow
+you to very easily run the \texttt{boxplot} or \texttt{heatmap} functions.
+
+If you wish to create a heatmap, remember that you will first need to use
+\texttt{hist} on all of the columns using the same set of \texttt{breaks}.
+Refer back to bigDataSesssion.pdf as to how you can do that (it's a little
+more complex than just using a boxplot).
+
+Secondly remember that looking directly at the values is probably not going
+to tell you very much; you will probably need to log-transform the values
+(\texttt{log}).
+
+\subsubsection{PCA}
+You can do the PCA using the \texttt{prcomp} function. Remember that you will
+need to transpose the table (using \texttt{t}). You can try with or without
+log transformation of the data, but remember to set the \texttt{scale} option
+to \texttt{TRUE} if you do not log transform (it's good in both cases, but
+more so if you don't log transform).
+
+\texttt{prcomp} returns a named list. Calling plot on this will plot the variances
+associated with the dimensions. To plot the points look in the \verb|$x| component.
+
+\subsubsection{Identifying differentially expressed genes}
+There are lots of ways to identify differentially expressed genes. The simplest
+scenario is to simply take the difference or ratio of the mean of two
+sample classes. However, this doesn't take into account the variance within
+the classes. The simplest statistic that does this is the t-statistic (difference
+in means divided by the variance). R has a built-in t-test function, but to
+use it on the rows of your data is a bit of a pain. You can do something like:
+
+\begin{rcode}
+## you have extracted the expression data into a matrix
+## called dat, whose column names are set to the sample identifiers
+## (GSMXXX, etc.). You also have the sample treatments in a vector
+## with one entry for each sample, called sample.treat. You can then
+## do something like
+
+## get a logical (TRUE / FALSE) vector giving the samples which are of the
+## first treatment type...
+s1 <- sample.treat == sample.treat[1]
+
+tstats <- apply(dat, 1, function(x){ t.test(x[s1], x[!s1])$statistic })
+## see ?t.test to see why we add the $statistic after the call.
+
+## to get an order that gives the biggest tstats values first we 
+## use the order function:
+
+tstats.o <- order(tstats, decreasing=TRUE)
+
+## you can now look at the what the expression looks like using
+## this index..
+plot(dat[tstats.o[1],])
+## though that is not a very pretty plot. You should add some colours
+## to indicate the sample types.
+\end{rcode}
+
+\subsubsection{Exporting plots}
+To export plots as files you simple change the display driver to
+something that gives you a file. I usually use \texttt(pdf), but it
+may be easier for you to use the \texttt{png}, \texttt{jpeg} or \texttt{tiff}
+drivers, since I wish you to put the plots you get into a report.
+The usual word processors (i.e. Word\footnote{Maybe it does by now, but I've never
+managed to get Word to do the right thing with pdf files}) don't handle pdf imports very
+well and there is no point to spend a load of time just to get better pictures.
+
+\begin{rcode}
+## to plot stuff to a file, simply call
+## the device driver you want to use..
+## eg. to make a 1024x1024 tiff do:
+tiff("plotname.tif", width=1024, height=1024)
+## do your plotting between the call to tiff and the
+## final dev.off() call for example:
+plot(1:10, (1:10)^2, pch=19)
+points(c(3:5), c(3:5)^2, pch=1, cex=1.5, col='red', lwd=2)
+
+## and then call dev.off() to finish plotting to the file.
+dev.off()
+\end{rcode}
+
+If you wish to plot more than one chart on the same figure
+you can use \texttt{par(mfrow=c(r, c))} where r and c represent
+the row numbers. The call to \texttt{par} should be made immediately after
+you open the plot device. For example...
+
+\begin{rcode}
+## here I set the width to twice the height
+## since I want to put two plots on one row
+pdf("ugly_plot.pdf", width=14, height=7)
+par(mfrow=c(1,2))
+plot(1,1, pch=1, cex=20)
+plot(1,1, pch=19, cex=20)
+dev.off()
+\end{rcode}
+
+\section{What you should hand in}
+A file (text format, or possibly as a pdf, but raw text
+is the best) containing the code that you used to perform
+the analysis.
+
+A document (preferably as a pdf) containing a description of what
+you did; the plots you produced, and any conclusions you can make about the
+data (eg. whether the replicates are good, whether there are clear differences
+in gene expression between the different treatment groups).
+
+\emph{This document should include the names of the group or individual who performed
+the analysis.}
+
+This should not be long; aim to be concise and clear; use an active voice,
+'I/we looked at the distribution of the log expression values using the hist() function.
+All distributions appeared similar with no obvious outliers.'
+
+Don't write, 'an analysis was performed, ...', and try to minimise the use
+of technical words when not needed.
+
+\end{document}
