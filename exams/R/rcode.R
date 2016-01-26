@@ -61,6 +61,20 @@ for(i in 1:length(a)){
 }
 plot(a, b, pch=1, col='red', xlab='a', ylab='b')
 
+
+phrases <- c("hello there stranger", "what's up doc")
+words <- strsplit(phrases, " ")
+words <- unlist(words)
+sort(words)
+
+## code for a question dealing with subsetting
+a <- matrix(1:9, ncol=3, byrow=TRUE)
+b <- t(a)
+c <- rbind(a, b)
+d <- c[ rowSums(c) > 10, 2:3]
+e <- a + b[1,]
+
+
 9 + 11 + 9 + 13 + 6 + 9 + 12 + 16
 ##
 ## I've written 85 questions.
