@@ -423,6 +423,50 @@ the biological role of the sequence.
   }
 \end{frame}
 
+\defverbatim{\alignseq}{%
+\begin{verbatim}
+  S1: WRTW
+      | ||
+  S2: WKTW      
+\end{verbatim}
+}
+
+\begin{frame}[fragile]{Fasta \& dotplot}
+  \begin{columns}
+    \begin{column}{0.5\textwidth}
+      {\small
+        \setlength{\tabcolsep}{0.5em}
+        \begin{tabular}{l|ll|l}
+          AA & S2 & S1 & S1-S2 \\
+          \hline
+          S & 1 & 7 & 6\\
+          W & 2 & 3,6 & 1,4\\
+          K & 3 & & \\
+          T & 4 & 5 & 1\\
+          W & 5 & 3,6 & -2,1\\
+          T & 6 & 5 & -1\\
+        \end{tabular}
+      }
+    \end{column}
+    \begin{column}{0.5\textwidth}
+      \begin{figure}[ht]
+        \begin{tikzpicture}[scale=0.5]
+          \input{fasta_dotplot.tikz}
+        \end{tikzpicture}
+      \end{figure}
+    \end{column}
+  \end{columns}
+
+\vspace{1em}
+\visible<3->{
+  \alignseq
+  
+  but given the index of the first sequence we only need N (6) steps to get the
+  coordinates to plot.
+}
+
+\end{frame}
+
 \begin{frame}{Fasta continued}
   Seed and extend:
   \begin{columns}
@@ -561,14 +605,27 @@ the biological role of the sequence.
         \node [right] at (13,11.8) {score};
         \node [right] at (11,5) {\verb|...|};
 
+        \pause
         \node [below right, scale=0.8, align=left, text width=5cm] at (11,4.5)
+        {Score is calculated using a suitable amino acid substitution matrix};
+
+        \pause
+        \node [below right, scale=0.8, align=left, text width=5cm] at (11,2)
         {Index built from all words having scores larger than $T$};
 
-        \node [below right, scale=0.8, align=left, text width=5cm] at (11,2)
+        \pause
+        \node [below right, scale=0.8, align=left, text width=5cm] at (11,0)
         {Words from database looked up in index and extended to create
         alignments};
-
-%      }
+        
+        %      }
+        \visible<5->{
+          \node [below right, align=left, scale=0.8] at (0,2.5)
+                {For word length=4\\
+                  $\sim$ 50 words / kmer\\
+                  eg. 12,500 words for sequence\\
+                  of length 250};
+        }
     \end{tikzpicture}
   \end{figure}
 \end{frame}

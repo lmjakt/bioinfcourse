@@ -1,4 +1,4 @@
-#!/usr/bin/perl -w
+#!/usr/bin/perl -ws
 
 ## take two sequences and create tikz code that visualises the
 ## Needleman-Wunsch alignment algorithm.
@@ -14,6 +14,12 @@
 
 
 (@ARGV == 6) || die "usage: needleman_tikz.pl seq1 seq1 match_penalty mismatch_penalty gap_opening_penalty gap_extension_penalty\n";
+
+## we can have a pseudo global alignment. That is we don't care about 
+## terminal gaps.
+if(!defined($pseudo)){
+    $pseudo = 0;
+}
 
 @seq1 = split //, $seq1;
 @seq2 = split //, $seq2;
@@ -77,13 +83,20 @@ for $i(0..$#seq2){
 ## then let's go through and fill in the initial gap penalties
 ## in the first row we have to separate
 print "\t", '\node', "[scale=$fsscale] at (2,", $sn2+1, ") {0};\n";
-$p = $gop;
+if($pseudo){
+    $p = 0;
+}else{
+    $p = $gop;
+}
+
 print "\t", '\node', "[scale=$fsscale] at (3,", $sn2+1, ") {$p};\n";
 print "\t", "\\draw [->] (2.65, $sn2+1) -- (2.35, $sn2+1);\n";
 $scores[0][1] = $p;
 $h_gap_opened[0][1] = 1;
 for $i(1..$#seq1){
-    $p += $gep;
+    if(!$pseudo){
+	$p += $gep;
+    }
     print "\t", '\node', "[scale=$fsscale] at(", $i+3,',', $sn2+1, ") {$p};\n";
     print "\t", "\\draw [->] (", $i+2.65, ",$sn2+1) -- (", $i+2.35, ",$sn2+1);\n";
 ##    $path[0][$i] = [(1)];
@@ -98,13 +111,20 @@ for $i(1..@seq1){
 for $i(1..@seq2){
     $path[$i][0] = [(2)];
 }
-$p = $gop;
+if($pseudo){
+    $p = 0;
+}else{
+    $p = $gop;
+}
+
 print "\t", '\node', "[scale=$fsscale] at (2,", $sn2, ") {$p};\n";
 print "\t", "\\draw [->] (2,$sn2 + 0.35) -- (2, $sn2 + 0.65);\n";
 $scores[1][0] = $p;
 $v_gap_opened[1][0] = 1;
 for $i(1..$#seq2){
-    $p += $gep;
+    if(!$pseudo){
+	$p += $gep;
+    }
     print "\t", '\node', "[scale=$fsscale] at(2,", $sn2-$i, ") {$p};\n";
     print "\t", "\\draw [->] (2,$sn2-$i + 0.35) -- (2, $sn2-$i + 0.65);\n";
 ##   $path[$i][0] = [(2)];

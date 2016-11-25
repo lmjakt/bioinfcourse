@@ -159,7 +159,10 @@ for a set of values of size n.
   $$X_v = \frac{\sum_{i=1}^{N}{(X_i - \overline{X})^2}}{N} $$ 
 
   Where $N$ is the number of values in $X$. The standard deviation, $X_{sd}$
-  is simply the square root of the variance ($X_{sd} = \sqrt{X_v}$).
+  is simply the square root of the variance. It is often represented by the
+  greek letter $\sigma$:
+  $$\sigma = X_{sd} = \sqrt{X_v}$$ 
+
 \end{frame}
 
 \begin{frame}{variance, standard deviation, standard error (2)}
@@ -172,7 +175,19 @@ for a set of values of size n.
   $$ x_{se} = \frac{X_{sd}}{\sqrt{n}} $$
 
   $x_{se}$ corresponds to the standard deviation of a set of mean values
-  obtained by sampling $n$ values from the population $X$.
+  obtained by repeatedly sampling $n$ values from the population $X$.
+\end{frame}
+
+\begin{frame}{mean, standard deviation, standard error}
+  \vspace{-1cm}
+  \begin{figure}
+    \includegraphics[width=0.7\textwidth]{R/mean_sd_se}
+  \end{figure}
+  \vspace{-1cm}
+  \footnotesize 12 sets of 10 values were sampled from 200 normally
+  distributed values and mean, standard deviation and standard error
+  calculated. The standard errors of the sampled sets approximate the standard
+  deviation of the mean values (right-most column).
 \end{frame}
 
 \begin{frame}{Difference summaries}
@@ -208,7 +223,7 @@ between X and Y.
 
 Easy in R:
 \begin{rcode}
-  n <- 100 ## the number of average numbers
+  n <- 100 ## the number of averages
   k <- 10  ## the size of each set of numbers
   ## something to store the numbers in
   m <- vector(mode='numeric', length=n) 
@@ -241,11 +256,11 @@ provides means of sets of k numbers randomly sampled from the range minV to maxV
 \small  n=100 minV=0 maxV=10
 \end{frame}
 
-\begin{frame}{Medians}
-\begin{figure}[ht]
-  \includegraphics[width=0.7\textwidth]{images/medians1}
-\end{figure}
-\end{frame}
+%% \begin{frame}{Medians}
+%% \begin{figure}[ht]
+%%   \includegraphics[width=0.7\textwidth]{images/medians1}
+%% \end{figure}
+%% \end{frame}
 
 \begin{frame}[fragile]{Distributions}
 
@@ -322,6 +337,23 @@ provides means of sets of k numbers randomly sampled from the range minV to maxV
 \item For normal distributions, the mean, median and mode averages have the
   same value.
 \end{itemize}
+
+\footnotesize
+Replicate (often) values assumed to vary due to the sum of a set of unknown
+replicates $\Rightarrow$ normal distribution.
+\end{frame}
+
+\begin{frame}{The log normal distribution}
+  If experimental measurements result from the product of random variables we
+  obtain a normal distribution of log transformed values:
+
+  $$
+  log(x_1) + log(x_2) + log(x_3) = log( x_1 \times x_2 \times x_3 )
+  $$
+  
+  This is often true in biological systems, and is the reason we frequently log
+  transform values.
+
 \end{frame}
 
 \begin{frame}[fragile]{More stuff on the Normal distribution}
@@ -331,9 +363,9 @@ provides means of sets of k numbers randomly sampled from the range minV to maxV
     m.m <- mean(m)
     ## the number of values within 1, 2 and 3 
     ## standard deviations of the mean
-    m.sd1 <- length( which( abs(m - m.m) <= m.sd ) )
-    m.sd2 <- length( which( abs(m - m.m) <= 2 * m.sd) )
-    m.sd3 <- length( which( abs(m - m.m) <= 3 * m.sd) )
+    m.sd1 <- sum( abs(m - m.m) <= m.sd )
+    m.sd2 <- sum( abs(m - m.m) <= 2 * m.sd)
+    m.sd3 <- sum( abs(m - m.m) <= 3 * m.sd)
   \end{rcode}
 
   m.sd1 : 6790\\
@@ -343,7 +375,7 @@ provides means of sets of k numbers randomly sampled from the range minV to maxV
   i.e. 67\% and 95\% of values lie within one and two standard deviations of
   the mean respectively.
 
-  This is true for all standard deviations regardless of mean and standard
+  This is true for all normal distributions regardless of mean and standard
   deviation.
 \end{frame}
 
@@ -364,7 +396,7 @@ provides means of sets of k numbers randomly sampled from the range minV to maxV
     $d_{ctl}$ and $d_{trt}$.
   \item The number of replicates from each sample is equivalent to the number
     of samples obtained from each underlying distribution.
-  \item The null hypothesis is simply that $p_{ctl}$ and $p_{trt}$ have been sampled
+  \item The null hypothesis is that $p_{ctl}$ and $p_{trt}$ have been sampled
     from identical distributions.
   \item The alternative hypothesis is that they have been sampled from different
     distributions.
@@ -376,7 +408,7 @@ provides means of sets of k numbers randomly sampled from the range minV to maxV
 
 
 \begin{frame}[fragile]{Exploring the probabilites of differences in mean values}
-  Create a 1000 sets of pairs of sets of values sampled from the same (normal)
+  Create 1000 sets of pairs of values sampled from the same (normal)
   distribution. That is where the \textcolor{navy}{null hypothesis} is true:
   \begin{rcode}
     ## use a mean of 0, and a standard deviation of 1
@@ -390,8 +422,8 @@ provides means of sets of k numbers randomly sampled from the range minV to maxV
     X <- vector(mode='numeric', length=n)
     Y <- vector(mode='numeric', length=n)
     for(i in 1:n){
-      X[i] <- mean( rnorm(k, mean=0, sd=1) )
-      Y[i] <- mean( rnorm(k, mean=0, sd=1) )
+      X[i] <- mean( rnorm(k, mean=m, sd=sd) )
+      Y[i] <- mean( rnorm(k, mean=m, sd=sd) )
     }
     ## look at the distribution of the differences:
     plot(X - Y)
@@ -459,12 +491,11 @@ Hence $\sim$0.05 chance of having an absolute difference of more than 0.88.
   
   $$
   t = \frac{\overline{X} - \overline{Y}}{\sqrt{4^2 +
-      4^2}\cdot\sqrt{\frac{1}{n}}}
+      4^2}\cdot\sqrt{\frac{1}{10}}}
   $$
 
-  Under the null hypothesis, $X$ and $Y$ are obtained by sampling from
-  the same population, so we can ignore it's mean value, and simply get values
-  by sampling from 0-centered populations with the given variance.
+  Again, we can simply simulate these numbers:
+
 \end{frame}
 
 \begin{frame}[fragile]{t to p in R}
@@ -474,8 +505,8 @@ Hence $\sim$0.05 chance of having an absolute difference of more than 0.88.
     s <- 4     ## the standard deviation of the distributions
     t <- vector(mode='numeric', length=N)
     for(i in 1:N){
-      X <- rnorm(n=k, mean=0, sd=4)
-      Y <- rnorm(n=k, mean=0, sd=3)
+      X <- rnorm(n=k, mean=0, sd=s)
+      Y <- rnorm(n=k, mean=0, sd=s)
       x.v <- var(X)
       y.v <- var(Y)
       x.m <- mean(X)
@@ -516,18 +547,79 @@ Hence $\sim$0.05 chance of having an absolute difference of more than 0.88.
   \begin{rcode}
     ## to check the probability of observing a t-value 
     ## larger than a we can do:
-    length(which(t > a)) / length(t)
-    ## where t is the vector of randomly generated t-values
+    sum(t > a) / length(t)
+    ## where t is the vector of t-values obtained
+    ## when the null hypothesis is true
   \end{rcode}
 
   We can also use the built in function \texttt{pt}:
   \begin{rcode}
-    pt(a, k*2-2)
-    ## where k is the number of replicates (samples) for each group
+    pt(t, k*2-2)
+    ## where k is the number of replicates (samples) 
+    ## for each group
     ## k*2-2 is the number of degrees of freedom for the test.
   \end{rcode}
-  
 \end{frame}
+
+
+\begin{frame}[fragile]{delta, t, p distributions}
+  Mean of both distributions is 0, sd = 4 and replicate no=10 for both:
+  \begin{figure}[ht]
+    \begin{tikzpicture}[scale=0.5]
+      \node [below right] at (0,10) {
+        \includegraphics[width=.33\textwidth]{R/mean_diffs}};
+      \pause
+      \node [below right] at (8,10) {
+        \includegraphics[width=.33\textwidth]{R/t_values}};
+      \pause
+      \node [below right] at (16,10) { \includegraphics[width=.33\textwidth]{R/p_values}};
+    \end{tikzpicture}
+  \end{figure}
+\end{frame}
+
+\begin{frame}{under the \emph{null} hypothesis \emph{p} has a uniform
+    distribution}
+  That is: if the \emph{null} hypothesis is true:
+  \begin{itemize}
+  \item The probabilities of observing p-values of 0.001 and 0.5 are the
+    same
+    \pause
+  \item The probability of observing a p-value less than $p$ is $p$
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{when the \emph{null} hypothesis is false}
+  Means are 0 and 5, sd = 4, replicate no=10.
+  \begin{figure}[ht]
+    \begin{tikzpicture}[scale=0.5]
+      \node [below right] at (0,10) {
+        \includegraphics[width=.33\textwidth]{R/mean_diffs_2}};
+      \node [below right] at (8,10) {
+        \includegraphics[width=.33\textwidth]{R/t_values_2}};
+      \node [below right] at (16,10) { \includegraphics[width=.33\textwidth]{R/p_values_2}};
+    \end{tikzpicture}
+  \end{figure}
+\end{frame}
+
+\begin{frame}[fragile]{with fewer replicates}
+  Means are 0 and 5, sd = 4, replicate no=3.
+  \begin{figure}[ht]
+    \begin{tikzpicture}[scale=0.5]
+      \node [below right] at (0,10) {
+        \includegraphics[width=.33\textwidth]{R/mean_diffs_3}};
+      \node [below right] at (8,10) {
+        \includegraphics[width=.33\textwidth]{R/t_values_3}};
+      \node [below right] at (16,10) { \includegraphics[width=.33\textwidth]{R/p_values_3}};
+    \end{tikzpicture}
+  \end{figure}
+\end{frame}
+
+\begin{frame}{How many replicates?}
+  \begin{figure}[ht]
+    \includegraphics[width=0.75\textwidth]{R/replicate_numbers}
+  \end{figure}
+\end{frame}
+  
 
 \begin{frame}{Not just t-tests}
   \begin{itemize}

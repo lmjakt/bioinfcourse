@@ -1,0 +1,264 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{fixltx2e}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{marvosym}
+\usepackage{wasysym}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\tolerance=1000
+\usepackage{minted}
+\usepackage{color}
+\usepackage{listings}
+\usepackage{grffile}
+\usepackage[inline]{enumitem}
+\usepackage{xcolor}
+\hypersetup{
+colorlinks,
+linkcolor={red!50!black},
+citecolor={blue!50!black},
+urlcolor={blue!80!black}
+}
+\usepackage{setspace}%% The linestretch
+\singlespacing
+\usepackage[format=hang,indention=0cm,singlelinecheck=true,justification=raggedright,labelfont={normalsize,bf},textfont={normalsize}]{caption} %
+\usepackage{vmargin}
+\setpapersize{A4}
+\setmarginsrb{2.5cm}{1cm}% links, oben
+{2.5cm}{2cm}% rechts, unten
+{12pt}{30pt}% Kopf: Höhe, Abstand
+{12pt}{30pt}% Fuß: Höhe, AB
+\usepackage{upquote}
+%  use straight quotes when printing a command in minted
+\AtBeginDocument{%
+\def\PYZsq{\textquotesingle}%
+}
+\definecolor{mintedbackground}{rgb}{0.95,0.95,0.95}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{\baselineskip}
+\definecolor{mintedbackground}{rgb}{0.95,0.95,0.95}
+\author{Martin Jakt\thanks{University of Nordland, Norway}}
+\date{\textbf{Bioinformatics \& Genomics}}
+\title{\textbf{BI229F Assignment} (2016)}
+\hypersetup{
+ pdfkeywords={},
+  pdfsubject={},
+  pdfcreator={}}
+\begin{document}
+
+\maketitle
+%\tableofcontents
+
+\section{The assignment}
+\label{sec-1}
+
+Your assignment is to write a somewhat useful program or script in Perl. Below
+you can find a list of tasks that I consider suitable. These tasks are divided
+by the difficulty of the implementation; the simpler the task the lower the
+grade that will be awarded. If you can think of a different task that you
+would like to solve, then please discuss this with me and I'll let you know if
+I consider it to be suitable.
+
+Plesse make sure to read the two last sections on what you need to hand in,
+and how you will be marked.
+
+\emph{You are free to ask me for advice while you are writing the code and the
+  report; and I would recommend you to make use of this well before the
+  deadline for the report.}
+
+\subsection{Suitable tasks}
+\subsubsection{Difficult tasks}
+A more or less working solution to one of these tasks will be rewarded with an
+A, even if it is not so beautifully implemented.
+\begin{itemize}
+\item Implement the core of the BLAST algorithm producing simply ungapped
+  alignments. This is quite difficult, but you can make it simpler, by writing
+  code that is specific for a given word length. (Note that a hash in perl is
+  a lookup table.)
+\item Given a SAM file and the target genome sequence, identify and enumerate
+  sequence variants.
+\item Any sequence alignment algorithm where the output is given in a
+  graphical way (either for the alignment, or to visualise the path through
+  the scoring matrix). This gets points for working out how to create graphics,
+  which we did not cover in much detail.
+\end{itemize}
+
+\subsubsection{Intermediate tasks}
+A working solution will be given a B. An A may be given if the script shows
+innovation in some way; eg. in how it outputs the results and or interacts
+with the user.
+\begin{itemize}
+\item Sequence alignment by a dynamic programming algorithm. This should not
+  be a straight Needleman-Wunsch since we have done this in class. However, if
+  you modify it some way (eg. so that it treats terminal gaps differently)
+  then this is acceptable. Note that whatever the algorithm is, you need to
+  provide a reasonable formatted output.
+\item Extract sequencs from a SAM file and convert to a different format. Note
+  that sequences in a SAM file can be reverse-complemented, so for this you
+  need to be able to interrogate the alignment flag correctly and to reverse
+  complement sequences.
+\item Count the occurences of words (sub-sequences of a specific length) in
+  a set of sequences and report the distribution.
+\item A dotplot with variable word sizing and graphical output using something
+  like SVG.
+\end{itemize}
+
+\subsubsection{Easy tasks}
+Working solutions to these will be given a C. Again the score can be boosted
+by doing something interesting in the script.
+\begin{itemize}
+  \item Convert fasta sequence data to some other format (eg. tab-delimited),
+    possibly splitting into individual files.
+  \item Convert fastq data to fasta.
+  \item Reverse complement a sequence.
+\end{itemize}
+
+
+\subsection{What to do when you're stuck}
+You will probably find yourself stuck with errors that you don't understand,
+or can't find the cause of at some point; or perhaps you simply can't work out
+what to do next. When this happens, I suggest the following:
+\begin{itemize}
+\item Read the error and warning messages; they usually tell you where the
+  problem might be in the code. Occasionally the error message will point you
+  in the wrong direction, so don't spend too much time staring at a single
+  line of code. If you don't understand the message, you can always try
+  googling it.
+\item Experiment with the code. When writing the code always run it after you add
+  some new component or function. When doing so, print out the contents of variables so
+  that you can determine what the script is doing. Change stuff in your script
+  and then see what happens.
+\item Talk to the other students; often you may have a missing \verb|$| or a
+  \verb|$| instead of a \verb|@| in your code that you just cannot see
+  yourself. A second pair of eyes will often pick this up much faster than
+  you. Talking about things also tends to make you think of things in a
+  different way.
+\item Talk to me.
+\end{itemize}
+
+Don't spend too much time stuck in a line of code before you do some of the above.
+
+\section{What you need to hand in}
+You will need to hand in a report containing two or three parts:
+\begin{itemize}
+\item A text file containing the source code to your script. This should be a
+  working script that I can  run on my computer.
+\item Optionally; a set of input files that work with the script. If, for
+  example, your script aligns two sequences you may wish to provide a file or
+  files that the script can read as input.
+\item A report describing what your script does. This should include:
+  \begin{itemize}
+  \item A section outlining what your script does and why it is useful.
+  \item A more detailed description of the algorithm, or how your script
+    solves its task.
+  \item A description of how to use your script; i.e. what input does it
+    require (including the formats of input data) and how it outputs the results. You
+    can think of this as writing the manual page for the program.
+  \item Description of an example run, and an appraisal as to how well your
+    script works.
+  \end{itemize}
+\end{itemize}
+
+The work will need to be submitted to fronter. The instructions on fronter
+state that you must submit a single pdf file. Please ignore this and instead
+submit a compressed archive file (eg. a zip or tar.gz file). Give the file a
+name that includes your student number. Note that you may have different
+student numbers for the assignment and the exam.
+
+\section{How your assignments will be graded}
+You will be marked on both the quality of your script and the accompanying
+report.
+\subsection{The script}
+Your script should work. There are several parts to a script working:
+\begin{itemize}
+\item The script runs without errors or warnings when given appropriate input
+  data.
+\item The script produces the intended result, eg. for a dynamic programming
+  algorithm it should produce one or more optimal alignments.
+\item How well the script works with badly formatted input. What a program
+  should do when confronted with data that is incorrectly formated is not
+  always clear; however, the worst thing it can do is to continue as normal
+  and then output incorrect output. Regardless of what the script does it
+  should be described accurately in the report, eg.:
+  \begin{itemize}
+  \item This script does not check for incorrectly formatted input; the
+    results of using bad input are undefined.
+  \item This script will die if it believes the input is not a correctly
+    formated fasta file.
+  \end{itemize}
+  are both acceptable descriptions. The second option describes a better
+  program then the first; but both can be correct.
+\end{itemize}
+
+If you have problems with your script doing what it should do, then your best
+option is to make it work, but if at the deadline it is not working as you
+want it to, then you need to explain what parts of your script are working, 
+where it fails, and what you think the problem is. Note that you
+need to allocate enough time to write the report.
+
+Sometimes a script will work with one set of input, but not another. This
+usually indicates a bug in the logic. There are often such bugs in code; for
+this reason it can be a good idea to include in your report input data which
+you know will work with the script. Otherwise I may end up trying to run your
+script and conclude that it doesn't work. If at the same time you claim that
+it works, I may end up suspecting a certain dishonesty on your part. That
+would be bad.
+
+Points will be awarded and deducted by the following criteria:
+\begin{itemize}
+\item Plus points:
+  \begin{itemize}
+  \item Correctness: i.e. doing what it says on the tin.
+  \item Novelty: doing things not described by me in the course.
+  \item Style: the script should be easy to read and understand.
+  \item Flexibility: how does the script deal with bad data. Will it silently do
+    the wrong thing (bad) or complain about the data (good).
+  \item Efficiency: the script should do as little work as possible to achieve
+    its task. However, efficiency here is much less important than readability
+    and clarity.
+  \end{itemize}
+\item Minus points:
+  \begin{itemize} 
+    \item Not working (this is a big minus).
+    \item Doing exactly the same things as the scripts introduced in the
+      lectures and course notes.
+    \item Looking the same; i.e. having the same structures and variable
+      names as the scripts I've shown you. You \emph{will} be penalised for
+      having all the same variable names as I have used in my lectures.
+  \end{itemize}
+\end{itemize}
+
+In essence you will be awarded if I think you worked out the logic of the
+script yourself and penalised if I think that you simply copied a load of
+stuff and made it work without understanding it.
+
+\subsection{The report}
+
+The purpose of the report is partly to give you a chance to convince me that
+you understand what your script does; and also that you wrote it. As usual
+this is best achieved by using your own words, rather than borrowing phrases
+from presentations or other documents. I do not wish to see a very long
+report, but the length will clearly depend on the complexity of your script.
+
+The most important aspect of your report is clarity and accuracy. Do not
+include more words than necessary. Absolutely do not state things which are
+not completely true; do not overstate what you have done. If your script
+mostly works, but there is a problem you are aware of; then describe
+this. It is unlikely that there is no such problem, so you will be given
+points for being aware of when things may not work. If you write, 'my script
+works beautifully', when quite clearly it does not, you will be \emph{heavily}
+penalised. 
+
+I expect that a suitable report will be of a similar length to this document,
+but you should not aim for a specific length.
+
+\end{document}

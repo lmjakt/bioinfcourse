@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<svg height="200" width="200" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+	<circle cy="10" fill="green" r="30" stroke="red" />
+	<circle cy="10" r="30" style="stroke: red; fill: green" />
+	<!-- Draw a group with two circles that have url links -->
+	<!-- Define a child of $svg called $gp1 -->
+	<g id="group_1" style="stroke-opacity: 1; fill-opacity: 0.4; fill: red; stroke: green; opacity: 1">
+		<a xlink:href="www.w3c.org">
+			<circle cx="170" cy="100" id="this_circle" r="20" />
+			<circle cx="100" cy="170" id="that_circle" r="20" />
+			<circle cx="180" cy="160" id="the_other_circle" r="20" style="stroke: cyan" />
+		</a>
+	</g>
+	<!-- Draw a second group with two text entries One entry has an anchor -->
+	<g id="group_2">
+		<text x="80" y="20">Tutorial</text>
+		<text x="120" y="20">Two</text>
+		<a xlink:href="/SVG.html">
+			<text fill="rgb(200,30,100)" x="20" y="40">Brought to you by the letters SVG and pm</text>
+		</a>
+	</g>
+	<!-- Here is one way to define text -->
+	<!-- Here is another way to define text -->
+	<!-- Well, we're done here -->
+	<text x="0" y="100">A</text>
+	<text x="0" y="10">A</text>
+	<text x="10" y="100">C</text>
+	<text x="10" y="10">C</text>
+	<text x="20" y="100">G</text>
+	<text x="20" y="10">G</text>
+	<text x="30" y="100">T</text>
+	<text x="30" y="10">T</text>
+	<text x="40" y="100">A</text>
+	<text x="40" y="10">A</text>
+	<text x="50" y="100">C</text>
+	<text x="50" y="10">C</text>
+	<text x="60" y="100">G</text>
+	<text x="60" y="10">G</text>
+	<text x="70" y="100">T</text>
+	<text x="70" y="10">T</text>
+	<text x="80" y="100">A</text>
+	<text x="80" y="10">A</text>
+	<text x="90" y="100">C</text>
+	<text x="90" y="10">C</text>
+	<text x="100" y="100">G</text>
+	<text x="100" y="10">G</text>
+	<text x="110" y="100">T</text>
+	<text x="110" y="10">T</text>
+	<text x="120" y="100">A</text>
+	<text x="120" y="10">A</text>
+	<text x="130" y="100">C</text>
+	<text x="130" y="10">C</text>
+	<text x="140" y="100">G</text>
+	<text x="140" y="10">G</text>
+	<text x="150" y="100">T</text>
+	<text x="150" y="10">T</text>
+	<text x="160" y="100">A</text>
+	<text x="160" y="10">A</text>
+	<text x="170" y="100">C</text>
+	<text x="170" y="10">C</text>
+	<text x="180" y="100">G</text>
+	<text x="180" y="10">G</text>
+	<text x="190" y="100">T</text>
+	<text x="190" y="10">T</text>
+	<!-- 
+	Generated using the Perl SVG Module V2.59
+	by Ronan Oger
+	Info: http://www.roitsystems.com/
+ -->
+</svg>

@@ -294,6 +294,7 @@
   \url{http://www.insdc.org/documents/feature_table.html}
 \end{frame}
 
+
 \begin{frame}{Looking and editing genbank files}
   APE:\\
   A Plasmid Editor\\
@@ -428,6 +429,8 @@ GATTTGGGGTTCAAAGCAGTATCGATCAAATAGTAAATCCATTTGTTCAACTCACAGTTT
       \url{http://omim.org/entry/601828}\\
     \item[Mouse:] MGI, Mouse Genome Informatics\\
       \url{http://www.informatics.jax.org/}
+    \item[Zebra fish] ZFIN\\
+      \url{http://zfin.org/}
   \end{description}
   
   Rich sources of information.
@@ -469,6 +472,28 @@ GATTTGGGGTTCAAAGCAGTATCGATCAAATAGTAAATCCATTTGTTCAACTCACAGTTT
   
   For these the difficulty lies in the description of experimental
   details and in comparing data across several data sets.
+\end{frame}
+
+\begin{frame}{Taxonomy}
+  Another NCBI database:
+
+  \url{http://www.ncbi.nlm.nih.gov/guide/taxonomy/}
+
+\end{frame}
+
+\begin{frame}{Taxonomy (2)}
+  I don't like web interfaces:
+  \begin{enumerate}
+  \item Downloaded database (flat files, but relational)
+  \item Wrote script to browse and extract species
+  \item $\rightarrow$ automate sequence retrieval
+  \item $\rightarrow$ automate phylogenetic analysis
+  \end{enumerate}
+  
+  NCBI provide a web-API that makes it reasonably easy to write scripts to
+  download specific sequences. This allows you to combine the information in
+  the different databases without inducing RSI.
+
 \end{frame}
 
 \begin{frame}{and lots more...}

@@ -67,7 +67,70 @@
   \titlepage
 \end{frame}
 
-\begin{frame}[fragile]{Evaluating an alignment}
+\begin{frame}[fragile]{Why align (two) sequences?}
+\begin{figure}[ht]
+  \begin{tikzpicture}[scale=0.5]
+    %% \draw [help lines, opacity=1] (0,0) grid (22,12);
+    %% \foreach \x in {1,2,...,19} \node [font=\small] at (\x,0) {\x};
+    %% \foreach \y in {1,2,...,18} \node [font=\small] at (20,\y) {\y};
+    
+    \visible<2->{
+      \node [right, align=left] at (1,18) {To determine the similarity of two
+        protein sequences};
+      \foreach \x in {6.1,6.3,...,7.9} \draw [-] (\x,17) -- (\x,16.5);
+      \foreach \x in {9.1,9.3,...,11.9} \draw [-] (\x,17) -- (\x,16.5);
+      \foreach \x in {15.1,15.3,...,16.9} \draw [-] (\x,17) -- (\x,16.5);
+      
+      \draw [-, line width=2,blue] (5,17) -- (18,17);
+      \draw [-, dashed] (5,16.5) -- (6,16.5);
+      \draw [-, dashed] (5,16.5) -- (6,16.5);
+      \draw [-, line width=2,red] (6,16.5) -- (12,16.5);
+      \draw [-, dashed] (12,16.5) -- (15,16.5);
+      \draw [-, line width=2,red] (15,16.5) -- (19,16.5);
+    }
+    \visible<3->{
+      \node [right, align=left] at (1,14) {Identify location of (any)
+        differences};
+
+      \foreach \x in {6.1,6.3,...,7.9} \draw [-] (\x,13) -- (\x,12.5);
+      \foreach \x in {8.3,8.5,...,9.9} \draw [-] (\x,13) -- (\x,12.5);
+      \foreach \x in {10.5,10.7,...,11.9} \draw [-] (\x,13) -- (\x,12.5);
+      \foreach \x in {12.3,12.5,...,17.9} \draw [-] (\x,13) -- (\x,12.5);
+      
+      \draw [-, dashed] (5,12.5) -- (6,12.5);
+      \draw [-, line width=2,blue] (5,13) -- (18,13);
+      \draw [-, line width=2,red] (6,12.5) -- (12,12.5);
+      \draw [-, line width=2,red] (12.2,12.5) -- (19,12.5);
+      \draw [-, dashed] (12,12.5) -- (12.2,12.5);
+
+    }
+    \visible<4->{
+      \node [right, align=left] at (1,10) {Confirm location and uniqueness of a
+        primer sequence};
+      
+      \foreach \x in {7.1, 7.2,...,7.9} \draw [-] (\x,9) -- (\x,8.5);
+      \foreach \x in {13.1, 13.2,...,13.6} \draw [-] (\x,9) -- (\x,8.5);
+      \draw [-, line width=2,blue] (5,9) -- (18,9);
+      \draw [-, line width=2,red] (7,8.5) -- (8,8.5);
+      \draw [-, line width=2, red] (13,8.5) -- (14,8.5);
+      
+    }
+    \visible<5->{
+      \node [right, align=left] at (1,6) {Map locations of short sequence
+        reads};
+      \draw [-, line width=2,blue] (5,5) -- (18,5);
+      \draw [-, line width=1,red] (7,4.75) -- (7.5,4.75);
+      \draw [-, line width=1,red] (7.6,4.75) -- (8.1,4.75);
+      \draw [-, line width=1,red] (7.3,4.5) -- (7.8,4.5);
+      \draw [-, line width=1,red] (7.5,4.25) -- (7.9,4.25);
+    }
+  \end{tikzpicture}
+\end{figure}
+\end{frame}
+
+
+
+\begin{frame}[fragile]{A simple alignment}
   The two following sequences have an obvious alignment.
   \begin{verbatim}
     TAATTAGC
@@ -104,8 +167,66 @@
 }
 \end{frame}
 
+\begin{frame}[fragile]{Different types of alignment}
+  \begin{figure}[ht]
+    \begin{tikzpicture}[scale=0.5]
+      %% \draw [help lines, opacity=1] (0,0) grid (22,12);
+      %% \foreach \x in {1,2,...,19} \node [font=\small] at (\x,0) {\x};
+      %% \foreach \y in {1,2,...,12} \node [font=\small] at (20,\y) {\y};
+      \visible<2->{
+        \node [right, font=\ttfamily] at (1., 11)   {TAATTAGC};
+        \node [right, font=\ttfamily] at (1.4,10.4) { *||||}; 
+        \node [right, font=\ttfamily] at (1.4,9.8)  { CATTA}; 
+      }
+      \visible<3->{
+        \draw[->] (5, 10.5) -- (11,12.5);
+        \node [right, font=\ttfamily] at (11., 13)   {ATTA};
+        \node [right, font=\ttfamily] at (11.,12.4) {||||}; 
+        \node [right, font=\ttfamily] at (11.,11.8)  {ATTA}; 
+        \node [right, align=left] at (15,12.5) {local\\ungapped};
+      }
+      \visible<4->{
+        \draw[->] (5, 10.5) -- (11,8.5);
+        \node [right, font=\ttfamily] at (11., 9)   {TAATTAGC};
+        \node [right, font=\ttfamily] at (11.,8.4) {:*||||::}; 
+        \node [right, font=\ttfamily] at (11.4,7.8)  {CATTA}; 
+        \node [right, align=left] at (15,8.5) {global\\gapped};
+
+      }
+      \visible<5->{
+        \node [right, align=left, font=\ttfamily] at (1,6)   {TAATTAG};
+        \node [right, align=left, font=\ttfamily] at (1,5.4) {||||::|};
+        \node [right, align=left, font=\ttfamily] at (1,4.8) {TAAT--G};
+        \node [right, align=left] at (5.5,5.5) {local\\gapped};
+      }
+    \end{tikzpicture}
+  \end{figure}
+\end{frame}
+
+\begin{frame}{Different types of alignment (2)}
+  \begin{description}
+  \item[global] Includes all residues in both sequences. Must include gaps if
+    unequal length.
+  \item[local] Includes only the highest scoring sub alignment. May include
+    more than one aligned region.
+  \item[pseudo-global\footnote{May not be the correct term.}] Includes all residues from the shorter sequence. Not
+    penalised for initial terminal gaps?!\footnote{We'll cover the meaning of
+      these in more details when we look at the algorithms.}.
+  \end{description}
+\end{frame}
+
+\begin{frame}{Evaluating an alignment (1)}
+  To get a score for an alignment:
+  \begin{enumerate}
+  \item Assign a score or penalty for matches, mismatches, gaps.
+  \item Add up the appropriate scores / penalties at each position in the
+    alignment.
+  \item The sum is the alignment score.
+  \end{enumerate}
+\end{frame}
+
 \begin{frame}{Evaluating an alignment (2)}
-  Design a score to evaluate the alignment:
+  More formally:
   $$
   S_a =  (N_{m} \times P_m) + (N_{mm} \times P_{mm}) + (N_{gap} \times P_{gap})
   $$
@@ -120,9 +241,8 @@
     \item[$P_{gap}$] penalty for a gap
   \end{description}
   $P_{m}$, $P_{mm}$ and $P_{gap}$ can be tuned to favour different types of
-  alignment. (A penalty can also be referred to as a cost).
+  alignment. (A penalty can also be referred to as a cost or a score).
 
-  This is known as a cost/benefit function. Any reasonable function can be chosen.
   \blfootnote{A penalty for a match is silly, but the equation looks nicer
     like this}
 }
@@ -200,7 +320,7 @@ Modify the alignment score:
     A more pleasing result.
 \end{frame}
 
-\begin{frame}{Complexity of optimal alignment}
+\begin{frame}{Complexity of alignment}
   How many possible alignments for 2 sequences?
 
   Aligning sequences can be considered as a process of inserting gaps into two
@@ -217,8 +337,10 @@ Modify the alignment score:
         magnitude at least}
       \pause
     \item The total number of gaps that can be introduced depends
-      on the relationship between the cost of gap insertion.
+      on the relationship between the cost of gap insertion, extension and mismatches.
       \pause
+    \item This is for one sequence only. Gaps can be included into the second
+      sequence as well. And for a specific number of gaps!
     \item We cannot evaluate all possible alignments for any non-trivial sequence.
   \end{itemize}
     
@@ -240,6 +362,53 @@ Modify the alignment score:
     \hfill
 %%  \end{figure}
 \end{frame}
+
+\begin{frame}{Dotplot: finding a path}
+  \begin{figure}[ht]
+    \begin{tikzpicture}[scale=0.35]
+      \input{dplot_2.tikz}
+      \def\s{0.8}
+      \visible<2->{
+        \def\x{2}
+        \def\y{13}
+        \draw [->] (\x,\y) -- (\x+\s,\y);
+        \draw [->] (\x,\y) -- (\x,\y-\s);
+        \draw [->] (\x,\y) -- (\x+\s,\y-\s);
+      }
+      \visible<3->{
+        \def\x{3}
+        \def\y{13}
+        \draw [->] (\x,\y) -- (\x+\s,\y);
+        \draw [->] (\x,\y) -- (\x,\y-\s);
+        \draw [->] (\x,\y) -- (\x+\s,\y-\s);
+      }
+      \visible<4->{
+        \def\x{2}
+        \def\y{12}
+        \draw [->] (\x,\y) -- (\x+\s,\y);
+        \draw [->] (\x,\y) -- (\x,\y-\s);
+        \draw [->] (\x,\y) -- (\x+\s,\y-\s);
+      }
+      \visible<5->{
+        \def\x{3}
+        \def\y{12}
+        \draw [->] (\x,\y) -- (\x+\s,\y);
+        \draw [->] (\x,\y) -- (\x,\y-\s);
+        \draw [->] (\x,\y) -- (\x+\s,\y-\s);
+      }
+      \visible<6->{
+        \node [below right, align=left] at (0,0) {No Equation??\\$\rightarrow$
+          write a program};
+      }
+      \visible<7->{
+        \node[inner sep=0pt, below right] at (15,17) {\includegraphics[width=.4\textwidth]{R/step_counts.pdf}};
+        \node[inner sep=0pt, below right] at (15,7) {\includegraphics[width=.4\textwidth]{R/alignment_counts.pdf}};
+      }
+    \end{tikzpicture}
+  \end{figure}
+  
+\end{frame}
+
 
 \begin{frame}{Optimal alignments}
   Dotplot gives a visualisation, but does not lead directly to
@@ -278,6 +447,15 @@ Modify the alignment score:
   \end{figure}
 
 \end{frame}
+
+\begin{frame}{Needleman-Wunsch (3): a pseudo-global alignment}
+  \begin{figure}[ht]
+    \begin{tikzpicture}[scale=0.4]
+      \input{nm_ps.tikz}
+    \end{tikzpicture}
+  \end{figure}
+\end{frame}
+
 
 \begin{frame}[fragile]{Why local alignment?}
   \begin{itemize}
@@ -322,6 +500,31 @@ Modify the alignment score:
   \end{figure}
 \end{frame}
 
+\begin{frame}{Smith-Waterman: local alignment (2)}
+  \begin{figure}[ht]
+    \begin{tikzpicture}[scale=0.5]
+      \input{smwat_2.tikz}
+    \end{tikzpicture}
+  \end{figure}
+\end{frame}
+
+\begin{frame}{Smith-Waterman: local alignment (3)}
+  \begin{figure}[ht]
+    \begin{tikzpicture}[scale=0.5]
+      \input{smwat_3.tikz}
+    \end{tikzpicture}
+  \end{figure}
+\end{frame}
+
+\begin{frame}{Smith-Waterman: local alignment (4)}
+  \begin{figure}[ht]
+    \begin{tikzpicture}[scale=0.5]
+      \input{smwat_4.tikz}
+    \end{tikzpicture}
+  \end{figure}
+\end{frame}
+
+
 \begin{frame}{The penalties}
   Match vs. mismatch vs gap insertion vs gap extension.
   
@@ -330,7 +533,9 @@ Modify the alignment score:
   
   \begin{itemize}
   \item Frequency of substitution vs / insertion-deletion mutations
-  \item Objective of alignment (evolutionary vs functional homology),
+  \item Objective of alignment (evolutionary vs functional
+    homology\footnote{This term may be a little contentious and conflict with
+      common usage.}),
   and type of sequence (DNA / Protein). 
   \end{itemize}
 
@@ -475,7 +680,7 @@ Modify the alignment score:
   Functional homology in protein sequences (probably) mostly arise
   from evolutionary homology (i.e. not convergent evolution).
 
-  Functional homology in regulatory elements is more likely to arise through
+  Functional homology\footnote{Again, be careful with this phrase!} in regulatory elements is more likely to arise through
   convergent evolution as the sequence requirements are much less stringent.
   Such homology though is difficult to identify in the absence of evolutionary
   homology due to low information content.
@@ -496,9 +701,9 @@ Modify the alignment score:
   these slides.
 
   Good for playing around with parameters to get a good understanding
-  of the algorithms. Easy to modify. Perhaps for future work.
+  of the algorithms. Easy to modify.
 
-  I will clean up the code and make it available on Fronter.
+  I will clean up the code and make it available on Fronter if anyone has an interest?
 \end{frame}
 
 \end{document}

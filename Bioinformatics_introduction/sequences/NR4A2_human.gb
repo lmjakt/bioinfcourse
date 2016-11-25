@@ -1,0 +1,340 @@
+LOCUS       NM_006186               3546 bp    mRNA    linear   PRI 25-AUG-2016
+DEFINITION  Homo sapiens nuclear receptor subfamily 4 group A member 2 (NR4A2),
+            mRNA.
+ACCESSION   NM_006186
+VERSION     NM_006186.3  GI:187423888
+KEYWORDS    RefSeq.
+SOURCE      Homo sapiens (human)
+  ORGANISM  Homo sapiens
+            Eukaryota; Metazoa; Chordata; Craniata; Vertebrata; Euteleostomi;
+            Mammalia; Eutheria; Euarchontoglires; Primates; Haplorrhini;
+            Catarrhini; Hominidae; Homo.
+REFERENCE   1  (bases 1 to 3546)
+  AUTHORS   Yang X, Coulombe-Huntington J, Kang S, Sheynkman GM, Hao T,
+            Richardson A, Sun S, Yang F, Shen YA, Murray RR, Spirohn K, Begg
+            BE, Duran-Frigola M, MacWilliams A, Pevzner SJ, Zhong Q, Trigg SA,
+            Tam S, Ghamsari L, Sahni N, Yi S, Rodriguez MD, Balcha D, Tan G,
+            Costanzo M, Andrews B, Boone C, Zhou XJ, Salehi-Ashtiani K,
+            Charloteaux B, Chen AA, Calderwood MA, Aloy P, Roth FP, Hill DE,
+            Iakoucheva LM, Xia Y and Vidal M.
+  TITLE     Widespread Expansion of Protein Interaction Capabilities by
+            Alternative Splicing
+  JOURNAL   Cell 164 (4), 805-817 (2016)
+   PUBMED   26871637
+REFERENCE   2  (bases 1 to 3546)
+  AUTHORS   Xu Y, Huang Q, Zhang W, Wang Y, Zeng Q, He C, Xue J, Chen J, Hu X
+            and Xu Y.
+  TITLE     Decreased expression levels of Nurr1 are associated with chronic
+            inflammation in patients with type 2 diabetes
+  JOURNAL   Mol Med Rep 12 (4), 5487-5493 (2015)
+   PUBMED   26239742
+  REMARK    GeneRIF: decreased expression levels of Nurr1 were associated with
+            chronic inflammation and insulin resistance in patients with T2D.
+REFERENCE   3  (bases 1 to 3546)
+  AUTHORS   Giner XC, Cotnoir-White D, Mader S and Levesque D.
+  TITLE     Selective ligand activity at Nur/retinoid X receptor complexes
+            revealed by dimer-specific bioluminescence resonance energy
+            transfer-based sensors
+  JOURNAL   FASEB J. 29 (10), 4256-4267 (2015)
+   PUBMED   26148973
+  REMARK    GeneRIF: Data show that some rexinoids display selective
+            coactivator (CoA) recruitment by the retinoid X receptors (RXRs)
+            homodimer and by the heterodimers nuclear receptor Nur77/RXR and
+            Nurr1/RXR.
+REFERENCE   4  (bases 1 to 3546)
+  AUTHORS   Guo J, Zu G, Zhou T, Xing J and Wang Z.
+  TITLE     Clinicopathological significance of orphan nuclear receptor Nurr1
+            expression in gastric cancer
+  JOURNAL   Clin Transl Oncol 17 (10), 788-794 (2015)
+   PUBMED   26022133
+  REMARK    GeneRIF: The immunohistochemical, qRT-PCR and western blot analyses
+            revealed that Nurr1 expression was increased in gastric cancer
+            tissues compared with normal gastric tissue.
+REFERENCE   5  (bases 1 to 3546)
+  AUTHORS   Liu H, Fu Y, Ren J, Yu S, Liu H, Jiang P, Dong Y and Li H.
+  TITLE     Association between NR4A2 genetic variation and schizophrenia: A
+            comprehensive systematic review and meta-analysis
+  JOURNAL   Neurosci. Lett. 598, 85-90 (2015)
+   PUBMED   25982322
+  REMARK    GeneRIF: The results failed to reveal significant link between
+            NR4A2 polymorphism and schizophrenia risk. [META-ANALYSIS]
+            Review article
+REFERENCE   6  (bases 1 to 3546)
+  AUTHORS   Forman BM, Umesono K, Chen J and Evans RM.
+  TITLE     Unique response pathways are established by allosteric interactions
+            among nuclear hormone receptors
+  JOURNAL   Cell 81 (4), 541-550 (1995)
+   PUBMED   7758108
+REFERENCE   7  (bases 1 to 3546)
+  AUTHORS   Okabe T, Takayanagi R, Imasaki K, Haji M, Nawata H and Watanabe T.
+  TITLE     cDNA cloning of a NGFI-B/nur77-related transcription factor from an
+            apoptotic human T cell line
+  JOURNAL   J. Immunol. 154 (8), 3871-3879 (1995)
+   PUBMED   7706727
+REFERENCE   8  (bases 1 to 3546)
+  AUTHORS   Perlmann T and Jansson L.
+  TITLE     A novel pathway for vitamin A signaling mediated by RXR
+            heterodimerization with NGFI-B and NURR1
+  JOURNAL   Genes Dev. 9 (7), 769-782 (1995)
+   PUBMED   7705655
+REFERENCE   9  (bases 1 to 3546)
+  AUTHORS   Mages HW, Rilke O, Bravo R, Senger G and Kroczek RA.
+  TITLE     NOT, a human immediate-early response gene closely related to the
+            steroid/thyroid hormone receptor NAK1/TR3
+  JOURNAL   Mol. Endocrinol. 8 (11), 1583-1591 (1994)
+   PUBMED   7877627
+REFERENCE   10 (bases 1 to 3546)
+  AUTHORS   Farlow,J., Pankratz,N.D., Wojcieszek,J. and Foroud,T.
+  TITLE     Parkinson Disease Overview
+  JOURNAL   (in) Pagon RA, Adam MP, Ardinger HH, Wallace SE, Amemiya A, Bean
+            LJH, Bird TD, Fong CT, Mefford HC, Smith RJH and Stephens K (Eds.);
+            GENEREVIEWS(R);
+            (1993)
+   PUBMED   20301402
+COMMENT     REVIEWED REFSEQ: This record has been curated by NCBI staff. The
+            reference sequence was derived from DA093733.1, X75918.1 and
+            AK223625.1.
+            This sequence is a reference standard in the RefSeqGene project.
+            On May 2, 2008 this sequence version replaced gi:27894347.
+            
+            Summary: This gene encodes a member of the steroid-thyroid
+            hormone-retinoid receptor superfamily. The encoded protein may act
+            as a transcription factor. Mutations in this gene have been
+            associated with disorders related to dopaminergic dysfunction,
+            including Parkinson disease, schizophernia, and manic depression.
+            Misregulation of this gene may be associated with rheumatoid
+            arthritis. Alternatively spliced transcript variants have been
+            described, but their biological validity has not been determined.
+            [provided by RefSeq, Jul 2008].
+            
+            Publication Note:  This RefSeq record includes a subset of the
+            publications that are available for this gene. Please see the Gene
+            record to access additional publications.
+            
+            ##Evidence-Data-START##
+            Transcript exon combination :: AK223625.1, X75918.1 [ECO:0000332]
+            RNAseq introns              :: single sample supports all introns
+                                           SAMEA2154529 [ECO:0000348]
+            ##Evidence-Data-END##
+            COMPLETENESS: complete on the 3' end.
+PRIMARY     REFSEQ_SPAN         PRIMARY_IDENTIFIER PRIMARY_SPAN        COMP
+            1-177               DA093733.1         1-177
+            178-2549            X75918.1           73-2444
+            2550-3546           AK223625.1         2491-3487
+FEATURES             Location/Qualifiers
+     source          1..3546
+                     /organism="Homo sapiens"
+                     /mol_type="mRNA"
+                     /db_xref="taxon:9606"
+                     /chromosome="2"
+                     /map="2q22-q23"
+     gene            1..3546
+                     /gene="NR4A2"
+                     /gene_synonym="HZF-3; NOT; NURR1; RNR1; TINUR"
+                     /note="nuclear receptor subfamily 4 group A member 2"
+                     /db_xref="GeneID:4929"
+                     /db_xref="HGNC:HGNC:7981"
+                     /db_xref="HPRD:03493"
+                     /db_xref="MIM:601828"
+     exon            1..296
+                     /gene="NR4A2"
+                     /gene_synonym="HZF-3; NOT; NURR1; RNR1; TINUR"
+                     /inference="alignment:Splign:1.39.8"
+     exon            297..420
+                     /gene="NR4A2"
+                     /gene_synonym="HZF-3; NOT; NURR1; RNR1; TINUR"
+                     /inference="alignment:Splign:1.39.8"
+     misc_feature    363..365
+                     /gene="NR4A2"
+                     /gene_synonym="HZF-3; NOT; NURR1; RNR1; TINUR"
+                     /note="upstream in-frame stop codon"
+     exon            421..1286
+                     /gene="NR4A2"
+                     /gene_synonym="HZF-3; NOT; NURR1; RNR1; TINUR"
+                     /inference="alignment:Splign:1.39.8"
+     CDS             423..2219
+                     /gene="NR4A2"
+                     /gene_synonym="HZF-3; NOT; NURR1; RNR1; TINUR"
+                     /note="T-cell nuclear receptor NOT; orphan nuclear
+                     receptor NURR1; NGFI-B/nur77 beta-type transcription
+                     factor homolog; nur related protein-1, human homolog of;
+                     transcriptionally inducible nuclear receptor related 1;
+                     intermediate-early receptor protein; orphan nuclear
+                     receptor NR4A2; immediate-early response protein NOT;
+                     transcriptionally-inducible nuclear receptor"
+                     /codon_start=1
+                     /product="nuclear receptor subfamily 4 group A member 2"
+                     /protein_id="NP_006177.1"
+                     /db_xref="GI:5453822"
+                     /db_xref="CCDS:CCDS2201.1"
+                     /db_xref="GeneID:4929"
+                     /db_xref="HGNC:HGNC:7981"
+                     /db_xref="HPRD:03493"
+                     /db_xref="MIM:601828"
+                     /translation="MPCVQAQYGSSPQGASPASQSYSYHSSGEYSSDFLTPEFVKFSM
+                     DLTNTEITATTSLPSFSTFMDNYSTGYDVKPPCLYQMPLSGQQSSIKVEDIQMHNYQQ
+                     HSHLPPQSEEMMPHSGSVYYKPSSPPTPTTPGFQVQHSPMWDDPGSLHNFHQNYVATT
+                     HMIEQRKTPVSRLSLFSFKQSPPGTPVSSCQMRFDGPLHVPMNPEPAGSHHVVDGQTF
+                     AVPNPIRKPASMGFPGLQIGHASQLLDTQVPSPPSRGSPSNEGLCAVCGDNAACQHYG
+                     VRTCEGCKGFFKRTVQKNAKYVCLANKNCPVDKRRRNRCQYCRFQKCLAVGMVKEVVR
+                     TDSLKGRRGRLPSKPKSPQEPSPPSPPVSLISALVRAHVDSNPAMTSLDYSRFQANPD
+                     YQMSGDDTQHIQQFYDLLTGSMEIIRGWAEKIPGFADLPKADQDLLFESAFLELFVLR
+                     LAYRSNPVEGKLIFCNGVVLHRLQCVRGFGEWIDSIVEFSSNLQNMNIDISAFSCIAA
+                     LAMVTERHGLKEPKRVEELQNKIVNCLKDHVTFNNGGLNRPNYLSKLLGKLPELRTLC
+                     TQGLQRIFYLKLEDLVPPPAIIDKLFLDTLPF"
+     misc_feature    1281..1364
+                     /gene="NR4A2"
+                     /gene_synonym="HZF-3; NOT; NURR1; RNR1; TINUR"
+                     /experiment="experimental evidence, no additional details
+                     recorded"
+                     /note="propagated from UniProtKB/Swiss-Prot (P43354.1);
+                     Region: Bipartite nuclear localization signal (NLS1)"
+     misc_feature    1434..1472
+                     /gene="NR4A2"
+                     /gene_synonym="HZF-3; NOT; NURR1; RNR1; TINUR"
+                     /experiment="experimental evidence, no additional details
+                     recorded"
+                     /note="propagated from UniProtKB/Swiss-Prot (P43354.1);
+                     Region: Nuclear localization signal (NLS1).
+                     {ECO:0000269|PubMed:23283970}"
+     misc_feature    1647..1799
+                     /gene="NR4A2"
+                     /gene_synonym="HZF-3; NOT; NURR1; RNR1; TINUR"
+                     /experiment="experimental evidence, no additional details
+                     recorded"
+                     /note="propagated from UniProtKB/Swiss-Prot (P43354.1);
+                     Region: Ligand-binding. {ECO:0000255}"
+     misc_feature    1749..1778
+                     /gene="NR4A2"
+                     /gene_synonym="HZF-3; NOT; NURR1; RNR1; TINUR"
+                     /experiment="experimental evidence, no additional details
+                     recorded"
+                     /note="propagated from UniProtKB/Swiss-Prot (P43354.1);
+                     Region: nuclear export sequence (NES1)"
+     misc_feature    2124..2153
+                     /gene="NR4A2"
+                     /gene_synonym="HZF-3; NOT; NURR1; RNR1; TINUR"
+                     /experiment="experimental evidence, no additional details
+                     recorded"
+                     /note="propagated from UniProtKB/Swiss-Prot (P43354.1);
+                     Region: nuclear export sequence (NES2)"
+     STS             551..1794
+                     /gene="NR4A2"
+                     /gene_synonym="HZF-3; NOT; NURR1; RNR1; TINUR"
+                     /standard_name="Nr4a2"
+                     /db_xref="UniSTS:546539"
+     STS             577..1464
+                     /gene="NR4A2"
+                     /gene_synonym="HZF-3; NOT; NURR1; RNR1; TINUR"
+                     /standard_name="Nr4a2"
+                     /db_xref="UniSTS:536540"
+     exon            1287..1416
+                     /gene="NR4A2"
+                     /gene_synonym="HZF-3; NOT; NURR1; RNR1; TINUR"
+                     /inference="alignment:Splign:1.39.8"
+     exon            1417..1580
+                     /gene="NR4A2"
+                     /gene_synonym="HZF-3; NOT; NURR1; RNR1; TINUR"
+                     /inference="alignment:Splign:1.39.8"
+     exon            1581..1783
+                     /gene="NR4A2"
+                     /gene_synonym="HZF-3; NOT; NURR1; RNR1; TINUR"
+                     /inference="alignment:Splign:1.39.8"
+     STS             1590..1941
+                     /gene="NR4A2"
+                     /gene_synonym="HZF-3; NOT; NURR1; RNR1; TINUR"
+                     /standard_name="PMC109903P2"
+                     /db_xref="UniSTS:270181"
+     exon            1784..1962
+                     /gene="NR4A2"
+                     /gene_synonym="HZF-3; NOT; NURR1; RNR1; TINUR"
+                     /inference="alignment:Splign:1.39.8"
+     STS             1911..1989
+                     /gene="NR4A2"
+                     /gene_synonym="HZF-3; NOT; NURR1; RNR1; TINUR"
+                     /standard_name="Nr4a2"
+                     /db_xref="UniSTS:507412"
+     exon            1963..3531
+                     /gene="NR4A2"
+                     /gene_synonym="HZF-3; NOT; NURR1; RNR1; TINUR"
+                     /inference="alignment:Splign:1.39.8"
+     STS             2233..2438
+                     /gene="NR4A2"
+                     /gene_synonym="HZF-3; NOT; NURR1; RNR1; TINUR"
+                     /standard_name="G15958"
+                     /db_xref="UniSTS:47277"
+     STS             2427..2774
+                     /gene="NR4A2"
+                     /gene_synonym="HZF-3; NOT; NURR1; RNR1; TINUR"
+                     /standard_name="D2S2729"
+                     /db_xref="UniSTS:1583"
+     regulatory      3508..3513
+                     /regulatory_class="polyA_signal_sequence"
+                     /gene="NR4A2"
+                     /gene_synonym="HZF-3; NOT; NURR1; RNR1; TINUR"
+     polyA_site      3531
+                     /gene="NR4A2"
+                     /gene_synonym="HZF-3; NOT; NURR1; RNR1; TINUR"
+ORIGIN      
+        1 gctgacgcgc gctgacgcgc ggagacttta ggtgcatgtt ggcagcggca gcgcaagcca
+       61 cataaacaaa ggcacattgg cggccagggc cagtccgccc ggcggctcgc gcacggctcc
+      121 gcggtccctt ttgcctgtcc agccggccgc ctgtccctgc tccctccctc cgtgaggtgt
+      181 ccgggttccc ttcgcccagc tctcccaccc ctacccgacc ccggcgcccg ggctcccaga
+      241 gggaactgca cttcggcaga gttgaatgaa tgaagagaga cgcggagaac tcctaaggag
+      301 gagattggac aggctggact ccccattgct tttctaaaaa tcttggaaac tttgtccttc
+      361 attgaattac gacactgtcc acctttaatt tcctcgaaaa cgcctgtaac tcggctgaag
+      421 ccatgccttg tgttcaggcg cagtatgggt cctcgcctca aggagccagc cccgcttctc
+      481 agagctacag ttaccactct tcgggagaat acagctccga tttcttaact ccagagtttg
+      541 tcaagtttag catggacctc accaacactg aaatcactgc caccacttct ctccccagct
+      601 tcagtacctt tatggacaac tacagcacag gctacgacgt caagccacct tgcttgtacc
+      661 aaatgcccct gtccggacag cagtcctcca ttaaggtaga agacattcag atgcacaact
+      721 accagcaaca cagccacctg cccccccagt ctgaggagat gatgccgcac tccgggtcgg
+      781 tttactacaa gccctcctcg cccccgacgc ccaccacccc gggcttccag gtgcagcaca
+      841 gccccatgtg ggacgacccg ggatctctcc acaacttcca ccagaactac gtggccacta
+      901 cgcacatgat cgagcagagg aaaacgccag tctcccgcct ctccctcttc tcctttaagc
+      961 aatcgccccc tggcaccccg gtgtctagtt gccagatgcg cttcgacggg cccctgcacg
+     1021 tccccatgaa cccggagccc gccggcagcc accacgtggt ggacgggcag accttcgctg
+     1081 tgcccaaccc cattcgcaag cccgcgtcca tgggcttccc gggcctgcag atcggccacg
+     1141 cgtctcagct gctcgacacg caggtgccct caccgccgtc gcggggctcc ccctccaacg
+     1201 aggggctgtg cgctgtgtgt ggggacaacg cggcctgcca acactacggc gtgcgcacct
+     1261 gtgagggctg caaaggcttc tttaagcgca cagtgcaaaa aaatgcaaaa tacgtgtgtt
+     1321 tagcaaataa aaactgccca gtggacaagc gtcgccggaa tcgctgtcag tactgccgat
+     1381 ttcagaagtg cctggctgtt gggatggtca aagaagtggt tcgcacagac agtttaaaag
+     1441 gccggagagg tcgtttgccc tcgaaaccga agagcccaca ggagccctct cccccttcgc
+     1501 ccccggtgag tctgatcagt gccctcgtca gggcccatgt cgactccaac ccggctatga
+     1561 ccagcctgga ctattccagg ttccaggcga accctgacta tcaaatgagt ggagatgaca
+     1621 cccagcatat ccagcaattc tatgatctcc tgactggctc catggagatc atccggggct
+     1681 gggcagagaa gatccctggc ttcgcagacc tgcccaaagc cgaccaagac ctgctttttg
+     1741 aatcagcttt cttagaactg tttgtccttc gattagcata caggtccaac ccagtggagg
+     1801 gtaaactcat cttttgcaat ggggtggtct tgcacaggtt gcaatgcgtt cgtggctttg
+     1861 gggaatggat tgattccatt gttgaattct cctccaactt gcagaatatg aacatcgaca
+     1921 tttctgcctt ctcctgcatt gctgccctgg ctatggtcac agagagacac gggctcaagg
+     1981 aacccaagag agtggaagaa ctgcaaaaca agattgtaaa ttgtctcaaa gaccacgtga
+     2041 ctttcaacaa tggggggttg aaccgcccca attatttgtc caaactgttg gggaagctcc
+     2101 cagaacttcg taccctttgc acacaggggc tacagcgcat tttctacctg aaattggaag
+     2161 acttggtgcc accgccagca ataattgaca aacttttcct ggacacttta cctttctaag
+     2221 acctcctccc aagcacttca aaggaactgg aatgataatg gaaactgtca agagggggca
+     2281 agtcacatgg gcagagatag ccgtgtgagc agtctcagct caagctgccc cccatttctg
+     2341 taaccctcct agcccccttg atccctaaag aaaacaaaca aacaaacaaa aactgttgct
+     2401 atttcctaac ctgcaggcag aacctgaaag ggcattttgg ctccggggca tcctggattt
+     2461 agaacatgga ctacacacaa tacagtggta taaacttttt attctcagtt taaaaatcag
+     2521 tttgttgttc agaagaaaga ttgctataat gtataatggg aaatgtttgg ccatgcttgg
+     2581 ttgttgcagt tcagacaaat gtaacacaca cacacataca cacacacaca cacacacaga
+     2641 gacacatctt aaggggaccc acaagtattg ccctttaaca agacttcaaa gttttctgct
+     2701 gtaaagaaag ctgtaatata tagtaaaact aaatgttgcg tgggtggcat gagttgaaga
+     2761 aggcaaaggc ttgtaaattt acccaatgca gtttggcttt ttaaattatt ttgtgcctat
+     2821 ttatgaataa atattacaaa ttctaaaaga taagtgtgtt tgcaaaaaaa aagaaaataa
+     2881 atacataaaa aagggacaag catgttgatt ctaggttgaa aatgttatag gcacttgcta
+     2941 cttcagtaat gtctatatta tataaatagt atttcagaca ctatgtagtc tgttagattt
+     3001 tataaagatt ggtagttatc tgagcttaaa cattttctca attgtaaaat aggtgggcac
+     3061 aagtattaca catcagaaaa tcctgacaaa agggacacat agtgtttgta acaccgtcca
+     3121 acattccttg tttgtaagtg ttgtatgtac cgttgatgtt gataaaaaga aagtttatat
+     3181 cttgattatt ttgttgtcta aagctaaaca aaacttgcat gcagcagctt ttgactgttt
+     3241 ccagagtgct tataatatac ataactccct ggaaataact gagcactttg aatttttttt
+     3301 atgtctaaaa ttgtcagtta atttattatt ttgtttgagt aagaatttta atattgccat
+     3361 attctgtagt atttttcttt gtatatttct agtatggcac atgatatgag tcactgcctt
+     3421 tttttctatg gtgtatgaca gttagagatg ctgatttttt ttctgataaa ttctttcttt
+     3481 gagaaagaca attttaatgt ttacaacaat aaaccatgta aatgaacaga aaaaaaaaaa
+     3541 aaaaaa
+//
+

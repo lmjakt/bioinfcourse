@@ -117,7 +117,7 @@ for $i(1..$#seq2){
 print "}\n";
 
 ### then finally we can go through and fill  in all of the scores for the alignment
-@maxPos = (0,0); ## express as the row and column, i, j.
+@maxPos = ([0,0]); ## express as the row and column, i, j.
 $maxScore = 0;
 for $i(0..$#seq2){
     print '\visible<', $stage, "->{\n";
@@ -141,7 +141,9 @@ for $i(0..$#seq2){
 	}
 	if($score > $maxScore){
 	    $maxScore = $score;
-	    @maxPos = ($i+1, $j+1);  ##
+	    @maxPos = ([$i+1, $j+1]);  ##
+	}elsif($score == $maxScore){
+	    push @maxPos, [$i+1, $j+1]
 	}
 	## and let's print out the score here
 	print "\t\\node [scale=$fsscale] at (", $j+3, ",", $sn2-$i, ") {$score};\n";
@@ -170,17 +172,21 @@ for $i(0..$#seq2){
     print "}\n";
 }
 
+@aligns1 = ();
+@aligns2 = ();
+
+for $k(0..$#maxPos){
 ## to follow the path of the optimal alignment start at the 
 ## top scoring cell and read backwards
-$i = $maxPos[0]; ## scalar @seq2;
-$j = $maxPos[1]; ## scalar @seq1;
+    $i = $maxPos[$k][0]; ## scalar @seq2;
+    $j = $maxPos[$k][1]; ## scalar @seq1;
+    print STDERR "$k traceback starting from : $i, $j\n";
 ## because we do not know how many paths we will obtain, this is easiest done
 ## using a recursive function.
-
-@aligns1 = ("");
-@aligns2 = ("");
-
-find_path($i, $j, 0, 0);
+    push @aligns1, "";
+    push @aligns2, "";
+    find_path($i, $j, $#aligns1, 0);
+}
 
 sub find_path {
     my($i, $j, $n, $l) = @_;

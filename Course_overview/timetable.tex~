@@ -1,0 +1,84 @@
+% Created 2015-07-31 fr. 13:01
+\documentclass{article}
+\usepackage[AUTO]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{fixltx2e}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{soul}
+\usepackage{textcomp}
+\usepackage{marvosym}
+\usepackage{wasysym}
+\usepackage{latexsym}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\tolerance=1000
+\providecommand{\alert}[1]{\textbf{#1}}
+
+\title{Timetable for B1229F 2015}
+\author{Lars Martin Jakt}
+\date{\today}
+\hypersetup{
+  pdfkeywords={},
+  pdfsubject={},
+  pdfcreator={Emacs Org-mode version 7.9.3f}}
+
+\begin{document}
+
+\maketitle
+
+\setcounter{tocdepth}{3}
+\tableofcontents
+\vspace*{1cm}
+
+The term time has 13 weeks (34-46), with 2 2 hour sessions scheduled per week.
+However, due to external meetings (on weeks 38, 41 and 44 Monday), 
+11 and a half weeks are available.
+
+\begin{enumerate}
+\setcounter{enumi}{33}
+\item -Mon: General Introduction to the course and to what
+     is expected of the students. Use second half to understand the students' background.
+    -Wed: Central Dogma and the flow of information.
+\item -Mon: Bioinformatics, general introduction to the problem domain. (Why we spend so much time on sequences).
+    -Wed: Biological databases and sequence formats.
+\item -Mon: Pairwise Sequence alignment (substitution matrices, etc). 
+    -Wed: Multiple sequence alignment and phylogeny (relationship to evolution).
+\item -Mon: Informatics. Practical aspects (computers, operating systems, file systems, applications) 1.
+    -Wed: Informatics. Practical aspects (computers, operating systems, file systems, applications) 2.
+\item -Mon: Leave
+    -Wed: Leave
+\item -Mon: Practical sequence alignment. Web based demonstrations / practicals? 
+    -Wed: Database searches (Blast, Blat, etc), theory \& practical considerations.
+\item -Mon: Mathematical considerations 1. Summary statistics (derivatives): means \& variances.
+    -Wed: Mathematical considerations 2. Linking distributions to probabilities.
+\item -Mon: Regulation of transcription (Promoters, trans factors, cis acting elements, chromatin).
+    -Wed: Cells as systems 2. Integration of input and output with state.
+\item -Mon: Leave.
+    -Wed: Leave.
+\item -Mon: Genomics / Transcriptome / Proteome.
+    -Wed: Omics: purpose and methods?
+\item -Mon: Leave
+    -Wed: Visualising and analysing large data sets.
+\item -Mon: Theoretical. Akaike's information content.
+    -Wed: Data to information the biologist's perspective. (Opposite)
+\item -Mon: Databases, esp. relational databases.
+    -Wed: Databases, looking at Ensembl structure.
+\end{enumerate}
+
+I should also squeeze in a section on looking at large data sets This should include
+things like:
+\begin{enumerate}
+\item Data structure
+\item Overall patterns (similar to structure,  but related to biological questions)
+\item Data mining (looking for specific things).
+\end{enumerate}
+
+I would also like to squeeze in a bit of R in doing that. That is likely to take
+rather more time than a 4 hours in a week.
+
+The order of the above should also be modified.
+
+\end{document}

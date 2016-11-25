@@ -1,0 +1,423 @@
+\documentclass[pdf]{beamer}
+\mode<presentation>{}
+\usepackage{minted}
+\usepackage{tikz}
+\usepackage{pgffor} %% gives looping with \foreach
+\usepackage[absolute,overlay]{textpos}
+\usepackage{lmodern} %% scalable latin characters
+\usetikzlibrary{arrows,shapes,backgrounds}
+\usepackage{multirow}
+\usepackage{listings} %% another package for code related stuff
+
+
+%% stuff for minted
+\definecolor{mintedBg}{rgb}{0.95, 0.95, 0.95}
+\definecolor{blockBg}{rgb}{0.6, 0.6, 0.95}
+\definecolor{rnaColor}{rgb}{0, 0.6, 0}
+\definecolor{cdsColor}{rgb}{0, 0.4, 0.4}
+\definecolor{rnaPol}{rgb}{0.8,0,0.8}
+\definecolor{ribosomeCol}{rgb}{0.5,0.5,0.1}
+\definecolor{protColor}{rgb}{0.6,0,0.6}
+%% colours for nucleotides:
+\definecolor{dACol}{rgb}{0.5, 0.5, 0}
+\definecolor{dCCol}{rgb}{0.8, 0, 0}
+\definecolor{dGCol}{rgb}{0, 0.8, 0}
+\definecolor{dTCol}{rgb}{0, 0, 0.8}
+
+\definecolor{navy}{rgb}{0, 0, 0.6}
+\definecolor{pur}{rgb}{0, 0, 0.6}
+\definecolor{pyr}{rgb}{0.6, 0, 0.2}
+%% define styles for different codes
+\newminted{cpp}{linenos, bgcolor=mintedBg, fontsize=\footnotesize}
+%% then use \begin{cppcode}
+\newminted{c}{linenos, bgcolor=mintedBg, fontsize=\footnotesize}
+\newminted{perl}{linenos, bgcolor=mintedBg, fontsize=\tiny}
+\newminted{sh}{linenos, bgcolor=mintedBg, fontsize=\footnotesize,
+  language=bash}
+\newminted{console}{linenos, bgcolor=mintedBg, fontsize=\footnotesize}
+
+%% a command to define a subheading
+\newcommand\subHeading[1]{
+  \par\bigskip {\Large\bfseries#1}\par\smallskip
+}
+
+%% I detest indentation in footnotes etc, so try this:
+\makeatletter
+\renewcommand\@makefntext[1]{\noindent\makebox[0em][r]{\@makefnmark}\tiny#1}
+\makeatother
+%% the makeatletter and makeatother are required to allow me to
+%% to change the macro beginning with an @. (though when I call it
+%% I don't use the @ ... 
+
+\setlength\parskip{0.5em}
+\setlength\parindent{0ex}
+
+%% to have footnotes without references. This from tex.stackexchange.com
+\newcommand\blfootnote[1]{%
+  \begingroup  %% this makes it a local redefinition
+  \renewcommand\thefootnote{}\footnote{#1}%
+  \addtocounter{footnote}{-1}  % this adjusts the footnote counter
+  \endgroup
+}
+
+
+\title{Implementing (an) algorithm(s) in perl}
+\subtitle{structuring data and scripts}
+\author{Martin Jakt}
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+\begin{frame}{In general}
+  \begin{enumerate}
+  \item What is the input data?
+    \begin{itemize}
+    \item Where do we get it from (from file / command)
+    \item How to store the input data
+    \end{itemize}
+    \pause
+  \item How to structure the program?
+    \begin{itemize}
+    \item Repeated actions (eg. reading a sequence from a file) to functions
+    \item Order of events in script
+    \end{itemize}
+    \pause
+  \item What to output?
+    \begin{itemize}
+    \item Output functions?
+    \item STDOUT / specified file
+    \end{itemize}
+  \end{enumerate}
+\end{frame}
+
+\begin{frame}{Sliding alignment of two sequences}
+  \begin{figure}[ht]
+    \begin{tikzpicture}[scale=0.5]
+      \input{l_11_f1.tikz}
+    \end{tikzpicture}
+  \end{figure}
+\end{frame}
+
+\begin{frame}{Requirements: data structure}
+  \begin{itemize}
+  \item Input sequences to compare:
+    \begin{itemize}
+    \item Strings
+    \item Arrays of letters
+    \item Individual scalars, array or hash of sequences?
+    \end{itemize}
+    \pause
+  \item Scoring criteria
+    \begin{itemize}
+    \item match \& mismatch scores
+    \item suitable substitution matrix
+    \end{itemize}
+    \pause
+  \item Intermediate variables (determine as we build the program)
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Program structure}
+  Repeated actions / functions
+  \begin{itemize}
+  \item Read in sequences (two times?)
+  \item Read in substitution matrix (once)
+  \item Compare two substrings (many times)
+  \end{itemize}
+
+  \vspace{1cm}
+  Packaging code into functions not only reduces the amount of code, but also
+  makes the code easier to read, understand and debug.
+
+\end{frame}
+
+\begin{frame}{The easy bits}
+  Identify bits that are easy to implement and just start writing:\\
+  don't worry too much!
+  
+  \begin{itemize}
+  \item Read sequences
+  \item Read matrix
+  \item Compare substrings
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Read sequence from fasta}
+  \begin{figure}[ht]
+    \begin{tikzpicture}[scale=0.5]
+      \input{fasta_picture.tikz}
+    \end{tikzpicture}
+  \end{figure}
+
+\end{frame}
+
+\begin{frame}[fragile]{Read sequence, the code}
+  Store sequence in scalar strings; then the read function should simply
+  return the string:
+  
+  \begin{perlcode}
+    sub read_fasta {
+      ## reads a single sequence from a fasta file
+      my $seqFile = shift @_;
+      my $seq = "";
+      open(my $in, "<", $seqFile) or die "unable to open $seqFile $!\n";
+      my $found_identifier = 0;
+      while(<$in>){
+        chomp;
+        if($_ =~ /^>\S+/ ){
+          if($found_identifier){
+            last;
+          }else{
+            $found_identifier = 1;
+            next;
+          }
+        }
+        if($found_identifier){
+          $seq .= $_;
+        }
+      return( $seq );
+    }
+  \end{perlcode}
+  
+\end{frame}
+
+\begin{frame}[fragile]{Read sequences}
+  To use this function (\texttt{read\_fasta}) simply put the function
+  definition at the end of the file and call the function:
+
+  \begin{perlcode}
+    #!/usr/bin/perl 
+    use warnings;
+    
+    ($seqFile1, $seqFile2) = @ARGV;
+    
+    $seq1 = read_fasta( $seqFile1 );
+    $seq2 = read_fasta( $seqFile 2);
+    
+    ## then make use of $seq1 and $seq2 here...
+
+    sub read_fasta {
+      ## reads a single sequence from a fasta file
+      ## etc...
+    }
+  \end{perlcode}
+\end{frame}
+
+
+\begin{frame}[fragile]{Read the substitution matrix}
+  Store the matrix as a two dimensional hash:
+
+  \verb|$matrix{ $aa1 }{ $aa2 }|
+  
+  \begin{figure}[ht]
+    \begin{tikzpicture}[scale=0.5]
+      \input{matrix.tikz}
+    \end{tikzpicture}
+  \end{figure}
+
+\end{frame}
+
+\begin{frame}[fragile]{Read the substitution matrix (2)}
+  \begin{enumerate}
+  \item Read the first line:
+    \begin{enumerate}
+    \item Split the line on spaces $\rightarrow$ array of letters called
+      \texttt{@aa2}.
+      \pause
+    \item Remove the first entry in the array as it contains a space
+      (\texttt{shift}).\\
+      \pause
+      $\rightarrow$ \verb|@aa2 = (A, R, N, D, C)|
+    \end{enumerate}
+    \pause
+  \item Read each line at a time:
+    \begin{enumerate}
+    \item Split the line on spaces $\rightarrow$ array of letters called
+      \texttt{@tmp}.\\
+      \pause
+      $\rightarrow$ \verb|@tmp = (A, 4, -1, -2, -2, 0)|
+      \pause
+    \item Use \texttt{shift} to remove the first element in the array and
+      assign it to \verb|$aa1|.\\
+      \pause
+      $\rightarrow$ \verb|$aa1 = A|\\
+      $\rightarrow$ \verb|@tmp = (4, -1, -2, -2, 0)|\\
+      \pause
+    \item Go through each element in \verb|@tmp|, by setting the value of
+      \verb|$i| from 0 to \verb|$#tmp|. Assign values to 
+      the \verb|%matrix| hash:\\
+      \verb|$matrix{$aa1}{ $aa2[$i] } = $tmp[$i]|
+    \end{enumerate}
+  \end{enumerate}
+\end{frame}
+
+\begin{frame}[fragile]{a matrix read function}
+  \begin{perlcode}
+    sub read_matrix{
+      my $mfile = shift @_;
+      my %matrix = ();
+      open(my $in, "<", $mfile) or die "unable to open $mfile $!\n";
+      my $header_line = <$in>;
+      chomp $header_line;
+      my @aa2 = split /\s+/, $header_line;
+      shift @aa2;
+      while(<$in>){
+        chomp;
+        my @tmp = split /\s+/, $_;
+        my $aa1 = shift @tmp;
+        for my $i(0..$#tmp){
+          $matrix{$aa1}{$aa2[$i]} = $tmp[$i];
+        }
+      }
+      return(matrix);
+    }
+  \end{perlcode}
+
+  like we did last week!
+\end{frame}
+
+\begin{frame}[fragile]{Read sequences and matrix}
+  Again to use the function, put it at the end of the file and call it with
+  the name of a file containing the matrix that you want to use:
+
+  \begin{perlcode}
+    #!/usr/bin/perl 
+    use warnings;
+    
+    ($seqFile1, $seqFile2, $matriFile) = @ARGV;
+    
+    $seq1 = read_fasta( $seqFile1 );
+    $seq2 = read_fasta( $seqFile2);
+    
+    %matrix = read_matrix($matrixFile);
+
+    ## then make use of $seq1 and $seq2 here...
+
+    sub read_matrix{
+      my $mfile = shift @_;
+      ## etc..
+    }
+
+    sub read_fasta {
+      ## reads a single sequence from a fasta file
+      ## etc...
+    }
+  \end{perlcode}
+\end{frame}
+
+\begin{frame}[fragile]{Calculate an alignment score}
+  \begin{figure}[ht]
+    \begin{tikzpicture}[scale=0.5]
+      \input{align2.tikz}
+    \end{tikzpicture}
+  \end{figure}
+\end{frame}
+
+\begin{frame}[fragile]{The offsets?}
+  \begin{figure}[ht]
+    \begin{tikzpicture}[scale=0.5]
+      \input{align_3.tikz}
+    \end{tikzpicture}
+  \end{figure}
+  \pause
+  The offsets run from -length(seq1) $\rightarrow$ length(seq2);
+\end{frame}
+
+\begin{frame}[fragile]{offset alignment scores}
+  \small {
+  The offset alignment score function needs to take four arguments:
+  \begin{enumerate}
+  \item The two sequences
+  \item The offset to use for the alignment
+  \item The substitution matrix
+  \end{enumerate}
+  
+  That's three scalars and one hash. To pass the hash we must pass it as a
+  reference and then dereference it in the alignment section.
+}
+  \pause
+
+  \begin{perlcode}
+    $score = offset_alignment($seq1, $seq2, $offset, \%matrix);
+  \end{perlcode}
+\footnotesize {
+  To pass as a reference put a \verb|\| in front of the identifier
+  \pause
+
+  In the function we can dereference using the \verb|->| operator.
+}
+  \begin{perlcode}
+    sub offset_alignment {
+      my ($seq1, $seq2, $offset, $matrix_ref) = @_;
+      ## to get the value for a specific pair of amino acids:
+      $matrix_ref->{A}{R};
+    }
+  \end{perlcode}
+\end{frame}
+
+\begin{frame}[fragile]{the offset alignment function}
+  \begin{perlcode}
+    sub offset_align_score {
+      my ($seq1, $seq2, $offset, $m_ref) = @_;
+      my $score = 0;
+      for(my $i=0; $i < length($seq2); $i++){
+        my $j = $i + $offset;
+        if($j >= 0 && $j < length($seq1)){
+          $score += $m_ref->{ substr($seq1, $j, 1) }{ substr($seq2, $i, 1) };
+        }
+      }
+      return( $score );
+    }
+  \end{perlcode}
+
+  Here we use \texttt{substr()} to avoid splitting the string to an array many
+  times.
+\end{frame}
+
+\begin{frame}[fragile]{putting all together}
+  \begin{perlcode}
+    #!/usr/bin/perl -w
+    ($seqFile1, $seqFile2, $matrixFile) = @ARGV;
+    
+    $seq1 = read_fasta( $seqFile1 );
+    $seq2 = read_fasta( $seqFile2 );
+    %matrix = read_matrix( $matrixFile );
+    
+    ## we need to use offsets from -length(seq1) to length(seq2)
+    ## we can easily loop.. 
+    for $offset( -length($seq1)..length($seq2) ){
+      $score = offset_align_score( $seq1, $seq2, $offset, \%matrix );
+      print "$i\t$score\n";
+    }
+
+    ## the function definitions (abbreviated)
+    sub read_fasta {
+      ####
+    }
+    sub read_matrix {
+      ####
+    }
+    sub offset_align_score {
+      ###
+    }
+  \end{perlcode}
+\end{frame}
+
+\begin{frame}[fragile]{Improvements?}
+  \begin{itemize}
+  \item That will only print out the offsets and their associated scores;
+    might be nice to print out the alignments as well.
+  \item This gives scores for global alignments (without gap penalties),
+    finding local alignments seems more reasonable.
+  \item Use an index rather than this ugly method (which has a complexity of
+    $l_2 * (l_1 + l_2)$ where $l_1$ and $l_2$ are the lengths of sequence
+    1 and 2 respectively.
+  \item Do something like blast; i.e. extend locally matching pairs identifed
+    from an index.
+  \end{itemize}
+\end{frame}
+
+\end{document}

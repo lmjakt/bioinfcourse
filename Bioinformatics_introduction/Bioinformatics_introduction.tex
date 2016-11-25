@@ -79,6 +79,7 @@
         \item<5-> DNA sequence assembly and annotation
         \item<5-> Gene expression (transcript abundancies)
         \item<5-> Chromatin state (DNA methylation and histone modification)
+        \item<5-> Sequence variation (between individuals / strains / cells)
       \end{itemize}
     \item<6->[Databases] Development of databases that facilitate storage, lookup and analysis.
     \item<7->[Structures] Prediction of protein and RNA structures.
@@ -98,6 +99,8 @@
   \end{enumerate}
   \uncover<2>{
     It's a cheap way to get lots of biological information.
+
+    A means to perform other types of analyses.
   }
 \end{frame}
 
@@ -234,6 +237,119 @@
   here: sequence $\equiv$ piece of DNA
 \end{frame}
 
+\begin{frame}{Sequence to protein biochemistry}
+  %% lets make a tikz picture
+  \begin{figure}[ht]
+    \begin{tikzpicture}[scale=0.5]
+      \draw [help lines, opacity=0] (0,0) grid (24,14);
+%      \foreach \x in {1,2,...,22} { \node [font=\small] at (\x,1) {\x}; }
+%      \foreach \y in {1,2,...,14} \node [font=\small] at (23,\y) {\y};
+      \draw [line width=0.5, -] (1,13) -- (20,13);
+      \draw [line width=3, -] (2+4,13) -- (4+4,13);
+      \draw [line width=3, ->] (10+4,13) -- (13.5+4,13);
+      \visible<2->{
+        \draw [line width=3, ->] (4+4,11) -- (9.5+4,11);
+        \draw [-] (6+4,10.75) -- (6+4,11.25);
+        \draw [-, dashed] (2+4,12.9) -- (4+4,11.1);
+        \draw [-, dashed] (4+4,12.9) -- (6+4,11.1);
+        \draw [-, dashed] (10+4,12.9) -- (6+4,11.1);
+        \draw [-, dashed] (13.5+4,12.9) -- (9.5+4,11.1);
+        \node [font=\small, right, align=left] at (1,12) {In silico\\splicing};
+      }
+      \visible<3->{
+        \draw [line width=3, blue] (8.5,11) -- (12,11);
+        \node [font=\small, right, align=left] at (17.4,11) {Identify\\ORF};
+      }
+      \visible<4->{
+        \draw [line width=1, ->] (13,10) -- (8,10);
+        \node [font=\small, right, align=left] at (1,10) {Reverse\\transcription};
+      }
+      \visible<5->{
+        \draw [->, line width=1] (8.5,9) -- (8.9,9);
+        \draw [->, blue, line width=3] (8.5,8.5) -- (12,8.5);
+        \draw [->, line width=1] (12,8) -- (11.6,8);
+        \node [font=\small, right, align=left] at (17.4,8.5) { PCR };
+      }
+      \visible<6->{
+        \node [font=\small, below, align=left] at (3.4,7) {\emph{Express
+          in:}\\bacteria\\mammalian cells\\animal};
+        \draw [->, line width=2] (10,8) to [out=270,in=90] (3.5,7.5);
+      }
+      \visible<7->{
+        \node [font=\small, below right, align=left] at (10,7) {Observe\\effect};
+        \node [font=\small, right, align=left] at (10,3) {Mutate};
+        \draw [->, line width=2] (6,4.75) to [out=0,in=180] (9.8,6.5);
+        \draw [->, line width=2] (11,5) -- (11,3.5);
+        \draw [->, line width=2] (9.8,3) to [out=180,in=270] (2.5,3.5);
+      }
+      \visible<8->{
+        \node [font=\small, below right, align=left] at (15,6) {All
+          steps\\facilitated by sequence\\\&sequence analysis};
+      }
+    \end{tikzpicture}
+  \end{figure}
+\end{frame}
+
+\begin{frame}{Gene regulation}
+  %% lets make a tikz picture
+  \begin{figure}[ht]
+    \begin{tikzpicture}[scale=0.5]
+      \draw [help lines, opacity=0] (0,0) grid (24,14);
+%      \foreach \x in {1,2,...,22} { \node [font=\small] at (\x,1) {\x}; }
+%      \foreach \y in {1,2,...,14} \node [font=\small] at (23,\y) {\y};
+      \draw [line width=0.5, -] (1,13) -- (20,13);
+      \draw [line width=3, -] (2+4,13) -- (4+4,13);
+      \draw [line width=3, ->] (10+4,13) -- (13.5+4,13);
+      \def \xpos {2,4,7,9.5,10,12,18}
+      \visible<2->{
+        \foreach \x in \xpos  \draw [-, line width=2] (\x,12.75) --
+        (\x,13.25); 
+      }
+      \visible<2>{
+        \node [font=\small, right, align=left] at (2,11) 
+              {Fragment locus:\\(random or with restriction\\enzymes)};
+      }
+      \visible<3->{
+        \draw [-] (1.5,12.5) to [out=315,in=180] (10.5,12)
+        to [out=0,in=225] (19.5,12.5);
+        \draw [->, line width=1.5] (10.5,11.5) to [out=270,in=0] (6,10)
+        to [out=180,in=90] (2.5,9.5);
+        \draw [-, line width=2] (1,8) -- (2.5,8);
+        \draw [-, line width=2] (1,8.25) -- (1,7.75);
+        \draw [-, line width=2] (2.5,8.25) -- (2.5,7.75);
+        \draw [-, line width=2, red] (2.5,8) -- (2.9,8);
+        \draw [-, line width=2, green] (2.9,8) -- (5,8);
+        \node [below right, align=left, font=\small] at (1,7.5)
+        {fragment\\\textcolor{red}{promoter}\\\textcolor{green}{reporter
+            ORF}};
+        \draw [->, line width=4] (7,6.5) -- (10,6.5);
+        \draw [->, line width=4] (7,6.5) -- (10,6.5);
+        \draw [->, line width=2.5, white] (7,6.5) -- (9.9,6.5);
+        \node [right, align=left] at (10.2,6.5) {Introduce to\\cells or animals\\observe};
+%%        \arrow [thick] (8,6.5) -- (10,6.5);
+      }
+    \end{tikzpicture}
+  \end{figure}
+\end{frame}
+
+\begin{frame}{Sequence use}
+  In the two previous examples sequence data was primarily used to construct
+  fragments of DNA that can be propagated, integrated or temporarily
+  introduced to cells and animals (or plants).
+
+  Very simple sequence analysis, based on identification of regions, sites and
+  using these to work out how to cut, copy and paste DNA fragments around.
+
+  But, done well, there would also be analyses to :
+  \begin{itemize}
+  \item Identify amino acids residues to mutate
+  \item Identify conserved / non-conserved peptide fragments
+  \item Identify conserved non-coding regions (likely to be regulatory)
+  \item Make sense of active regions (i.e. identify interaction partners)
+  \end{itemize}
+  
+\end{frame}
+
 \begin{frame}{General sequence analysis}
   Not just alignments.
   \begin{figure}[ht]
@@ -285,6 +401,26 @@
   Lots of uses, but for genomics, possibly the most important reason:
 
   It facilitates high-throughput analyses of gene expression and chromatin modification.
+\end{frame}
+
+\begin{frame}{Assembly?}
+  \begin{itemize}
+  \item DNA sequences are long...
+    \begin{itemize}
+    \item Eukaryotic chromosomes can be 100s of millions of bases
+    \item Plasmids usually 3-10 thousand bases
+    \end{itemize}
+  \item Sequencing technology usually gives us short sequences
+    \pause
+    \begin{itemize}
+    \item Traditional Sanger sequencing: 100 - 1000 bases
+    \item First (ish) next generation sequencing (NGS) (454) $\sim$500 bases
+    \item Next NGS (Solexa/Illumina) 30-50 bases
+    \item Next next NGS (Illumina/SOLID/IonTorrent) $\sim$300-600 bases
+    \item Newest NGS (PacBio/Nanopore) $\rightarrow$50,000 (?) bases
+    \end{itemize}
+  \end{itemize}
+  Many short fragments have to be assembled to obtain useful sequence.
 \end{frame}
 
 %% we can't use \verbatim and \visible in the frame,
@@ -347,6 +483,21 @@ Reassemble:
 %gunshots were fireworks; that only pleasure matters. A pipe of opium, or the touch of a girl who might tell you she 
 %loves you. And then, something happens, as you knew it would. And nothing can ever be the same again."\\
 
+\end{frame}
+
+\begin{frame}{Sequence assembly (2)}
+  Assembly is difficult:
+  \begin{itemize}
+    \item Regions of low-complexity sequences (eg. AAAAAA$_x$)
+    \item Presence of repeat sequences
+    \item Regions with direct and inverted repeats
+    \item Some DNA sequences can be difficult to amplify (either in bacteria
+      or by PCR)
+    \item The algorithmic complexity of comparing all fragments to all
+      fragments
+  \end{itemize}
+  Genome assembly cannot usually be done completely from simple libraries of
+  short fragments. Additional methods (eg. mate-pair libraries are also required).
 \end{frame}
 
 \defverbatim{\marvBox}{
@@ -442,6 +593,14 @@ marty had a little lamb
   }
 \end{frame}
 
+\begin{frame}{Sequence alignment}
+  Alignment of sequences underpins a very large proportion of analyses at some point,
+
+  \pause
+  ..., and will consequently be covered in some detail.
+
+\end{frame}
+
 \begin{frame}{Omics}
   The study of complete things (eg. complete genomes).
   \pause
@@ -491,10 +650,101 @@ marty had a little lamb
 
     \end{tikzpicture}
   \end{figure}
-  
-
 \end{frame}
 
+\begin{frame}{Genomics questions}
+  \begin{itemize}
+    \pause
+  \item How many genes?
+    \pause
+  \item How much intergenic space?
+    \pause
+  \item How repetitive?
+    \pause
+  \item Intron / exon size distributions.
+    \pause
+  \item How variable between individuals (i.e. population genetics)?
+    \pause
+  \item How divergent from related species?
+    \pause
+  \item CpG density.
+    \pause
+  \item Evolutionary origins (eg. genome duplications, etc..)
+    \pause
+  \item Frequence of horizontal gene transfer.
+    \item ...
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Transcriptomics (1)}
+  Expression values from:
+  \begin{itemize}
+    \item Serial Expression of Gene Expression (SAGE) (old method).
+    \item DNA microarrays.
+    \item Next generation sequencing (newest method).
+  \end{itemize}
+  What are we looking for?
+  \begin{itemize}
+    \item Data structure
+    \item Correlations within the data (gene-gene and sample-sample)
+    \item Correlations with sample factors
+      \begin{itemize}
+        \item General correlations (eg. activation of specific classes of genes)
+        \item Individual genes (i.e. data mining)
+      \end{itemize}
+    \item Correlation with external data (eg. DNA sequence)
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Transcriptomics (2)}
+  Genome wide expression patterns by NGS:
+  \begin{figure}[ht]
+    \begin{tikzpicture}[scale=0.5]
+      %% \draw [help lines, opacity=0.5] (0,0) grid (20,10);
+      %% \foreach \x in {1,2,...,19} \node [font=\small] at (\x,0) {\x};
+      %% \foreach \y in {1,2,...,10} \node [font=\small] at (20,\y) {\y};
+
+      \node [right, align=left, font=\small] (a) at (1,10) {Tissue\\samples};
+      \node [right, align=left, font=\small] (b) at (6,10) {RNA\\extract};
+      \node [right, align=left, font=\small] (c) at (11,10) {cDNA\\fragments};
+      \draw [->, line width=2] (a) -- (b);
+      \draw [->, line width=2] (b) -- (c);
+      
+      \visible<2->{
+        \node [right, align=left, font=\small] (d) at (1,5) {short\\sequences};
+        \node [right, align=left, font=\small] (e) at (6,5) {align
+          to\\genome};
+        \node [right, align=left, font=\small] (f) at (11,5) {Infer\\expression};
+        \draw [->, line width=2] (c) to [out=270,in=90] (d);
+        \draw [->, line width=2] (d) to (e);
+        \draw [->, line width=2] (e) to (f);
+      }
+      \visible<3->{
+        \node [right, align=left, font=\small] (g) at (11,2.5) {Infer
+          some\\biology};
+        \draw [->, line width=2] (f) -- (g);
+      }
+      \visible<4->{
+        \draw [line width=1.5, red] (5,5) ellipse (5 and 2);
+        \node [below right, align=left, font=\small] at (-2,3) {Requires\\sequence\\alignment};
+      } 
+
+%%       \node [above] at (10,9) {Samples};
+%%       \node [above, rotate=90] at (1,5) {Genes};
+%% %      \draw [->] (9,8.75) node [left, font=\footnotesize] {(2}
+%% %      -- (9.5,8.75) node [right, font=\footnotesize] {1000s)};
+%%       \node [below, scale=0.5] at (10,9.3) {(2 $\rightarrow$ 1000s)};
+%%       \node [below, rotate=90, scale=0.5] at (0.8,5) {($\sim$20,000)};
+%%       \draw [-] (1,8.5) -- (16,8.5);
+%%       \draw [-] (1.5,9) -- (1.5,3);
+%%       \draw [->,dashed] (16,8.5) -- (18,8.5);
+%%       \draw [->,dashed] (1.5,3) -- (1.5,1);
+%%       \foreach \y in {8.0,7.5,...,2.0} \draw [-,opacity=0.1,dashed] (1.5,\y) -- (17.5,\y);
+%%       \foreach \x in {2.5,3.5,...,16.5} \draw [-,opacity=0.1,dashed] (\x,8.5) -- (\x,1.5);
+    \end{tikzpicture}
+  \end{figure}
+  
+\end{frame}
 
 \begin{frame}{Transcriptomics}
   Genome wide expression patterns:
@@ -521,28 +771,9 @@ marty had a little lamb
   \blfootnote{And this is obviously rather over-simplified}
 \end{frame}
 
-\begin{frame}{Transcriptomics (2)}
-  Expression values from:
-  \begin{itemize}
-    \item Serial Expression of Gene Expression (SAGE) (old method).
-    \item DNA microarrays.
-    \item Next generation sequencing (newest method).
-  \end{itemize}
-  What are we looking for?
-  \begin{itemize}
-    \item Data structure
-    \item Correlations within the data (gene-gene and sample-sample)
-    \item Correlations with sample factors
-      \begin{itemize}
-        \item General correlations (eg. activation of specific classes of genes)
-        \item Individual genes (i.e. data mining)
-      \end{itemize}
-    \item Correlation with external data (eg. DNA sequence)
-  \end{itemize}
-\end{frame}
 
 \begin{frame}{other omics}
-  Will be considered later.
+  May be considered later.
 \end{frame}
 
 \begin{frame}{Databases}
@@ -559,7 +790,7 @@ marty had a little lamb
   guarantees about data integrity and that facilitate data modification.
   
   \pause
-  How to structure data: useful lessons for normal experimental life.
+  How to structure data: useful lessons for labelling stuff and taking notes.
 \end{frame}
 
 \begin{frame}{Structures}

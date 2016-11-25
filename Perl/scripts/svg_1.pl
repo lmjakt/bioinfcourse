@@ -8,9 +8,12 @@ use SVG;
 ## and modified to find out how to work it.
 
 # create an SVG object
-my $svg= SVG->new(width=>200,height=>200);    
+my $svg= SVG->new(width=>200,height=>200, 'background'=>'rgb(200,200,200)');    
 # draw a circle at position (100,100)  with ID 'this_circle'  
 ##$svg->circle(id=>'this_circle',cx=>100,cy=>100,r=>50); 
+
+## make a background, since the above doesn't seem to do anything
+$svg->rect(x=>0, y=>0, width=>200, height=>200, fill=>'rgb(200, 200, 0)', opacity=>0.3);
 
 $svg->circle(cy=>20, cy=>10, r=>30, stroke=>'red',fill=>'green');
 $svg->circle(cy=>20, cy=>10, r=>30, style=>{stroke=>'red', fill=>'green'});
@@ -61,6 +64,11 @@ for my $i(0..19){
     $svg->text(x=>$i * 10, y=>10)->cdata($nuc[ $i % 4 ]);
 }
     
+
+my %linestyle = ('stroke'=>'rgb(200, 0, 150)', 'stroke-width'=>3, 'stroke-opacity'=>0.5, 'stroke-dasharray'=>("2"));
+$svg->line(x1=>10, y1=>10, x2=>180, y2=>50, 'style'=>\%linestyle );
+#$svg->line(x1=>10, y1=>10, x2=>180, y2=>50, 'stroke'=>'rgb(200, 0, 150)', 'stroke-dasharray'=>("3","2"));
+#$svg->line(x1=>10, y1=>10, x2=>180, y2=>50, 'stroke'=>'rgb(200, 0, 150)', 'stroke-width'=>3, 'stroke-dasharray'=>(5, 2, 1, 3));
 
 my $out = $svg->xmlify;
 

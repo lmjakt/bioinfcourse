@@ -136,6 +136,66 @@ pca.l1 <- prcomp( t(log(exp.data)), scale=TRUE )
 ## and then let us consider how we can plot this.
 ## I can here simply use as.factor to get colors
 
+## note that 
+## pca.l1$x %*% t(pca.l1$rotation) == scale( t( log(exp.data) ) )
+## 
+pc.rev <- pca.l1$x %*% t(pca.l1$rotation)
+pdf("pca_gene1_recovered.pdf", width=10, height=5)
+par(mfrow=c(1,2))
+plot( pc.rev[,1], log(exp.data)[1,] )
+plot( pca.l1$center[1] + pc.rev[,1] * pca.l1$scale[1],
+     log(exp.data)[1,] )
+dev.off()
+
+pc.rev <- t(pc.rev)
+pc.rev <- pc.rev * pca.l1$scale
+pc.rev <- pc.rev + pca.l1$center
+### and we can undo the log transform as well
+pc.rev <- exp(pc.rev)
+pdf("pca_recovered.pdf", width=5, height=5)
+plot(exp.data[1:100,], pc.rev[1:100,])
+abline(0,1,col='red')
+dev.off()
+
+## use the lower dimensions to recover the data partially
+partial.rev <- lapply(1:54, function(i){
+    r <- t(pca.l1$x[,1:i, drop=FALSE] %*% t(pca.l1$rotation[,1:i,drop=FALSE]))
+    r})
+
+n <- 100
+pdf("partial_recoveries.pdf", width=15, height=10)
+par(mfrow=c(2,3))
+for(i in 1:6){
+    plot( partial.rev[[i]][1:100,],
+          t(scale(t(log(exp.data[1:100,])))),
+         main=paste("dims", 1, "to", i),
+         xlab='recovered', ylab='real')
+    e <- sum( (partial.rev[[i]] -
+              t(scale(t(log(exp.data)))))^2 )
+    legend('topleft', legend=paste('SS:', sprintf('%.2e', e)), bty='n', cex=2)
+}
+dev.off()
+
+
+ss.dim <- sapply( partial.rev, function(x){
+    sum( ( x - t(scale(t(log(exp.data)))) )^2 )})
+
+pdf("sqSum_dims.pdf", width=5, height=5)
+plot( ss.dim, xlab='dimensions used', ylab='sum of squared errors' )
+abline(h=0, col='red')
+dev.off()
+
+partial.rev.ds <- lapply( partial.rev, function(x){
+    pca.l1$center + pca.l1$scale * x })
+
+pdf("recoverd_scaled.pdf", width=15, height=10) 
+par(mfrow=c(2,3))
+lapply( partial.rev.ds[1:6], function(x){
+    plot( x[1:100,], log(exp.data[1:100,]), xlab='recovered', ylab='real' )
+})
+dev.off()
+
+
 pdf("pca1.pdf", width=7, height=7)
 plot(pca.l1)  ## this is superb. Everything is here. This needs to be explained.
               ## however, it is probably almost all from tissue type
@@ -155,6 +215,10 @@ pdf("sample_correlation.pdf", width=10, height=10)
 heatmap(sample.cor, scale='none', col=rainbow(255, v=0.8))
 dev.off()
 
+## we can also reverse the thing. exp.data * rotation matrix = x
+## after scaling
+exp.data.s <- scale(t(log(exp.data)))
+exp.data.s.r <- exp.data.s %*% pca.l1$rotation
 
 ### lets get some interesting data. Get the f-stats for a simple grouping..
 source("~/R/general_functions.R")

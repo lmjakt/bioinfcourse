@@ -1,0 +1,43 @@
+\visible<2->{
+\draw [-] (0.5,6.5) -- (8.5,6.5);
+\draw [-] (1.5,7.5) -- (1.5,0.5);
+	\node at (2,7) {F};
+	\draw [-, dotted, opacity=0.5] (2.5,7.5) -- (2.5,0.5);
+	\node at (3,7) {L};
+	\draw [-, dotted, opacity=0.5] (3.5,7.5) -- (3.5,0.5);
+	\node at (4,7) {W};
+	\draw [-, dotted, opacity=0.5] (4.5,7.5) -- (4.5,0.5);
+	\node at (5,7) {R};
+	\draw [-, dotted, opacity=0.5] (5.5,7.5) -- (5.5,0.5);
+	\node at (6,7) {T};
+	\draw [-, dotted, opacity=0.5] (6.5,7.5) -- (6.5,0.5);
+	\node at (7,7) {W};
+	\draw [-, dotted, opacity=0.5] (7.5,7.5) -- (7.5,0.5);
+	\node at (8,7) {S};
+	\node at (1,6) {S};
+	\draw [-, dotted, opacity=0.5] (0.5,5.5) -- (8.5,5.5);
+	\node at (1,5) {W};
+	\draw [-, dotted, opacity=0.5] (0.5,4.5) -- (8.5,4.5);
+	\node at (1,4) {K};
+	\draw [-, dotted, opacity=0.5] (0.5,3.5) -- (8.5,3.5);
+	\node at (1,3) {T};
+	\draw [-, dotted, opacity=0.5] (0.5,2.5) -- (8.5,2.5);
+	\node at (1,2) {W};
+	\draw [-, dotted, opacity=0.5] (0.5,1.5) -- (8.5,1.5);
+	\node at (1,1) {T};
+}
+\visible<2->{
+%\draw [fill=blue, fill opacity=0.5] (7 + 2, 6-3) rectangle (7+3,6-2);
+%\node [right] at (7+3, 6-2.5) { window=1 };
+\draw [fill=blue, fill opacity=0.5] (6+1.5,6-0-0.5) rectangle (6+2.5,6-0+0.5);
+\draw [fill=blue, fill opacity=0.5] (2+1.5,6-1-0.5) rectangle (2+2.5,6-1+0.5);
+\draw [fill=blue, fill opacity=0.5] (5+1.5,6-1-0.5) rectangle (5+2.5,6-1+0.5);
+\draw [fill=blue, fill opacity=0.5] (4+1.5,6-3-0.5) rectangle (4+2.5,6-3+0.5);
+\draw [fill=blue, fill opacity=0.5] (2+1.5,6-4-0.5) rectangle (2+2.5,6-4+0.5);
+\draw [fill=blue, fill opacity=0.5] (5+1.5,6-4-0.5) rectangle (5+2.5,6-4+0.5);
+\draw [fill=blue, fill opacity=0.5] (4+1.5,6-5-0.5) rectangle (4+2.5,6-5+0.5);
+}
+%\visible<4->{
+%\draw [fill=red, fill opacity=0.4] (7 + 2, 6-4) rectangle (7+3,6-5);
+%\node [right] at (7+3, 6-4.5) { window=3 };
+%}

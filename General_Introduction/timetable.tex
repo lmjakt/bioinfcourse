@@ -1,0 +1,77 @@
+%% the following is necessary for using colours in tabular
+\PassOptionsToPackage{table}{xcolor}
+\documentclass[pdf]{beamer}
+\mode<presentation>{}
+\usepackage{minted}
+\usepackage{tikz}
+\usepackage{pgffor} %% gives looping with \foreach
+\usepackage[absolute,overlay]{textpos}
+\usepackage{lmodern} %% scalable latin characters
+\usetikzlibrary{arrows,shapes,backgrounds}
+\usepackage{multirow}
+\usepackage{tabu}
+\usepackage[utf8]{inputenc}
+
+%% it seems that beamer and descriptions can be a bit
+%% tricky, so we need to define some things ourselves
+\defbeamertemplate{description item}{align left}{\insertdescriptionitem\hfill}
+
+%% I detest indentation in footnotes etc, so try this:
+\makeatletter
+\renewcommand\@makefntext[1]{\noindent\makebox[0em][r]{\@makefnmark}\tiny#1}
+\makeatother
+%% the makeatletter and makeatother are required to allow me to
+%% to change the macro beginning with an @. (though when I call it
+%% I don't use the @ ... 
+
+
+\title{Course content and timetable}
+\subtitle{B1229F Autumn 2016}
+\author{Martin Jakt}
+
+%% \setlength{\parskip}{0.5em}
+
+\begin{document}
+
+\begin{frame}{Lectures / classes}
+  \tiny
+  \begin{enumerate}
+  \item General introduction
+  \item Central Dogma
+  \item Bioinformatics / Genomics introduction
+  \item Biological databases / resources
+  \item Pairwise sequence alignment
+  \item Multiple alignment
+  \item Database search algorithms
+  \item Computers, OSes, filesystems
+  \item General introduction to writing programs
+  \item Introduction to Perl
+  \item Practical: Sequence alignment in Perl (1)
+  \item Practical: Sequence alignment in Perl (2)
+  \item Using tools: online / offline sequence analysis (1) \\
+    sequence identification, alignment, phylogeny
+  \item Using tools: online / offline sequence analysis (2)
+  \item Introduction to R
+  \item Summarising numbers and deriving statistics
+  \item Looking at big data ($\thicksim$ omics)
+  \item Statistical considerations for big data
+  \item Experimental data
+  \end{enumerate}
+
+\end{frame}
+
+\begin{frame}{Tentative Timetable}
+\vspace*{-0.4cm}                        
+\begin{figure}[ht]
+  \tiny
+  \input{course_timetable.tex}
+  \end{figure}
+  \vspace*{+0.03cm}
+  {\tiny
+  All times are from 12:15 - 14:00 unless otherwise noted.
+  \url{https://no.timeedit.net/web/uin/db1/engelsk/riqwQQYZ5ZXZ56Qy717Q37706gZQ16q7o5Y0756Q7Yo7.html}
+  }
+  
+\end{frame}
+
+\end{document}

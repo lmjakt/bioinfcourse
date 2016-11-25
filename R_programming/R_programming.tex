@@ -9,6 +9,7 @@
 \usepackage{multirow}
 \usepackage{listings} %% another package for code related stuff
 %\usepackage[fleqn]{amsmath}
+\usepackage{fancyvrb}  %% more control over verbatim with /Verbatim
 
 %% stuff for minted
 \definecolor{mintedBg}{rgb}{0.95, 0.95, 0.95}
@@ -121,8 +122,8 @@
 
 \begin{frame}{Essential knowledge}
   \begin{itemize}
-  \item Data types (numeric, logical, character)
   \item Data structures (vectors, arrays, lists, matrices, data.frames)
+  \item Data types (numeric, logical, character)
   \item Reading writing data (read.table, write.table, readLines, scan)
   \item Loops with for, apply, sapply, tapply
   \item Drawing arbitrary stuff in R
@@ -147,7 +148,8 @@
 
   {\small
   \begin{description}
-    \item[vector] A one dimensional ordered list\footnote{but don't think of it as a list!} 
+    \item[vector] A one dimensional ordered list\footnote{but don't call it a
+      list; that's something else.!} 
       of values of a single type (numeric, logical or character).
     \item[matrix] A two dimensional vector. All values of the same type; accessed
       by row and column numbers.
@@ -166,13 +168,39 @@
   In R we essentially deal with 4 different types of objects:
   \begin{description}
   \item[numeric] Integers and real numbers (doubles). Numbers are by default read as real
-    numbers (continuously variable) but can be forced to integer type.
+    numbers (continuously variable) but can be forced to integer
+    type\footnote{But note that R only has 32 bit integers.}.
   \item[character] Text, strings made up of characters.
   \item[logical] TRUE / FALSE values.
-  \item[classes] Objects with some specified structure. Usually implemented as named lists.
+  \item[classes] Objects with some specified structure. Often implemented as named lists.
   \end{description}
   
   R also deals with imaginary and complex numbers, so the above is a little oversimplified.
+\end{frame}
+
+\begin{frame}[fragile]{Assignment}
+  In R:
+
+  The assignment operator is: \verb|<-|
+  \begin{rcode}
+    ## assigns the value 10 to a:
+    a <- 10;
+  \end{rcode}
+
+  Assignment can also be done using \verb|=|
+  \begin{rcode}
+    ## does the same thing as above
+    a = 10;
+  \end{rcode}
+
+  But it's better to use \verb|<-| as it is less easy to confuse\footnote{More
+    to do with mis-typing than confusing, but whatever..}with the
+  equality operator \verb|==| Consider:
+  \begin{rcode}
+    a <- 10 == 8 ## a <- FALSE
+    b = 10 == 10 ## b <- TRUE
+  \end{rcode}
+
 \end{frame}
 
 \begin{frame}[fragile]{Numeric types}
@@ -462,7 +490,7 @@ Usage:
     > a[,1]
     [1] 1 2 3
 
-    ## or several columsn or rows
+    ## or several colums or rows
     > a[1:2,]
          [,1] [,2] [,3]
     [1,]    1    4    7
@@ -705,9 +733,22 @@ Usage:
 \end{frame}
 
 \begin{frame}[fragile]{making dataframes}
+  Creating a dataframe from a file:
+  \begin{Verbatim}[fontsize=\tiny]
+                genotype        tissue                          drug
+GSM532993       lean (fa/+)     adipose tissue (epididymal)     control
+GSM532994       lean (fa/+)     adipose tissue (epididymal)     control
+GSM532995       lean (fa/+)     adipose tissue (epididymal)     control
+GSM533011       lean (fa/+)     liver                           control
+GSM533012       lean (fa/+)     liver                           control
+GSM533013       lean (fa/+)     liver                           control
+GSM533029       lean (fa/+)     skeletal muscle (gastrocnemius) control
+GSM533030       lean (fa/+)     skeletal muscle (gastrocnemius) control
+...
+  \end{Verbatim}
 
   \begin{rcode}
-    ## read in the sample description file we created last time:
+    ## read in data from a file containing sample descriptions:
     > tbl <- read.table("sample_data.txt", header=TRUE, sep="\t", stringsAsFactors=FALSE)
     > dim(tbl)
     [1] 54  3
@@ -717,12 +758,17 @@ Usage:
     
     ## don't forget this. Forgetting this when reading data can cause all sorts
     ## trouble. For details check out Hadley's web page linked above.
+    \end{rcode}
 
+\end{frame}
+
+\begin{frame}[fragile]{dataframes}
+
+  \begin{rcode}
+    > tbl <- read.table("sample_data.txt", header=TRUE, sep="\t", stringsAsFactors=FALSE)
     > colnames(tbl)
     [1] "genotype" "tissue"   "drug"    
 
-    ## which you hopefully recognise. 
-    
     ## we can also make a dataframe from a set of vectors.
     > a <- 1:5
     > b <- letters[a]
@@ -730,7 +776,8 @@ Usage:
     [1] 1 2 3 4 5
     > b
     [1] "a" "b" "c" "d" "e"
-    > data.frame(a, b, stringsAsFactors=FALSE)
+    > c <- data.frame(a, b, stringsAsFactors=FALSE)
+    > c
       a b
     1 1 a
     2 2 b
@@ -739,6 +786,10 @@ Usage:
     5 5 e
     ## note that the letters are not quoted in the data frame this makes it
     ## more difficult to distinguish character and numeric values
+    > c[,1]                                                                                                                
+    [1] 1 2 3 4 5                                                                                                          
+    > c[,2]
+    [1] "a" "b" "c" "d" "e"                                                                                                
   \end{rcode}
 \end{frame}
 
@@ -1074,6 +1125,32 @@ Usage:
 
 \end{frame}
 
+\begin{frame}[fragile]{tapply}
+  \verb|tapply| is used to perform a function on subsets of a vector that are
+  defined by a set of categorical factors:
+  
+  \begin{rcode}
+    ## a contains our precious data
+    > a <- 1:4                     
+    > a
+    [1] 1 2 3 4
+    ## b and c contain factors for that data;
+    ## they may encode a specific treatment or condition
+    > b <- c('l', 'l', 'h', 'h')                                                                                           
+    > c <- c('p', 'm', 'p', 'm')                                                                                           
+    
+    ## calculate sums for subsets of the data defined by b
+    > tapply(a, b, sum)                                                                                                    
+    l h                                                                                                                    
+    3 7                                                     
+    ## and for combinations of b and c
+    > tapply(a, list(b,c), sum)        
+      m p                                                                                                                  
+    h 4 3                                                                                                                  
+    l 2 1                                                                                    
+  \end{rcode}
+\end{frame}
+
 \begin{frame}[fragile]{Pretty pictures}
   Plotting stuff in R. Because you're probably bored silly now.
   
@@ -1291,15 +1368,18 @@ Usage:
 \end{frame}
 
 \begin{frame}[fragile]{plotting expression}
-  get some expression patterns from our previous data analysis.
   \begin{rcode}
-    ## get some genes by similarity of expression:
-    ## fstats.dl.o is the order of the f-statistic for drug effect in
-    ## the liver samples (which we obtained previously)
+    ## exp.data contains expression patterns (genes in rows, samples in
+    ## columns)
 
-    ## cor calculates correlation coefficients betwen columns, so we
-    ## we need to transpose the data. I'm also scaling it, which is
-    ## probably not necessary...
+    ## fstats.dl.o is the order of the f-statistic for drug effect in
+    ## the liver samples.
+
+    ## cor calculates correlation coefficients betwen columns
+    ## to get correlations between rows we transpose the data.
+    ## Here I'm also scaling it which also requires me to
+    ## transpose the data first.
+
     cr <- cor(scale(exp.data[fstats.dl.o[1],]), scale(t(exp.data)))
     cr.o <- order(cr, decreasing=TRUE)
 
@@ -1338,10 +1418,12 @@ Usage:
     plot(1,1, type='n', axes=FALSE, xlim=c(0,100), ylim=c(0,100), xlab='', ylab='')
     x <- sort(rnorm(40, mean=40, sd=15))
     y <- sort(rnorm(40, mean=50, sd=30))
-    r <- rnorm(40)
+    r <- abs(rnorm(40, sd=4))
     points(x, y)
-    points(x[11:20], y[11:20], pch=1:10, cex=3*r[1:10], 
-           col=rgb(0,0,1,seq(0.3, 1.0, length.out=10)) )
+    p1 <- sample(1:40, 10)
+    p2 <- sample(1:40, 10)
+    points(x[p1], y[p2], pch=1:10, cex=2*r[1:10], 
+           col=rgb(0,0,1,seq(0.3, 1.0, length.out=10)), lwd=4 )
     
     ## draw some rectangles:
     rect(c(10, 30, 40), c(3, 40, 80), c(15, 40, 47), c(12, 43, 82), lwd=c(1,2,3),
@@ -1361,8 +1443,57 @@ Usage:
 
 \begin{frame}{drawn arbitrarily}
   \begin{figure}[ht]
-    \includegraphics[width=0.8\textwidth]{images/arbitrary}
+    \includegraphics[width=0.8\textwidth]{R/arbitrary}
   \end{figure}
+\end{frame}
+
+
+\begin{frame}{A Smith Waterman matrix}
+  \begin{figure}[ht]
+    \includegraphics[width=\textwidth]{R/SM_drawing}
+  \end{figure}
+\end{frame}
+
+
+\begin{frame}[fragile]{drawing a Smith Waterman matrix}
+  \begin{rcode}
+    scores <- as.matrix(read.table('SM_scores'))
+    ptrs <- as.matrix(read.table('SM_pointers'))
+    
+    ## to draw them first set up a set of positions                                                                          
+    
+    x <- as.integer( 0:(length(ptrs)-1) / nrow(ptrs) )
+    y <- ( 0:(length(ptrs)-1) %% nrow(ptrs) )
+    y <- max(y) - y
+    
+    pdf(``SM_drawing.pdf'', width=21, height=7)
+    par(mfrow=c(1,3))
+    plot( 1, xlim=c(-1, max(x)+1), ylim=c(-1, max(y)+1),
+    type='n', xlab='', ylab='', main='scores', cex.main=2 )
+    text(x, y, labels=as.numeric(scores), cex=2)
+    
+    plot( 1, xlim=c(-1, max(x)+1), ylim=c(-1, max(y)+1),
+    type='n', xlab='', ylab='', main='pointers', cex.main=2 )
+    text(x, y, labels=as.numeric(ptrs), cex=2) 
+    
+    plot( 1, xlim=c(-1, max(x)+1), ylim=c(-1, max(y)+1),
+    type='n', xlab='', ylab='', main='arrows',cex.main=2 )
+    up.b <- as.logical(bitwAnd(1, ptrs))
+    left.b <- as.logical(bitwAnd(2, ptrs))
+    diag.b <- as.logical(bitwAnd(4, ptrs))
+    arrows( x[up.b], y[up.b]+0.25, x[up.b], y[up.b] + 0.75, length=0.1 )
+    arrows( x[left.b]-0.25, y[left.b], x[left.b] -0.75, y[left.b], length=0.1 )
+    arrows( x[diag.b]-0.25, y[diag.b]+0.25, x[diag.b] -0.75 , y[diag.b] + 0.75,
+    length=0.1 )
+    dev.off()
+  \end{rcode}
+\end{frame}
+
+\begin{frame}{Visualising unstructured data}
+  \begin{figure}[ht]
+    \includegraphics[width=0.78\textwidth]{images/genome_plot.pdf}
+  \end{figure}
+  
 \end{frame}
 
 \begin{frame}[fragile]{defining functions}
@@ -1388,7 +1519,7 @@ Usage:
   \end{rcode}
 
   use\\
-  \hspace{4em} \texttt{function(arguments){ function body }}
+  \hspace{4em} \verb|function(arguments){ function body }|
 
   to define new functions
 \end{frame}
@@ -1398,7 +1529,7 @@ Usage:
   \item \texttt{par()}. This sets plotting parameters. There are
     a very large number around, see, \texttt{?par} for further details.
   \item \texttt{image} Plots the values in a matrix, mapping values to
-    colours. The basis for heatplots of various sorts.
+    colours. The basis for heatmaps of various sorts.
   \item \texttt{identify} Lets you identify and label items on a plot
     in an interactive manner.
  \end{itemize}

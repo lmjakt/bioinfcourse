@@ -26,7 +26,7 @@
 
 
 \title{Course Introduction}
-\subtitle{Introduction to B1229F 2015}
+\subtitle{Introduction to B1229F 2016}
 \author{Martin Jakt}
 
 %% a command to define a subheading
@@ -36,6 +36,14 @@
 
 \setlength{\parskip}{0.5em}
 
+%% to have footnotes without references. This from tex.stackexchange.com
+\newcommand\blfootnote[1]{%
+  \begingroup  %% this makes it a local redefinition
+  \renewcommand\thefootnote{}\footnote{#1}%
+  \addtocounter{footnote}{-1}  % this adjusts the footnote counter
+  \endgroup
+}
+
 \begin{document}
 
 \begin{frame}
@@ -44,16 +52,20 @@
 
 \begin{frame}{Course structure}
   \begin{itemize}
-    \item 19 $x$ 1 hr 45 minute sessions.
+    \item 20 $x$ 1 hr 45 minute sessions.
     \pause
-    \item 45 min. lecture $\rightarrow$ 15 min. break $\rightarrow$ 45 min. discussion
+    \item 45 min. lecture $\rightarrow$ 15 min. break $\rightarrow$ 45
+      min. lecture + discussion
     \pause
-    \item $\sim$4 (3 hour) practical computer sessions
+    \item $\sim$4 (3 hour) practical computer sessionsl
     \pause
-    \item Introductory level (nothing really complicated)
+    \item Data / sequence analysis assignment.
+    \pause
+    \item Introductory course; with some topics covered in detail.
   \end{itemize}
   \pause
-  Content will be adjusted as we progress.\\
+  \vspace{0.2cm}
+  Content and schedule may be adjusted as we progress.\\
   Suggestions for changes to format and content are welcome.
 \end{frame}
 
@@ -94,7 +106,8 @@
 \begin{frame}{Bioinformatics? Genomics?}
   \subHeading{What are these things and why do we care}
   \begin{itemize}
-    \item Application of informatics to biological questions
+    \item Application of informatics\footnote{Well, not really informatics as
+  such; more correct to say computer science.} to biological questions and data
     \item The study of genomes
   \end{itemize}
   \pause
@@ -124,14 +137,25 @@
 %  }
 \end{frame}
 
+\begin{frame}{why bother}
+  New technologies $\Rightarrow$ Large data sets
+  \vspace{0.5cm}
+  
+  Ability to use such data sets is increasingly useful.
+
+  \blfootnote{and that really is the main point}
+\end{frame}
+
 \begin{frame}{more definitions...}
 'When I use a word,' Humpty Dumpty said, in rather a scornful tone, 'it means just what I choose it to mean — neither more nor less.'
 
 'The question is,' said Alice, 'whether you can make words mean so many different things.'
 
-'The question is,' said Humpty Dumpty, 'which is to be master — that's all.' 
+'The question is,' said Humpty Dumpty, 'which is to be master — that's
+all.'\footnote{To whom you're talking to is perhaps more important.}
 
 \tiny Courtesy of Lewis Carroll
+
 \end{frame}
 
 \begin{frame}{Interdisciplinary}
@@ -186,6 +210,7 @@
     \par
     Analysing a single sequence by hand isn't really feasible
   }
+  \blfootnote{These numbers are not stable and seem to change from year to year.}
 \end{frame}
 
 \begin{frame}{A slow and painful example of informatics}
@@ -205,17 +230,28 @@
   Stuff we will\footnote{Depending on time \& progress} look at:
 %  \setbeamertemplate{description item}[align left]
   \footnotesize
-  \begin{description}[Practical Bioinformatics]
+  \begin{description}[Practical bioinformatics]
     \item[Molecular biology] Information storage (DNA), transmission (RNA) and functional implementation (proteins).
-    \item[Molecular biology (2)] How genetic information governs biological processes
-    \item[Practical Bioinformatics] Obtaining and performing basic analysis on sequences and other types of data.
-    \item[Computers...] Computers, operating systems, networks, applications and programming. 
-    \item[Theoretical informatics] Some idea of the meaning of information (rather vague).
-    \item[Data visualisation] How to look at and summarise big data.
+    \item[Theoretical bioinformatics] Algorithms (esp. sequence alignment).
+    \item[Practical bioinformatics] Implementing algorithms (i.e. programming).
+    \item[Practical bioinformatics] Obtaining and performing basic analysis on sequences and other types of data.
+    \item[Computers...] Computers, operating systems, networks, applications. 
+    \item[Data visualisation] How to look at and summarise big data (practical
+      omics?).
     \item[Statistics] How probabilites relate to distributions of derivative statistics.
     \item[Data organisation] Databases.
   \end{description}
 %  \footnotetext{Depending on time}
+\end{frame}
+
+\begin{frame}{Optional}
+  \begin{description}
+    \item[Molecular biology (2)] Experimental methods and data types.
+    \item[Molecular biology (3)] How genetic information governs biological.
+      processes
+    \item[Theoretical informatics] What is information and how do we measure it?
+  \end{description}
+  \blfootnote{But I don't expect to have sufficient time for any of this.}
 \end{frame}
 
 \begin{frame}{Tentative Timetable}
@@ -224,17 +260,21 @@
   \tiny
   \input{course_timetable.tex}
   \end{figure}
-  \vspace*{-0.4cm}
-  \tiny
-  https://no.timeedit.net/web/uin/db1/student/ri157XQQ769Z50Qw0601QgZ6y6Y655Y17Y7.html
-  
+  \vspace*{+0.03cm}
+  {\tiny
+  All times are from 12:15 - 14:00 unless otherwise noted.
+  \url{https://no.timeedit.net/web/uin/db1/engelsk/riqwQQYZ5ZXZ56Qy717Q37706gZQ16q7o5Y0756Q7Yo7.html}
+  }
 \end{frame}
 
 \begin{frame}{The Central Dogma}
   \begin{itemize}
+    \item DNA $\rightarrow$ RNA $\rightarrow$ Protein
     \item How information is encoded in DNA sequence
     \item How this information is used by the cell
-  \end{itemize}  
+  \end{itemize}
+  
+  Should be primarily a review for most of you. But essential knowledge.
 \end{frame}
 
 \begin{frame}{Bioinformatics \& databases}
@@ -249,6 +289,7 @@
 \begin{frame}{Sequence Alignment}
   \begin{itemize}
     \item How to assess alignments and distances.
+    \item Sequence alignment algorithms.
     \item How to perform alignments with freely available tools.
   \end{itemize}
   This is covered in some detail since the alignment of sequences is
@@ -266,9 +307,33 @@
    \end{itemize}
 \end{frame}
 
+\begin{frame}{Basic programming skills}
+  \begin{itemize}
+  \item Universal concepts
+  \item Use of Perl
+  \item Use of R
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Why programming?}
+  \begin{enumerate}
+  \item Analyses tend to generate large secondary data sets; these are
+    difficult to handle without being able to write some of your own code.
+  \item Allows you to ask specific questions (rather than using pre-packaged
+    solutions).
+  \item Allows you to automate workflows (usually through so-called shell-programming).
+  \item Implementing an algorithms is an excellent way to understand it.
+  \item Various level of scripting is how most of informatics is done.
+  \end{enumerate}
+\blfootnote{but, yeah, I don't expect that many of you will end up doing lots
+  of programming in the future..}
+\end{frame}
+
 \begin{frame}{Practical sequence analysis}
   How to obtain and perform basic sequence analysis on 
   nucleic acid and protein sequences.
+  \blfootnote{May be useful, but is really quite boring and in any case a
+    moving target.}
 \end{frame}
 
 \begin{frame}{Mathematical considerations}
@@ -276,6 +341,7 @@
     \item How to summarise collections of numbers.
     \item How to infer significance from summaries and distributions.
   \end{itemize}
+  \blfootnote{Something fundamental.}
 \end{frame}
 
 \begin{frame}{Visualising and analysing large data sets}
@@ -283,31 +349,32 @@
     \item How to find structure in data
     \item How to identify specific features
   \end{itemize}
-  This, is pretty much what we do in genomics, ...
+  This, is pretty much practical genomics..
 \end{frame}
 
-\begin{frame}{Genomics etc...}
+\begin{frame}{Something about omics}
   \begin{itemize}
     \item How genome data is used to organise biological data.
     \item How genome data facilitates biological research.
     \item Omics questions (related to the overall system, rather than individual components).
   \end{itemize}
+  \blfootnote{I hope to cover this, but depends on progress.}
 \end{frame}
 
-\begin{frame}{Regulation of protein synthesis}
-  How cellular activities are governed through genetic regulation:
-  \begin{itemize}
-    \item Regulation of transcription.
-    \item Regulation of translation.
-    \item Regulation of protein half-lives.
-  \end{itemize}
-\end{frame}
+%% \begin{frame}{Regulation of protein synthesis}
+%%   How cellular activities are governed through genetic regulation:
+%%   \begin{itemize}
+%%     \item Regulation of transcription.
+%%     \item Regulation of translation.
+%%     \item Regulation of protein half-lives.
+%%   \end{itemize}
+%% \end{frame}
 
-\begin{frame}{Theoretical informatics}
-  What is information?
+%% \begin{frame}{Theoretical informatics}
+%%   What is information?
 
-  How is data related to information?
-\end{frame}
+%%   How is data related to information?
+%% \end{frame}
 
 \begin{frame}{Organising data}
   \begin{itemize}
@@ -315,6 +382,14 @@
     \item  Different types of databases.
     \item  Structured data vs unstructured data.
     \item  Mapping relationships in data to a relational database structure.
+  \end{itemize}
+  \blfootnote{You will almost probably hate this. Most people do, including
+    bioinformaticians. But it's important.}
+\end{frame}
+
+\begin{frame}{Main aim}
+  \begin{itemize}
+  \item Provide practical skills to enable further independent study \& work
   \end{itemize}
 \end{frame}
 
