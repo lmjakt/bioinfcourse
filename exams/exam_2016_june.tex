@@ -157,6 +157,129 @@ short.
   have no effect.
 \end{Notes}
 
+\item How do the monomers of nucleic acids differ from those of proteins? How
+  does this relate to their function and to the fact that DNA is usually double-stranded?\\
+(6 points)
+
+\begin{Notes}
+  The monomers of nucleic acids are structurally similar to each other; this
+  means that the sequence of a nucleic acid molecule has little effect on its
+  structure. The double-stranded nature of DNA decreases the structural
+  influence of the primary sequence. The primary function of nucleotide
+  polymers is to encode information; this function would be compromised if the
+  sequence also had a strong effect on physical structure. In contrast the
+  function of proteins arises from their structure and this is facilitated by
+  the variety of chemical structures present in different amino acids.
+\end{Notes}
+\end{enumerate}
+
+\section{ Biological databases \& formats (8 points) }
+\begin{enumerate}
+\item Given an approximatly 1000 base-pair long nucleotide sequence what would
+  you do to identify the source and function of the sequence? Give some
+  details as to what types of databases you would use.\\
+  (8 points)\\
+
+\begin{Notes}
+  Search nucleotide databases for similar or identical sequences; determine if
+  sequence is likely to be transcribed and or translated by looking at the the
+  sequences it matches. If transcribed, then find function from genome
+  databases like ensembl and species functional databases (eg. mouse genome
+  informatics / zfin). If no identical sequences found use closest homologue,
+  and use orthology to extend functional annotation. If sequence is not
+  transcribed, but genomic match is found then find adjacent genes and get
+  function of those, to get an idea; also consider looking at extent of
+  conservation across species (available from genome databases like
+  ensembl).\\
+  The above is an example of what can be done. But there are many more
+  options and different ways to answer this question.
+\end{Notes}
+
+\item Describe the fastq and fasta sequence formats.\\
+(4 points)
+
+\begin{Notes}
+  Indicate how headers, sequence and quality data are distinguished in these files.
+\end{Notes}
+
+\item The SAM format is used to describe the alignments of large numbers of
+  sequences to a common reference sequence (typically a genome sequence). Each
+  alignment is described by a single line of tab delimited text. The second
+  field of this description is a FLAG that uses a single number to encode
+  speficic combinations of 12 flags that indicate individual
+  properties of problems of the sequences or alignments as indicated by the
+  following table:
+
+  {\small
+  \begin{tabular}{rrl}
+    Bit & Value & Description\\
+    \hline
+    1 & 1 & template having multiple segments in sequence \\
+    2 & 2 & each segment properly aligned according to the aligner\\
+    3 & 4 & segment unmapped\\
+    4 & 8 & next segment in the template unmapped\\
+    5 & 16 & SEQ being reverse complemented\\
+    6 & 32 & SEQ of the next segment in the template being reverse complemented\\
+    7 & 64 & the first segment in the template\\
+    8 & 128 & the last segment in the template\\
+    9 & 256 & secondary alignment\\
+    10 & 512 & not passing filters, such as platform quality controls\\
+    11 & 1024 & PCR or optical duplicate\\
+    12 & 2048 & supplementary alignment\\
+  \end{tabular}
+  }
+
+  Each 'Value' in the above table is an exact power of 2 which means that it
+  is encoded in binary by a single 1 in the indicated position. A single
+  number can thus hold any combination of the given flags. For example, if a
+  given sequence failed to pass filters, and has been reverse complemented we
+  set the 10th (512) and 5th (16) bits to 1 giving us 528 (512 +
+  16) which is represented in binary as: \verb|001000010000|.\\ 
+  Give the binary encodings and describe the meanings of the following 
+  FLAG values: 147, 99, 98. Which one of these does not make sense and why?\\ 
+  (4 points)
+
+\begin{Notes}
+  147 = 128 + 16 + 2 + 1 = 000010010011 $\Rightarrow$ multiple segments,
+  each segment properly aligned, sequence reverse complemented, last segment
+  in template\\
+  99 = 64 + 32 + 2 + 1 = 000001100011 $\Rightarrow$ multiple segments,
+  each segment properly aligned, sequence of next segment reverse
+  complemented, first segment in the template\\
+  98 as 99, but flag for multiple segments not set; hence does not make
+  sense as the flags refer to other segments in the template.
+\end{Notes}
+
+\end{enumerate}
+
+\section{Pairwise alignment (20 points)}
+\begin{enumerate}
+\item Given the two sequences \verb|5' GCTATGA 3'| and \verb|5' GTTTA 3'|\\
+  \begin{itemize}
+    \item Provide at least two reasonable alignments
+    \item Describe how you can score the alignments using a set of penalties
+      or scores.
+    \item Score the alignments using your own scoring system. Which of your
+      alignments is the best and how does this relate to your scoring system?
+    \item Are your alignments global or local? Describe how this affects the
+      score.
+    \item Describe what is meant by an 'affine gap penalty'. Does it have any
+      effect on your alignments?
+  \end{itemize}
+  (10 points)
+
+\begin{Notes}
+  Any reasonable alignment is OK. These should be scored by match scores, 
+  and penalties for mismatches and gap insertions. Generally the hightest
+  scoring alignment is the best; but changing the scoring system can change
+  which has the highest score. The alignments are global if gap penalties
+  have been included for terminal gaps; otherwise local. Global gives lower
+  scores. Affine gap penalty: different penalties for gap insertion and gap
+  extension. In this case unlikely to have any effect as no reasonable way
+  to insert a double gap (as far as I can see anyway).
+\end{Notes}
+
+
 
 \end{enumerate}
 
