@@ -9,6 +9,7 @@
 %% for listings..
 \newminted{perl}{linenos, bgcolor=mintedBg, fontsize=\footnotesize}
 \newminted{r}{linenos, bgcolor=mintedBg, fontsize=\footnotesize}
+\newminted{console}{linenos, bgcolor=mintedBg, fontsize=\tiny}
 \definecolor{mintedBg}{rgb}{0.95, 0.95, 0.95}
 \definecolor{blockBg}{rgb}{0.6, 0.6, 0.95}
 
@@ -385,6 +386,70 @@ affect the inferences that you can make?\\
     \includegraphics[width=\textwidth]{images/blast_result_list_top}
   \end{figure}
   (3 points)
+  
+\item The following is part (very simplified) of the output of \texttt{blastn -help}.\\
+  \begin{consolecode}
+lmj:[R]> blastn -help 
+USAGE                                                                                                                                                 
+  blastn [-h] [-help] [-import_search_strategy filename]                                                                                              
+    [-db database_name] [-query input_file]                                                                            
+    [-out output_file] [-evalue evalue] [-strand strand]
+    [-gapopen open_penalty] [-gapextend extend_penalty]                                                                                               
+    [-perc_identity float_value] [-qcov_hsp_perc float_value]                                                                                         
+    [-max_hsps int_value] [-num_threads int_value] [-remote]
+    [-version]
+
+DESCRIPTION
+   Nucleotide-Nucleotide BLAST 2.4.0+
+
+OPTIONAL ARGUMENTS
+ -h
+   Print USAGE and DESCRIPTION;  ignore all other parameters
+ -help
+   Print USAGE, DESCRIPTION and ARGUMENTS; ignore all other parameters
+ -version
+   Print version number;  ignore other arguments
+
+ *** Input query options
+ -query <File_In>
+   Input file name
+   Default = `-'
+ -query_loc <String>
+   Location on the query sequence in 1-based offsets (Format: start-stop)
+ -strand <String, `both', `minus', `plus'>
+   Query strand(s) to search against database/subject
+   Default = `both'
+
+ *** General search options
+ -task <String, Permissible values: 'blastn' 'blastn-short' 'dc-megablast'
+                'megablast' 'rmblastn' >
+   Task to execute
+   Default = `megablast'
+ -db <String>
+   BLAST database name
+    * Incompatible with:  subject, subject_loc
+ -out <File_Out>
+   Output file name
+   Default = `-'
+ -evalue <Real>
+   Expectation value (E) threshold for saving hits 
+   Default = `10'
+
+ -num_threads <Integer, >=1>
+   Number of threads (CPUs) to use in the BLAST search
+   Default = `1'
+  \end{consolecode}
+
+  \begin{enumerate}
+  \item 
+    Write a command that that will use blastn to search a database called
+    \texttt{genome\_db} for matches to sequences in the file \texttt{q\_seq.fa}.\\
+    You may assume that the files containing the database are present in the
+    current working directory.
+  \item How might you modify this command if you were searching a database of
+    RNA sequences with an mRNA sequence?
+  \item How can you make this command run faster?
+  \end{enumerate}
 \end{enumerate}
 
 \section{Numbers, big data and R}
@@ -439,8 +504,46 @@ affect the inferences that you can make?\\
   data arising from such distributions. What should you do to avoid misleading
   statistics?\\
   (4 points)
+ 
+\item You have obtained expression values for 20,000 (i.e. 2e4) genes from two sets of tissue samples
+  that were incubated under two different conditions. You have then performed
+  a statistical test for differential expression between the two conditions
+  for each gene.
+  \begin{enumerate}
+  \item State your \textit{null}-hypothesis.
+  \item What is the probability of observing a p-value less than
+    x from a single test if the \textit{null}-hypothesis is true?
+  \item What will be the distribution of p-values if the
+    \textit{null}-hypothesis is true for all genes?
+  \item How many of the 20,000 genes would you expect to have p-values
+    less than 0.05 if the \textit{null}-hypothesis is true?
+  \item How do you decide what p-value indicates a real effect of
+    the condition on gene expression?
+  \end{enumerate}
+(6 points)
+
+  
 \item What does the normal distribution indicate?\\
   (2 points)
+
+\item Describe how normal and log normal distributions arise.\\
+  (4 points)
+  
+\item What is the difference between these two equations?
+
+  \begin{minipage}{0.5\textwidth}
+    $$ 
+    \frac{\sum_{i=1}^{n}{(x_i - \overline{x})^2}}{n-1} 
+    $$
+  \end{minipage}%
+  \begin{minipage}{0.5\textwidth}
+    $$
+    \frac{\sum_{i=1}^{n}{(x_i - \overline{x})^2}}{n} 
+    $$
+  \end{minipage}
+
+  Which of these equations would you normally use? Explain the
+  relationship between the values obtained from the two equations.
 
 \item What is R? What is it good and not so good for?\\
   (2 points)
@@ -493,8 +596,75 @@ affect the inferences that you can make?\\
   \end{rcode}
   Draw the resulting data structures (a, b, c and d).\\
   (3 points)
-\item What's the difference between a vector and a list?\\
+\item What's the difference between a vector and a list?\
   (2 points)
+
+\item The following is part of the help page for the scale function:\\
+  \begin{consolecode}
+    Scaling and Centering of Matrix-like Objects
+
+Description:
+
+     scale is generic function whose default method centers and/or
+     scales the columns of a numeric matrix.
+
+Usage:
+
+     scale(x, center = TRUE, scale = TRUE)
+     
+Arguments:
+
+       x: a numeric matrix(like object).
+
+  center: either a logical value or a numeric vector of length equal 
+          to the number of columns of x.
+
+   scale: either a logical value or a numeric vector of length equal
+          to the number of columns of x.
+
+Details:
+
+     The value of center determines how column centering is
+     performed.  If center is a numeric vector with length equal to
+     the number of columns of x, then each column of x has the
+     corresponding value from center subtracted from it.  If center
+     is TRUE then centering is done by subtracting the column means
+     (omitting NA's) of x from their corresponding columns, and if
+     center is FALSE, no centering is done.
+     The value of scale determines how column scaling is performed
+     (after centering).  If scale is a numeric vector with length
+     equal to the number of columns of x, then each column of x is
+     divided by the corresponding value from scale.  If scale is
+     TRUE then scaling is done by dividing the (centered) columns of
+     x by their standard deviations if center is TRUE, and the
+     root mean square otherwise.  If scale is FALSE, no scaling is
+     done.
+     The root-mean-square for a (possibly centered) column is defined
+     as sqrt(sum(x^2)/(n-1)), where x is a vector of the non-missing
+     values and n is the number of non-missing values.  In the case
+     'center = TRUE', this is the same as the standard deviation, but
+     in general it is not.  (To scale by the standard deviations
+     without centering, use scale(x, center = FALSE, scale = apply(x,
+     2, sd, na.rm = TRUE)).)
+
+  \end{consolecode}
+  
+  Given the following R code:\\
+  \begin{rcode}
+    m <- matrix(1:9, nrow=3)
+    ms <- scale( m, center=TRUE, scale=TRUE )
+  \end{rcode}
+  \begin{enumerate}
+  \item Draw the matrix m.
+  \item Provide an alternate expression that takes m or subsets of m as
+    arguments and gives the value of \texttt{ms[3,1]}. You will need to use
+    the \texttt{mean()} and \texttt{sd()} functions that give the mean and
+    standard deviations for a given vector.
+  \item Use \texttt{apply()} to write an expression that converts \texttt{m}
+    to \texttt{ms}.
+  \end{enumerate}
+  (10 points)
+
 \item What's the most important R function?\\
   (1 point)
 \end{enumerate}

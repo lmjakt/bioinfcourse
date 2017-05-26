@@ -1,7 +1,7 @@
 \node [right] at (1,-1) {Match 2};
 \node [right] at (7,-1) {Mismatch -2};
 \node [right] at (1,-2.5) {Gap open -4};
-\node [right] at (7,-2.5) {Gap ext. 1};
+\node [right] at (7,-2.5) {Gap ext. -11};
 
 \draw [-] (0.5,11.5) -- (12.5,11.5);
 \draw [-] (1.5,12.5) -- (1.5,0.5);

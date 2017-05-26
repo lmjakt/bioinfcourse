@@ -1,0 +1,163 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[a4paper]{geometry}
+\usepackage{comment}
+\usepackage{minted}
+\usepackage{multirow}
+\usepackage{enumerate}
+\usepackage{tikz}
+\usepackage{enumitem}
+
+%% for listings..
+\definecolor{mintedBg}{rgb}{0.95, 0.95, 0.95}
+\definecolor{blockBg}{rgb}{0.6, 0.6, 0.95}
+\newminted{perl}{linenos, bgcolor=mintedBg, fontsize=\footnotesize}
+\newminted{r}{linenos, bgcolor=mintedBg, fontsize=\footnotesize}
+\newminted{console}{linenos, bgcolor=mintedBg, fontsize=\footnotesize}
+
+\specialcomment{Notes}{%
+  \begingroup\small\color{red}}{%
+  \endgroup}
+%\excludecomment{Notes}
+
+\setcounter{page}{2}
+
+\begin{document}
+
+This exam contains a total of 8 sections. The majority of these sections have
+some choice in the questions that you answer. Please read the instructions
+below each section head. A total of 100 marks will be considered as full marks.
+
+The number of marks available from each section is indicated in the section
+headings. Note that it is possible to select questions that total more than
+that mark; however, you will not be able to get more marks from a given
+section by answering more questions. If you find that your answer to a given
+question is no good and you wish to change your selection, then cross out the
+old one to indicate which one you do not wish to be marked for.
+
+Feel free to illustrate your answers wherever you feel appropriate; but do
+remember to include labels so that I can decipher your figures. Do not include
+a picture without some descriptive text. Two of the questions will need to be
+filled in on a supplementary sheet. Do not forget to hand this in with your
+other answers.
+
+Marks have been assigned on the assumption of a four hour exam; that is one mark
+corresponds to 2.4 minutes. For some of the questions that may mean mostly
+writing, but for others (esp. code and manual snippets) that time may be taken up by
+reading the details of the question, and the answer itself may be very
+short.
+
+
+\section{Bioinformatics in general (12 points)}
+\begin{enumerate}
+\item Describe an example where you would need to use a bioinformatics
+  analysis. Include both a description of the problem you are concerned with
+  and an outline of the analysis you would perform. About half of your answer
+  should describe the problem your example is concerned with; the other half
+  should describe the approach to solving the problem. Do not go into too much
+  detail!\\
+  (6 points)\\
+\begin{Notes}
+  This is an open ended question with no specific answers. I do not expect a
+  great deal of detail (eg. specific versions of programs used), but the
+  student can receive marks for reasonable answers even if these are not
+  technically correct.
+\end{Notes}
+
+\item Sequencing:
+  \begin{itemize}
+    \item How does sequence data differ from (most) other types of data obtained
+      in biological research?\\
+      (2 points)\\
+\begin{Notes}
+  Sequence data is qualitative; most other data types are quantitative. This
+  makes it easier to define identities. \\
+  Students can also get points for other
+  reasonable answers, such as the relative cost of obtaining sequence data,
+  information density and other such esoteric issues.
+\end{Notes}
+    \item Describe how sequencing technology has progressed from standard
+      Sanger sequencing to the latest next-generation sequencing.\\
+      (4 points)\\
+\begin{Notes}
+  From few long sequences to large numbers of very short (30-50) sequences, to
+  very large numbers of intermediate length sequencing (300-600) to the
+  latest single molecule based methods giving extremely long (50,000)
+  reads. Points for giving names of technologies, their capacities and
+  lengths, but I do not expect all technologies or exact numbers to be
+  recalled; the most important point is to give the relative trend in
+  terms of capacity and read length.
+\end{Notes}
+(total 6 points)\\
+  \end{itemize}
+\item In the literature you will frequently see the terms 'genomics' and
+  'transcriptomics'. What is meant by these terms? Give two examples of the type
+  of questions addressed by both.
+  (6 points)\\
+\begin{Notes}
+  Genomics and transcriptomics: the study of complete genomes and or
+  transcriptomes; i.e. the study of the full set of DNA sequences (genomes) or
+  RNA sequences (transcriptome) present in an organism (genome) or cell type
+  (transcriptome). Questions may address the properties of the full set of
+  data, eg. distribution of genes and repetitive sequences across the genome,
+  and or the distribution of gene expression levels. However, the terms are
+  most frequently used to describe data mining operations where the activity
+  or influence of small number of individual gene or gene features are
+  identified from the full 'ome. The student may give any reasonable example
+  of question addressed (eg. changes in gene expression induced by external
+  factors, identification of mutations associated with a phenotype, comparison
+  of whole genomes to infer evolutionary history, etc.).
+\end{Notes}
+\end{enumerate}
+
+\section{Molecular Biology \& the Central Dogma (20 points)}
+\begin{enumerate}
+\item Describe how proteins are encoded in genomes and how this code is read
+  to synthesize specific proteins. Include a description of
+  how this differs in eukaryotes and prokaryotes as well as details about the
+  encoding of amino acids.\\
+  (10 points)
+\begin{Notes}
+  Encoding of amino acid in triplet code; allows encoding of 64 identities,
+  but only 20 amino acids; hence redundant. Doublet code too short for 20
+  amino acids. Eukaryotes, code for single protein split across several exons
+  seperated by introns in a single transcription unit. Prokaryotes, code for
+  several proteins contained in a single multicistronic message.
+  Transcription to RNA, export (in eukaryotes), translation at ribosomes
+  through the assembly of tRNA.
+\end{Notes}
+
+\item Given a genetic code:\\
+  \begin{minipage}{0.6\textwidth}
+  {\tiny
+    \input{../tex_resources/genetic_code.tex}
+  }
+  \end{minipage}
+
+  Given the following (double stranded!) genomic sequence:\\
+  \verb|5' GCGATGGGCGGTGGGGTG 3'|\\
+  determine all possible translations.\\
+  (4 points)
+
+\begin{Notes}
+  6 translations, 3 forward, 3 reverse, beginning with 'Ala,Met,...'
+\end{Notes}
+
+\item What kind of mutations can arise in DNA sequences? Explain how the
+  consequences of these mutations differ depending on the type of mutation and
+  where in the genome the mutation happens.\\
+  (6 points)
+
+\begin{Notes}
+  substitutions, insertions / deletions, translocations. Substitutions inside ORFs
+  can lead to changes in protein sequence and premature stops, inserts /
+  deletions lead to frame shift. Translocations can lead to gene fusions
+  and changes in gene expression. Point mutations outside of genes generally
+  have no effect.
+\end{Notes}
+
+
+\end{enumerate}
+
+\end{document}

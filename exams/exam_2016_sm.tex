@@ -1,0 +1,45 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[a4paper]{geometry}
+\usepackage{minted}
+\usepackage{multirow}
+\usepackage{enumerate}
+\usepackage{tikz}
+
+%% for listings..
+\definecolor{mintedBg}{rgb}{0.95, 0.95, 0.95}
+\definecolor{blockBg}{rgb}{0.6, 0.6, 0.95}
+\newminted{perl}{linenos, bgcolor=mintedBg, fontsize=\footnotesize}
+\newminted{r}{linenos, bgcolor=mintedBg, fontsize=\footnotesize}
+\newminted{console}{linenos, bgcolor=mintedBg, fontsize=\footnotesize}
+
+
+\begin{document}
+
+\setcounter{section}{8}
+\section{Supplementary answer sheets}
+The following figures should be filled out for questions 3 and 4 in section 4
+(pairwise alignment).
+
+\begin{itemize}
+\item [3.]   Fill in the first three rows and columns of the table as instructed in
+  question 3.4.
+  \begin{figure}[H]
+    \begin{tikzpicture}[scale=0.8]
+      \input{2016_nm.tikz}
+    \end{tikzpicture}
+  \end{figure}
+
+\pagebreak
+\item [4.]   Obtain the optimal alignment(s) by drawing the path on the scoring
+  matrix. Do not forget to also
+  give the answers to the questions in your main answer sheet.
+  \begin{figure}[H]
+    \begin{tikzpicture}[scale=0.8]
+      \input{sm_2016_a.tikz}
+    \end{tikzpicture}
+  \end{figure}
+\end{itemize}
+
+\end{document}
