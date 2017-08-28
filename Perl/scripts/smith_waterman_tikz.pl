@@ -195,29 +195,34 @@ sub find_path {
     $j+2.5, ",", $sn2-$i+1.5, ");\n";
     print "}\n";
     $l++;
+    my $al_1 = $aligns1[-1];
+    my $al_2 = $aligns2[-1];
     for my $k(0..$#{$path[$i][$j]} ){
 	my $v = $path[$i][$j][$k];
 	if($k > 0){ 
 	    $n++; 
-	    push @aligns1, substr($aligns1[-1], 0, $l-1);
-	    push @aligns2, substr($aligns2[-1], 0, $l-1);
+	    push @aligns1, $al_1;
+	    push @aligns2, $al_2;
+
+	    # push @aligns1, substr($aligns1[-1], 0, $l-1);
+	    # push @aligns2, substr($aligns2[-1], 0, $l-1);
 #	    print STDERR "l $l: $i,$j\n";
 #	    print STDERR "aligns1: $aligns1[$n-1] -> $aligns1[$n]\n";
 #	    print STDERR "aligns2: $aligns2[$n-1] -> $aligns2[$n]\n";
 	}
 	if($v == 0 && $i > 0 && $j > 0){
-	    $aligns1[$n].= $seq1[$j-1]; 
-	    $aligns2[$n].= $seq2[$i-1]; 
+	    $aligns1[-1].= $seq1[$j-1]; 
+	    $aligns2[-1].= $seq2[$i-1]; 
 	    find_path( $i-1, $j-1, $n, $l );
 	}
 	if($v == 1 && $j > 0){
-	    $aligns1[$n].= $seq1[$j-1]; 
-	    $aligns2[$n].= "-"; 
+	    $aligns1[-1].= $seq1[$j-1]; 
+	    $aligns2[-1].= "-"; 
 	    find_path( $i, $j-1, $n, $l ); 
 	}
 	if($v == 2 && $i > 0){
-	    $aligns1[$n].= "-";
-	    $aligns2[$n].= $seq2[$i-1]; 
+	    $aligns1[-1].= "-";
+	    $aligns2[-1].= $seq2[$i-1]; 
 	    find_path( $i-1, $j, $n, $l); 
 	}
     }
@@ -244,7 +249,7 @@ for $i(0..$#aligns1){
     for $i(0..$#ts2){
 	print STDERR $ts2[$#ts2 - $i];
     }
-    print STDERR "\n";
+    print STDERR "\n\n";
     $alY -= 3;
 }
 print "}\n";
